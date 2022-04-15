@@ -22,7 +22,7 @@ public class HomeController : Controller
     [Authorize]
     public IActionResult Privacy()
     {
-        return Content(User.Identity.Name);
+        return View();
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
