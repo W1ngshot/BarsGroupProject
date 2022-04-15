@@ -1,9 +1,11 @@
+using Data;
 using Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddServices(builder.Configuration);
+builder.Services.AddWeb();
+builder.Services.AddData(builder.Configuration);
 
 var app = builder.Build();
 

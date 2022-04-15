@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using Web.Data.DbModels;
+using Data;
+using Data.DbModels;
 using Web.Dto;
 
 namespace Web.Controllers;

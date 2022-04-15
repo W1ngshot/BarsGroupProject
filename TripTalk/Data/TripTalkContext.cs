@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Data.DbModels;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Web.Data.DbModels;
 
-namespace Web;
+namespace Data;
 
 public class TripTalkContext : DbContext
 {

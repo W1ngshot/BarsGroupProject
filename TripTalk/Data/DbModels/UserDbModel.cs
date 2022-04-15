@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Web.Data.DbModels;
+namespace Data.DbModels;
 
 public class UserDbModel
 {
