@@ -13,7 +13,7 @@ public class ArticleDbModel
     public int UserId { get; set; }
     public UserDbModel User { get; set; }
     public string? AssetLink { get; set; }
-    //public List<TagDbModel> Tags { get; set; }
+    //public List<TagDbModel> Tags { get; set; } //TODO доделать это, чтобы упростить работу с Article
     //public List<CommentDbModel> Comments { get; set; }
     //public List<RateDbModel> Rates { get; set; }
 

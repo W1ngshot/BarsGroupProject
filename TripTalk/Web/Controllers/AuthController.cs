@@ -1,22 +1,18 @@
-﻿using Data;
+﻿using Core.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using Core.Services;
-using Microsoft.AspNetCore.Authentication;
 using Web.Dto;
 
 namespace Web.Controllers;
 
 public class AuthController : Controller
 {
-    private readonly TripTalkContext _context;
     private readonly IAuthService _authenticationService;
 
-    public AuthController(TripTalkContext context, IAuthService authenticationService)
+    public AuthController(IAuthService authenticationService)
     {
-        _context = context;
         _authenticationService = authenticationService;
     }
 

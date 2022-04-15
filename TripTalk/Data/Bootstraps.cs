@@ -1,4 +1,6 @@
 ﻿using Core;
+using Core.RepositoryInterfaces;
+using Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +15,9 @@ public static class Bootstraps
             .UseNpgsql(configuration.GetConnectionString("DbConnection"))
             .UseSnakeCaseNamingConvention());
         services.AddScoped<IUnitOfWork, EfUnitOfWork>();
+
+        services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
 
         return services;
     }
