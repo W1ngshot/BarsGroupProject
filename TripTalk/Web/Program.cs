@@ -1,3 +1,4 @@
+using Core;
 using Data;
 using Web;
 
@@ -6,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddWeb();
 builder.Services.AddData(builder.Configuration);
+builder.Services.AddCore();
 
 var app = builder.Build();
 

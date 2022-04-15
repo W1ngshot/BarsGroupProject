@@ -1,33 +1,32 @@
 ﻿using Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Web.Hosted_Services
+namespace Web.Hosted_Services;
+
+public class MigrationHostedService : IHostedService
 {
-    public class MigrationHostedService : IHostedService
+    private readonly IServiceProvider _serviceProvider;
+
+    public MigrationHostedService(IServiceProvider serviceProvider)
     {
-        private readonly IServiceProvider _serviceProvider;
+        _serviceProvider = serviceProvider;
+    }
 
-        public MigrationHostedService(IServiceProvider serviceProvider)
+    public Task StartAsync(CancellationToken cancellationToken)
+    {
+        using (var scope = _serviceProvider.CreateScope())
         {
-            _serviceProvider = serviceProvider;
+            var context = scope.ServiceProvider.GetService<TripTalkContext>()
+                          ?? throw new Exception("TripTalk Context not registered");
+
+            context.Database.Migrate();
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
-        {
-            using (var scope = _serviceProvider.CreateScope())
-            {
-                var context = scope.ServiceProvider.GetService<TripTalkContext>()
-                              ?? throw new Exception("TripTalk Context not registered");
+        return Task.CompletedTask;
+    }
 
-                context.Database.Migrate();
-            }
-
-            return Task.CompletedTask;
-        }
-
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        return Task.CompletedTask;
     }
 }

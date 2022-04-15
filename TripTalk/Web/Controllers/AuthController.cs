@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using Data;
-using Data.DbModels;
+using Core.Services;
+using Microsoft.AspNetCore.Authentication;
 using Web.Dto;
 
 namespace Web.Controllers;
@@ -12,10 +12,12 @@ namespace Web.Controllers;
 public class AuthController : Controller
 {
     private readonly TripTalkContext _context;
+    private readonly IAuthService _authenticationService;
 
-    public AuthController(TripTalkContext context)
+    public AuthController(TripTalkContext context, IAuthService authenticationService)
     {
         _context = context;
+        _authenticationService = authenticationService;
     }
 
     [HttpGet]
@@ -30,14 +32,11 @@ public class AuthController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
-            if (user != null)
-            {
-                await Authenticate(model.Email);
+            await _authenticationService.LoginAsync(model.Email, model.Password); //TODO придумать как работать с исключениями
+            await Authenticate(model.Email);
 
-                return RedirectToAction("Index", "Home");
-            }
-            ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+            return RedirectToAction("Index", "Home");
+            //ModelState.AddModelError("", "Некорректные логин и(или) пароль");
         }
         return View(model);
     }
@@ -54,29 +53,19 @@ public class AuthController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email || u.Nickname == model.NickName);
-            if (user == null)
-            {
-                _context.Users.Add(new UserDbModel { Email = model.Email, Password = model.Password });
-                await _context.SaveChangesAsync();
+            await _authenticationService.RegisterAsync(model.NickName, model.Email, model.Password); //TODO придумать как работать с исключениями
+            await Authenticate(model.Email);
 
-                await Authenticate(model.Email);
-
-                return RedirectToAction("Index", "Home");
-            }
-            else
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+            return RedirectToAction("Index", "Home");
+            //ModelState.AddModelError("", "Некорректные логин и(или) пароль");
         }
         return View(model);
     }
 
     private async Task Authenticate(string userName)
     {
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
-        };
-        ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+        var claims = new List<Claim> { new(ClaimsIdentity.DefaultNameClaimType, userName) };
+        var id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
 
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
     }
