@@ -17,6 +17,7 @@ public static class Bootstraps
             .UseSnakeCaseNamingConvention());
         services.AddScoped<IUnitOfWork, EfUnitOfWork>();
 
+        services.AddScoped<IArticleRepository, ArticleRepository>();
         services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
 

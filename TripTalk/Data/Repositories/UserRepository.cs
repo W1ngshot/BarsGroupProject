@@ -39,4 +39,11 @@ public class UserRepository : IUserRepository
         entity.Password = user.Password;
         entity.AvatarLink = user.AvatarLink;
     }
+
+    public async Task<int> GetUserIdByEmail(string email)
+    {
+        var entity = await _context.Users.FirstOrDefaultAsync(x => x.Email == email) ??
+                     throw new Exception("Данного пользователя не существует");
+        return entity.Id;
+    }
 }

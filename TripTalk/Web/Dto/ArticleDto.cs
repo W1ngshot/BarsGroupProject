@@ -1,6 +1,6 @@
 ﻿namespace Web.Dto;
 
-public class CreateArticleDto
+public class ArticleDto
 {
     public string Title { get; set; }
     public string ShortDescription { get; set; }
