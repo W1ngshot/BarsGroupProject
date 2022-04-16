@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Data;
+namespace Data.Db;
 
 public class TripTalkContext : DbContext
 {

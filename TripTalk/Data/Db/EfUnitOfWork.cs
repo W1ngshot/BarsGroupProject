@@ -1,6 +1,6 @@
 ﻿using Core;
 
-namespace Data;
+namespace Data.Db;
 
 public class EfUnitOfWork : IUnitOfWork
 {

@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.RepositoryInterfaces;
+using Data.Db;
 using Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

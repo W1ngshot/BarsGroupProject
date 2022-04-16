@@ -1,4 +1,4 @@
-﻿using Data;
+﻿using Data.Db;
 using Microsoft.EntityFrameworkCore;
 
 namespace Web.Hosted_Services;

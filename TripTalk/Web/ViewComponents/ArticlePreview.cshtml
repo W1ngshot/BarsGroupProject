@@ -1,0 +1,55 @@
+﻿@{
+    var hasPreviewImage = true; //TODO проверить ViewBag.PreviewUrl != null
+    //TODO через ViewBag передать в <a> asp-route-id id статьи
+    //TODO в asp-controller поставить Article, в asp-action Index, когда будет реализовано
+    //TODO добавить шрифт Inter в проект
+    //TODO добавить проверку на количество символов и замену части последних на ...
+}
+
+<a class="article-preview" asp-controller="" asp-action="" asp-route-id="">
+    <div class="article-preview__upper-block">
+        @if (hasPreviewImage)
+        {
+            <div class="article-preview__picture-box">
+                <img class="article-preview__picture" src="https://i.ytimg.com/vi/YDj3JHtIviQ/maxresdefault.jpg" alt="Изображение пользователя">
+            </div>
+            <div class="article-preview__text-when-picture">
+                <div class="article-preview__title-when-picture">
+                    Бюджетный отдых в Чите с пивом и чипсами
+                </div>
+                <div class="article-preview__description-when-picture">
+                    Повседневная практика показывает, что консультация с широким активом позволяет оценить значение направлений прогрессивного развития. Разнообразный и богатый опыт дальнейшее развитие различных форм деятельностиsss ssdasdasdsada dsadsadasd dasdsadsadsa...
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="article-preview__text-when-no-picture">
+                <div class="article-preview__title-when-no-picture">
+                    Бюджетный отдых в Чите с пивом и чипсами лучше Турции
+                </div>
+                <div class="article-preview__description-when-no-picture">
+                    Повседневная практика показывает, что консультация с широким активом позволяет оценить значение направлений прогрессивного развития. Разнообразный и богатый опыт дальнейшее развитие различных форм деятельности sadsad dsads aghf sdhf  fghdsgf sgdsgsdg sgsegf egwfedsgsd ggsg dasd sadsadsa dsadas sadad sadsad aad adsddasd ads dsad adsa dsadasqwf qvgegdsagsdgdsfad saddsadad...
+                </div>
+            </div>
+        }
+    </div>
+    <div class="article-preview__lower-block">
+        <div class="article-preview__info">
+            <div class="article-preview__views-and-rates">
+                <div class="article-preview__views">
+                    1488
+                </div>
+                <div class="article-preview__rates">
+                    +228
+                </div>
+            </div>
+            <div class="article-preview__author">
+                Жак Фрескофффффффффффффффффффффффффф
+            </div>
+        </div>
+        <div class="article-preview__tags">
+
+        </div>
+    </div>
+</a>
