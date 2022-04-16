@@ -15,7 +15,7 @@ public class ArticleRepository : IArticleRepository
         _context = context;
     }
 
-    public async Task<Article> GetArticleById(int id)
+    public async Task<Article> GetArticleByIdAsync(int id)
     {
         var entity = await _context.Articles.FirstOrDefaultAsync(article => article.Id == id) ??
                              throw new Exception("Данного пользователя не существует"); //TODO подумать как исправить exception
@@ -31,7 +31,7 @@ public class ArticleRepository : IArticleRepository
         };
     }
 
-    public async Task CreateArticle(Article article)
+    public async Task CreateArticleAsync(Article article)
     {
         var entity = new ArticleDbModel
         {
@@ -45,7 +45,7 @@ public class ArticleRepository : IArticleRepository
         await _context.Articles.AddAsync(entity);
     }
 
-    public async Task UpdateArticle(Article article)
+    public async Task UpdateArticleAsync(Article article)
     {
         var entity = await _context.Articles.FirstOrDefaultAsync(a => a.Id == article.Id) ??
                      throw new Exception("Данного пользователя не существует"); //TODO подумать как исправить exception
@@ -54,5 +54,25 @@ public class ArticleRepository : IArticleRepository
         entity.ShortDescription = article.ShortDescription;
         entity.Text = article.Text;
         entity.AssetLink = article.PictureLink;
+    }
+
+    //TODO использовать модели, чтобы не передавать весь элемент
+    public async Task<List<Article>> GetUserArticlesAsync(int userId)
+    {
+        var articleModelList = await _context.Articles
+            .AsNoTracking()
+            .Where(a => a.UserId == userId)
+            .ToListAsync();
+
+        return articleModelList.Select(a => new Article
+        {
+            Id = a.Id,
+            Title = a.Title,
+            ShortDescription = a.ShortDescription,
+            Text = a.Text,
+            PictureLink = a.AssetLink,
+            UploadDate = a.UploadDate,
+            UserId = a.UserId
+        }).ToList();
     }
 }

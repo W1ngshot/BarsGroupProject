@@ -4,9 +4,11 @@ namespace Core.RepositoryInterfaces;
 
 public interface IArticleRepository
 {
-    public Task<Article> GetArticleById(int id);
+    public Task<Article> GetArticleByIdAsync(int id);
 
-    public Task CreateArticle(Article article);
+    public Task CreateArticleAsync(Article article);
 
-    public Task UpdateArticle(Article article);
+    public Task UpdateArticleAsync(Article article);
+
+    public Task<List<Article>> GetUserArticlesAsync(int userId);
 }

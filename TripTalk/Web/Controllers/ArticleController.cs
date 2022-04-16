@@ -16,9 +16,10 @@ public class ArticleController : Controller
         _userService = userService;
     }
 
+    //Возможно стоит возвращать Article? делать проверку на null и кидать View с 404
     public async Task<IActionResult> Index(int articleId)
     {
-        var article = await _articleService.GetArticleById(articleId);
+        var article = await _articleService.GetArticleByIdAsync(articleId);
         return View(article);
     }
 
@@ -32,23 +33,25 @@ public class ArticleController : Controller
     public async Task<IActionResult> Create(ArticleDto article)
     {
         var user = User.Identity?.Name ?? throw new Exception("Ошибка авторизации");
-        var currentUserId = await _userService.GetUserIdByEmail(user);
-        await _articleService.CreateArticle(article.Title, article.ShortDescription, article.Text, article.PictureLink, currentUserId);
-        return View(article); //TODO подумать, куда перенаправить пользователя
+        var currentUserId = await _userService.GetUserIdByEmailAsync(user);
+        await _articleService.CreateArticleAsync(article.Title, article.ShortDescription, article.Text, article.PictureLink, currentUserId);
+        return View(article); //TODO подумать, куда перенаправить пользователя (возможно на эту статью)
     }
 
+    //TODO добавить проверку, что пользователь является владельцем статьи
     [Authorize]
     public async Task<IActionResult> Edit(int articleId)
     {
-        var article = await _articleService.GetArticleById(articleId);
+        var article = await _articleService.GetArticleByIdAsync(articleId);
         return View(article);
     }
 
+    //TODO добавить проверку, что пользователь является владельцем статьи
     [Authorize]
     [HttpPost]
     public async Task<IActionResult> Edit(int articleId, ArticleDto article)
     {
-        await _articleService.EditArticle(articleId, article.Title, article.ShortDescription, article.Text, article.PictureLink);
-        return View(article); //TODO подумать, куда перенаправить пользователя
+        await _articleService.EditArticleAsync(articleId, article.Title, article.ShortDescription, article.Text, article.PictureLink);
+        return View(article); //TODO подумать, куда перенаправить пользователя (возможно на эту статью)
     }
 }

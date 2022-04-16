@@ -40,10 +40,26 @@ public class UserRepository : IUserRepository
         entity.AvatarLink = user.AvatarLink;
     }
 
-    public async Task<int> GetUserIdByEmail(string email)
+    public async Task<int> GetUserIdByEmailAsync(string email)
     {
         var entity = await _context.Users.FirstOrDefaultAsync(x => x.Email == email) ??
                      throw new Exception("Данного пользователя не существует");
         return entity.Id;
+    }
+
+    //TODO переделать Core.Models в Domains, а Models возможно перенести из Web в Core, чтобы не передавать в данном случае пароль
+    public async Task<User> GetUserByEmailAsync(string email)
+    {
+        var entity = await _context.Users.FirstOrDefaultAsync(x => x.Email == email) ??
+                     throw new Exception("Данного пользователя не существует");
+        return new User
+        {
+            Id = entity.Id,
+            Email = entity.Email,
+            Nickname = entity.Nickname,
+            Password = entity.Password,
+            RegistrationDate = entity.RegistrationDate,
+            AvatarLink = entity.AvatarLink
+        };
     }
 }

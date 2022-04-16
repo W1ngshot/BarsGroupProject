@@ -20,7 +20,6 @@ public class MainController : Controller
     [HttpGet]
     public IActionResult Search()
     {
-        //TODO реализовать поиск
         return View();
     }
 

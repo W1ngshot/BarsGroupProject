@@ -14,13 +14,13 @@ public class ArticleService : IArticleService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Article> GetArticleById(int articleId)
+    public async Task<Article> GetArticleByIdAsync(int articleId)
     {
-        return await _articleRepository.GetArticleById(articleId);
+        return await _articleRepository.GetArticleByIdAsync(articleId);
     }
 
     //TODO добавить валидацию
-    public async Task CreateArticle(string title, string shortDescription, string text, string? pictureLink, int userId)
+    public async Task CreateArticleAsync(string title, string shortDescription, string text, string? pictureLink, int userId)
     {
         var article = new Article
         {
@@ -32,12 +32,12 @@ public class ArticleService : IArticleService
             UserId = userId
         };
 
-        await _articleRepository.CreateArticle(article);
+        await _articleRepository.CreateArticleAsync(article);
         await _unitOfWork.SaveChangesAsync();
     }
 
     //TODO добавить валидацию
-    public async Task EditArticle(int articleId, string title, string shortDescription, string text, string? pictureLink)
+    public async Task EditArticleAsync(int articleId, string title, string shortDescription, string text, string? pictureLink)
     {
         var article = new Article
         {
@@ -48,7 +48,12 @@ public class ArticleService : IArticleService
             PictureLink = pictureLink,
         };
 
-        await _articleRepository.UpdateArticle(article);
+        await _articleRepository.UpdateArticleAsync(article);
         await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task<List<Article>> GetUserArticles(int userId)
+    {
+        return await _articleRepository.GetUserArticlesAsync(userId);
     }
 }

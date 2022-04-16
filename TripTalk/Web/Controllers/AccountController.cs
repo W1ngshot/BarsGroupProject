@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Dto;
 
@@ -7,14 +8,28 @@ namespace Web.Controllers;
 [Authorize]
 public class AccountController : Controller
 {
-    public IActionResult Index()
+    private readonly IUserService _userService;
+    private readonly IArticleService _articleService;
+
+    public AccountController(IUserService userService, IArticleService articleService)
     {
-        return View();
+        _userService = userService;
+        _articleService = articleService;
     }
 
-    public IActionResult MyArticles()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        var email = User.Identity?.Name ?? throw new Exception("Ошибка авторизации");
+        var user = await _userService.GetUserByEmailAsync(email);
+        return View(user);
+    }
+
+    public async Task<IActionResult> MyArticles()
+    {
+        var email = User.Identity?.Name ?? throw new Exception("Ошибка авторизации");
+        var userId = await _userService.GetUserIdByEmailAsync(email);
+        var articles = await _articleService.GetUserArticles(userId);
+        return View(articles);
     }
 
 
@@ -28,9 +43,10 @@ public class AccountController : Controller
         return View();
     }
 
-    //TODO реализовать
     public IActionResult ChangePassword(ChangePasswordDto changePasswordModel)
     {
+        var email = User.Identity?.Name ?? throw new Exception("Ошибка авторизации");
+        _userService.ChangePasswordAsync(email, changePasswordModel.OldPassword, changePasswordModel.NewPassword);
         return RedirectToAction("Index");
     }
 }
