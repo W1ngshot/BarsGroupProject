@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Core.Services;
 
-namespace Core.Services
+public interface ICryptographyService
 {
-    internal interface ICryptographyService
-    {
-    }
+    public Task<string> EncryptPasswordAsync(string password, string salt);
+
+    public string GenerateSalt();
 }
