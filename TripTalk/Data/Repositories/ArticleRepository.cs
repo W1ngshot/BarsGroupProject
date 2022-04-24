@@ -1,4 +1,5 @@
 ﻿using Core.Models;
+using Core.Services;
 using Core.RepositoryInterfaces;
 using Data.Db;
 using Data.DbModels;
@@ -13,6 +14,66 @@ public class ArticleRepository : IArticleRepository
     public ArticleRepository(TripTalkContext context)
     {
         _context = context;
+    }
+
+    //TODO использовать модели, чтобы не передавать весь элемент
+    //TODO использовать свойства статьи Views и Rating вместо заглушки
+    public async Task<List<Article>> GetCategoryArticlesAsync(IArticleService.Category category, IArticleService.Period period, int first, int count)
+    {
+        var today = DateTime.Now;
+
+        var unorderedArticles = period switch
+        {
+            IArticleService.Period.Today => _context.Articles.AsNoTracking().Where(a => a.UploadDate == today),
+            IArticleService.Period.LastWeek => _context.Articles.AsNoTracking().Where(a => (today - a.UploadDate).TotalDays < 7),
+            IArticleService.Period.LastMonth => _context.Articles.AsNoTracking().Where(a => (today - a.UploadDate).TotalDays < 30),
+            IArticleService.Period.AllTime => _context.Articles.AsNoTracking()
+        };
+
+        var orderedArticles = category switch
+        {
+            IArticleService.Category.Popular => unorderedArticles.OrderByDescending(a => a.UploadDate), //a.Views вместо a.UploadDate
+            IArticleService.Category.Last => unorderedArticles.OrderByDescending(a => a.UploadDate),
+            IArticleService.Category.Best => unorderedArticles.OrderByDescending(a => a.UploadDate) //a.Rating вместо a.UploadDate
+        };
+
+        var articleModelList = await orderedArticles
+            .Skip(first)
+            .Take(count)
+            .ToListAsync();
+
+        return articleModelList.Select(a => new Article
+        {
+            Id = a.Id,
+            Title = a.Title,
+            ShortDescription = a.ShortDescription,
+            Text = a.Text,
+            PictureLink = a.AssetLink,
+            UploadDate = a.UploadDate,
+            UserId = a.UserId
+        }).ToList();
+    }
+
+    //TODO использовать модели, чтобы не передавать весь элемент
+    public async Task<List<Article>> GetUserArticlesAsync(int userId, int first, int count)
+    {
+        var articleModelList = await _context.Articles
+            .AsNoTracking()
+            .Where(a => a.UserId == userId)
+            .Skip(first)
+            .Take(count)
+            .ToListAsync();
+
+        return articleModelList.Select(a => new Article
+        {
+            Id = a.Id,
+            Title = a.Title,
+            ShortDescription = a.ShortDescription,
+            Text = a.Text,
+            PictureLink = a.AssetLink,
+            UploadDate = a.UploadDate,
+            UserId = a.UserId
+        }).ToList();
     }
 
     public async Task<Article> GetArticleByIdAsync(int id)
@@ -54,25 +115,5 @@ public class ArticleRepository : IArticleRepository
         entity.ShortDescription = article.ShortDescription;
         entity.Text = article.Text;
         entity.AssetLink = article.PictureLink;
-    }
-
-    //TODO использовать модели, чтобы не передавать весь элемент
-    public async Task<List<Article>> GetUserArticlesAsync(int userId)
-    {
-        var articleModelList = await _context.Articles
-            .AsNoTracking()
-            .Where(a => a.UserId == userId)
-            .ToListAsync();
-
-        return articleModelList.Select(a => new Article
-        {
-            Id = a.Id,
-            Title = a.Title,
-            ShortDescription = a.ShortDescription,
-            Text = a.Text,
-            PictureLink = a.AssetLink,
-            UploadDate = a.UploadDate,
-            UserId = a.UserId
-        }).ToList();
     }
 }
