@@ -14,21 +14,14 @@ public class ArticleService : IArticleService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<List<Article>> GetCategoryArticlesAsync(Category category, Period period, int count = 0, int firstIndex = 0)
+    public async Task<List<Article>> GetCategoryArticlesAsync(Category category, Period period, int count = int.MaxValue, int firstIndex = 0)
     {
-        return await _articleRepository.GetCategoryArticlesAsync(
-            category,
-            period,
-            count == 0 ? int.MaxValue : count,
-            firstIndex);
+        return await _articleRepository.GetCategoryArticlesAsync(category, period, count, firstIndex);
     }
 
-    public async Task<List<Article>> GetUserArticlesAsync(int userId, int count = 0, int firstIndex = 0)
+    public async Task<List<Article>> GetUserArticlesAsync(int userId, int count = int.MaxValue, int firstIndex = 0)
     {
-        return await _articleRepository.GetUserArticlesAsync(
-            userId,
-            count == 0 ? int.MaxValue : count,
-            firstIndex);
+        return await _articleRepository.GetUserArticlesAsync(userId, count, firstIndex);
     }
 
     public async Task<Article> GetArticleByIdAsync(int articleId)

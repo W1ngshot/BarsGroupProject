@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Core;
 
-namespace Core
+public enum Category
 {
-    internal class OrderParams
-    {
-    }
+    Popular,
+    Last,
+    Best
+}
+
+public enum Period
+{
+    Today = 1,
+    LastWeek = 7,
+    LastMonth = 30,
+    AllTime = int.MaxValue
 }
