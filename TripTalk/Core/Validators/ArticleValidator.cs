@@ -11,7 +11,7 @@ public class ArticleValidator : AbstractValidator<Article>
             .NotEmpty()
             .WithMessage(ValidationMessages.EmptyArticleTitle);
         RuleFor(a => a.Title)
-            .MaximumLength(10)
+            .MinimumLength(10)
             .WithMessage(ValidationMessages.TooShortArticleTitle);
         RuleFor(a => a.Title)
             .MaximumLength(60)
@@ -31,7 +31,7 @@ public class ArticleValidator : AbstractValidator<Article>
             .MinimumLength(500)
             .WithMessage(ValidationMessages.TooShortArticleText);
         RuleFor(a => a.Text)
-            .MinimumLength(10000)
+            .MaximumLength(10000)
             .WithMessage(ValidationMessages.TooLongArticleText);
     }
 }
