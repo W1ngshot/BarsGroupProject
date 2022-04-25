@@ -1,13 +1,12 @@
 ﻿using Core.Models;
-using Core.Services;
 
 namespace Core.RepositoryInterfaces;
 
 public interface IArticleRepository
 {
-    public Task<List<Article>> GetCategoryArticlesAsync(IArticleService.Category category, IArticleService.Period period, int first, int count);
+    public Task<List<Article>> GetCategoryArticlesAsync(Category category, Period period, int count, int firstIndex);
 
-    public Task<List<Article>> GetUserArticlesAsync(int userId, int first, int count);
+    public Task<List<Article>> GetUserArticlesAsync(int userId, int count, int firstIndex);
 
     public Task<Article> GetArticleByIdAsync(int id);
 

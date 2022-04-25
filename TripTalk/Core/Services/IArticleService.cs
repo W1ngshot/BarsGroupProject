@@ -4,24 +4,9 @@ namespace Core.Services;
 
 public interface IArticleService
 {
-    public enum Period
-    {
-        Today,
-        LastWeek,
-        LastMonth,
-        AllTime
-    }
+    public Task<List<Article>> GetCategoryArticlesAsync(Category category, Period period, int count = 0, int firstIndex = 0);
 
-    public enum Category
-    {
-        Popular,
-        Last,
-        Best
-    }
-
-    public Task<List<Article>> GetCategoryArticlesAsync(Category category, Period period, int first, int count);
-
-    public Task<List<Article>> GetUserArticlesAsync(int userId, int first, int count);
+    public Task<List<Article>> GetUserArticlesAsync(int userId, int count = 0, int firstIndex = 0);
 
     public Task<Article> GetArticleByIdAsync(int articleId);
 

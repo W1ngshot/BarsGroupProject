@@ -1,5 +1,5 @@
-﻿using Core.Models;
-using Core.Services;
+﻿using Core;
+using Core.Models;
 using Core.RepositoryInterfaces;
 using Data.Db;
 using Data.DbModels;
@@ -18,27 +18,21 @@ public class ArticleRepository : IArticleRepository
 
     //TODO использовать модели, чтобы не передавать весь элемент
     //TODO использовать свойства статьи Views и Rating вместо заглушки
-    public async Task<List<Article>> GetCategoryArticlesAsync(IArticleService.Category category, IArticleService.Period period, int first, int count)
+    public async Task<List<Article>> GetCategoryArticlesAsync(Category category, Period period, int count, int firstIndex)
     {
-        var today = DateTime.Now;
-
-        var unorderedArticles = period switch
-        {
-            IArticleService.Period.Today => _context.Articles.AsNoTracking().Where(a => a.UploadDate == today),
-            IArticleService.Period.LastWeek => _context.Articles.AsNoTracking().Where(a => (today - a.UploadDate).TotalDays < 7),
-            IArticleService.Period.LastMonth => _context.Articles.AsNoTracking().Where(a => (today - a.UploadDate).TotalDays < 30),
-            IArticleService.Period.AllTime => _context.Articles.AsNoTracking()
-        };
+        var unorderedArticles = _context.Articles
+            .AsNoTracking()
+            .Where(a => (DateTime.UtcNow - a.UploadDate).TotalDays < (int)period);
 
         var orderedArticles = category switch
         {
-            IArticleService.Category.Popular => unorderedArticles.OrderByDescending(a => a.UploadDate), //a.Views вместо a.UploadDate
-            IArticleService.Category.Last => unorderedArticles.OrderByDescending(a => a.UploadDate),
-            IArticleService.Category.Best => unorderedArticles.OrderByDescending(a => a.UploadDate) //a.Rating вместо a.UploadDate
+            Category.Popular => unorderedArticles.OrderByDescending(a => a.UploadDate), //a.Views вместо a.UploadDate
+            Category.Last => unorderedArticles.OrderByDescending(a => a.UploadDate),
+            Category.Best => unorderedArticles.OrderByDescending(a => a.UploadDate) //a.Rating вместо a.UploadDate
         };
 
         var articleModelList = await orderedArticles
-            .Skip(first)
+            .Skip(firstIndex)
             .Take(count)
             .ToListAsync();
 
@@ -55,12 +49,12 @@ public class ArticleRepository : IArticleRepository
     }
 
     //TODO использовать модели, чтобы не передавать весь элемент
-    public async Task<List<Article>> GetUserArticlesAsync(int userId, int first, int count)
+    public async Task<List<Article>> GetUserArticlesAsync(int userId, int count, int firstIndex)
     {
         var articleModelList = await _context.Articles
             .AsNoTracking()
             .Where(a => a.UserId == userId)
-            .Skip(first)
+            .Skip(firstIndex)
             .Take(count)
             .ToListAsync();
 
