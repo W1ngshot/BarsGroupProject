@@ -7,11 +7,13 @@ public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ICryptographyService _cryptographyService;
 
-    public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork)
+    public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork, ICryptographyService cryptographyService)
     {
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;
+        _cryptographyService = cryptographyService;
     }
 
     public async Task<int> GetUserIdByEmailAsync(string email)
@@ -25,14 +27,17 @@ public class UserService : IUserService
     }
 
     //TODO добавить валидацию введенных паролей
-    //TODO добавить шифрование пароля
     public async Task ChangePasswordAsync(string email, string oldPassword, string newPassword)
     {
         var user = await _userRepository.GetUserByEmailAsync(email);
-        if (user.Password != oldPassword)
+
+        var passwordHash = user.PasswordHash;
+        var enteredPasswordHash = await _cryptographyService.EncryptPasswordAsync(oldPassword, user.PasswordSalt);
+
+        if (passwordHash != enteredPasswordHash)
             throw new Exception("Неправильный пароль");
 
-        user.Password = newPassword;
+        user.PasswordHash = await _cryptographyService.EncryptPasswordAsync(newPassword, user.PasswordSalt);
         await _userRepository.UpdateUserAsync(user);
         await _unitOfWork.SaveChangesAsync();
     }

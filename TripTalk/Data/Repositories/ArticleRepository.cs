@@ -22,13 +22,13 @@ public class ArticleRepository : IArticleRepository
     {
         var unorderedArticles = _context.Articles
             .AsNoTracking()
-            .Where(a => (DateTime.UtcNow - a.UploadDate).TotalDays < (int)period);
+            .Where(article => (DateTime.UtcNow - article.UploadDate).TotalDays < (int)period);
 
         var orderedArticles = category switch
         {
-            Category.Popular => unorderedArticles.OrderByDescending(a => a.UploadDate), //a.Views вместо a.UploadDate
-            Category.Last => unorderedArticles.OrderByDescending(a => a.UploadDate),
-            Category.Best => unorderedArticles.OrderByDescending(a => a.UploadDate) //a.Rating вместо a.UploadDate
+            Category.Popular => unorderedArticles.OrderByDescending(article => article.UploadDate), //a.Views вместо a.UploadDate
+            Category.Last => unorderedArticles.OrderByDescending(article => article.UploadDate),
+            Category.Best => unorderedArticles.OrderByDescending(article => article.UploadDate) //a.Rating вместо a.UploadDate
         };
 
         var articleModelList = await orderedArticles
@@ -36,15 +36,17 @@ public class ArticleRepository : IArticleRepository
             .Take(count)
             .ToListAsync();
 
-        return articleModelList.Select(a => new Article
+        return articleModelList.Select(entity => new Article
         {
-            Id = a.Id,
-            Title = a.Title,
-            ShortDescription = a.ShortDescription,
-            Text = a.Text,
-            PictureLink = a.AssetLink,
-            UploadDate = a.UploadDate,
-            UserId = a.UserId
+            Id = entity.Id,
+            Title = entity.Title,
+            ShortDescription = entity.ShortDescription,
+            Text = entity.Text,
+            UploadDate = entity.UploadDate,
+            UserId = entity.UserId,
+            PreviewPictureLink = entity.AssetLink,
+            Rating = entity.Rating,
+            Views = entity.Views
         }).ToList();
     }
 
@@ -53,20 +55,22 @@ public class ArticleRepository : IArticleRepository
     {
         var articleModelList = await _context.Articles
             .AsNoTracking()
-            .Where(a => a.UserId == userId)
+            .Where(article => article.UserId == userId)
             .Skip(firstIndex)
             .Take(count)
             .ToListAsync();
 
-        return articleModelList.Select(a => new Article
+        return articleModelList.Select(entity => new Article
         {
-            Id = a.Id,
-            Title = a.Title,
-            ShortDescription = a.ShortDescription,
-            Text = a.Text,
-            PictureLink = a.AssetLink,
-            UploadDate = a.UploadDate,
-            UserId = a.UserId
+            Id = entity.Id,
+            Title = entity.Title,
+            ShortDescription = entity.ShortDescription,
+            Text = entity.Text,
+            UploadDate = entity.UploadDate,
+            UserId = entity.UserId,
+            PreviewPictureLink = entity.AssetLink,
+            Rating = entity.Rating,
+            Views = entity.Views
         }).ToList();
     }
 
@@ -80,9 +84,11 @@ public class ArticleRepository : IArticleRepository
             Title = entity.Title,
             ShortDescription = entity.ShortDescription,
             Text = entity.Text,
-            PictureLink = entity.AssetLink,
             UploadDate = entity.UploadDate,
-            UserId = entity.UserId
+            UserId = entity.UserId,
+            PreviewPictureLink = entity.AssetLink,
+            Rating = entity.Rating,
+            Views = entity.Views
         };
     }
 
@@ -93,9 +99,11 @@ public class ArticleRepository : IArticleRepository
             Title = article.Title,
             ShortDescription = article.ShortDescription,
             Text = article.Text,
-            AssetLink = article.PictureLink,
             UploadDate = article.UploadDate,
-            UserId = article.UserId
+            UserId = article.UserId,
+            AssetLink = article.PreviewPictureLink,
+            Rating = article.Rating,
+            Views = article.Views
         };
         await _context.Articles.AddAsync(entity);
     }
@@ -108,6 +116,8 @@ public class ArticleRepository : IArticleRepository
         entity.Title = article.Title;
         entity.ShortDescription = article.ShortDescription;
         entity.Text = article.Text;
-        entity.AssetLink = article.PictureLink;
+        entity.AssetLink = article.PreviewPictureLink;
+        entity.Rating = article.Rating;
+        entity.Views = article.Views;
     }
 }
