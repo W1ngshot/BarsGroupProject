@@ -11,6 +11,20 @@ namespace Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "tag",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_tag", x => x.id);
+                    table.UniqueConstraint("ak_name", x => x.name);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "user",
                 columns: table => new
                 {
@@ -18,7 +32,8 @@ namespace Data.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     nickname = table.Column<string>(type: "text", nullable: false),
                     email = table.Column<string>(type: "text", nullable: false),
-                    password = table.Column<string>(type: "text", nullable: false),
+                    password_hash = table.Column<string>(type: "text", nullable: false, defaultValue: "hash"),
+                    password_salt = table.Column<string>(type: "text", nullable: false, defaultValue: "salt"),
                     avatar_link = table.Column<string>(type: "text", nullable: true),
                     registration_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -38,15 +53,41 @@ namespace Data.Migrations
                     text = table.Column<string>(type: "text", nullable: false),
                     upload_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     user_id = table.Column<int>(type: "integer", nullable: false),
-                    asset_link = table.Column<string>(type: "text", nullable: true)
+                    asset_link = table.Column<string>(type: "text", nullable: true),
+                    rating = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    views = table.Column<int>(type: "integer", nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_article", x => x.id);
                     table.ForeignKey(
-                        name: "fk_article_users_user_id",
+                        name: "fk_user_id",
                         column: x => x.user_id,
                         principalTable: "user",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "attached_tags",
+                columns: table => new
+                {
+                    articles_id = table.Column<int>(type: "integer", nullable: false),
+                    tags_id = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_attached_tags", x => new { x.articles_id, x.tags_id });
+                    table.ForeignKey(
+                        name: "fk_attached_tags_article_articles_id",
+                        column: x => x.articles_id,
+                        principalTable: "article",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "fk_attached_tags_tag_tags_id",
+                        column: x => x.tags_id,
+                        principalTable: "tag",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -106,30 +147,15 @@ namespace Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "tag",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    name = table.Column<string>(type: "text", nullable: false),
-                    article_id = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_tag", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_article_id",
-                        column: x => x.article_id,
-                        principalTable: "article",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "ix_article_user_id",
                 table: "article",
                 column: "user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_attached_tags_tags_id",
+                table: "attached_tags",
+                column: "tags_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_comment_article_id",
@@ -150,15 +176,13 @@ namespace Data.Migrations
                 name: "ix_rate_user_id",
                 table: "rate",
                 column: "user_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_tag_article_id",
-                table: "tag",
-                column: "article_id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "attached_tags");
+
             migrationBuilder.DropTable(
                 name: "comment");
 

@@ -6,12 +6,12 @@ namespace Data.DbModels;
 public class CommentDbModel
 {
     public int Id { get; set; }
-    public string Message { get; set; }
+    public string Message { get; set; } = null!;
     public DateTime Date { get; set; }
+    public UserDbModel User { get; set; } = null!;
     public int UserId { get; set; }
-    public UserDbModel User { get; set; }
+    public ArticleDbModel Article { get; set; } = null!;
     public int ArticleId { get; set; }
-    public ArticleDbModel Article { get; set; }
 
 
     internal class Map : IEntityTypeConfiguration<CommentDbModel>
@@ -36,7 +36,7 @@ public class CommentDbModel
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(comment => comment.Article)
-                .WithMany()
+                .WithMany(article => article.Comments)
                 .HasConstraintName("fk_article_id")
                 .HasForeignKey(comment => comment.ArticleId);
         }

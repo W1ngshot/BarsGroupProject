@@ -1,4 +1,5 @@
 ﻿using Core.RepositoryInterfaces;
+using Core.Models;
 using Data.Db;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,9 +14,6 @@ public class AuthenticationRepository : IAuthenticationRepository
         _context = context;
     }
 
-    public async Task<bool> EnsureNicknameOrEmailAreAvailableAsync(string nickname, string email) => 
+    public async Task<bool> EnsureNicknameOrEmailAreAvailableAsync(string nickname, string email) =>
         await _context.Users.AnyAsync(user => user.Nickname == nickname || user.Email == email);
-
-    public async Task<bool> EnsureUserDataValidAsync(string email, string password) =>
-        await _context.Users.AnyAsync(user => user.Email == email && user.Password == password);
 }

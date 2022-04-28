@@ -28,7 +28,7 @@ public class AccountController : Controller
     {
         var email = User.Identity?.Name ?? throw new Exception("Ошибка авторизации");
         var userId = await _userService.GetUserIdByEmailAsync(email);
-        var articles = await _articleService.GetUserArticles(userId);
+        var articles = await _articleService.GetUserArticlesAsync(userId);
         return View(articles);
     }
 

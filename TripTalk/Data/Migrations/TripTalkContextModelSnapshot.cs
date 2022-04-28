@@ -22,6 +22,25 @@ namespace Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("ArticleDbModelTagDbModel", b =>
+                {
+                    b.Property<int>("ArticlesId")
+                        .HasColumnType("integer")
+                        .HasColumnName("articles_id");
+
+                    b.Property<int>("TagsId")
+                        .HasColumnType("integer")
+                        .HasColumnName("tags_id");
+
+                    b.HasKey("ArticlesId", "TagsId")
+                        .HasName("pk_attached_tags");
+
+                    b.HasIndex("TagsId")
+                        .HasDatabaseName("ix_attached_tags_tags_id");
+
+                    b.ToTable("attached_tags", (string)null);
+                });
+
             modelBuilder.Entity("Data.DbModels.ArticleDbModel", b =>
                 {
                     b.Property<int>("Id")
@@ -34,6 +53,12 @@ namespace Data.Migrations
                     b.Property<string>("AssetLink")
                         .HasColumnType("text")
                         .HasColumnName("asset_link");
+
+                    b.Property<int>("Rating")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0)
+                        .HasColumnName("rating");
 
                     b.Property<string>("ShortDescription")
                         .HasColumnType("text")
@@ -56,6 +81,12 @@ namespace Data.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("integer")
                         .HasColumnName("user_id");
+
+                    b.Property<int>("Views")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0)
+                        .HasColumnName("views");
 
                     b.HasKey("Id")
                         .HasName("pk_article");
@@ -146,10 +177,6 @@ namespace Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ArticleId")
-                        .HasColumnType("integer")
-                        .HasColumnName("article_id");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text")
@@ -158,8 +185,8 @@ namespace Data.Migrations
                     b.HasKey("Id")
                         .HasName("pk_tag");
 
-                    b.HasIndex("ArticleId")
-                        .HasDatabaseName("ix_tag_article_id");
+                    b.HasAlternateKey("Name")
+                        .HasName("ak_name");
 
                     b.ToTable("tag", (string)null);
                 });
@@ -187,10 +214,19 @@ namespace Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("nickname");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("text")
-                        .HasColumnName("password");
+                        .HasDefaultValue("hash")
+                        .HasColumnName("password_hash");
+
+                    b.Property<string>("PasswordSalt")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text")
+                        .HasDefaultValue("salt")
+                        .HasColumnName("password_salt");
 
                     b.Property<DateTime>("RegistrationDate")
                         .HasColumnType("timestamp with time zone")
@@ -202,14 +238,31 @@ namespace Data.Migrations
                     b.ToTable("user", (string)null);
                 });
 
+            modelBuilder.Entity("ArticleDbModelTagDbModel", b =>
+                {
+                    b.HasOne("Data.DbModels.ArticleDbModel", null)
+                        .WithMany()
+                        .HasForeignKey("ArticlesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_attached_tags_article_articles_id");
+
+                    b.HasOne("Data.DbModels.TagDbModel", null)
+                        .WithMany()
+                        .HasForeignKey("TagsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_attached_tags_tag_tags_id");
+                });
+
             modelBuilder.Entity("Data.DbModels.ArticleDbModel", b =>
                 {
                     b.HasOne("Data.DbModels.UserDbModel", "User")
-                        .WithMany()
+                        .WithMany("Articles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_article_users_user_id");
+                        .HasConstraintName("fk_user_id");
 
                     b.Navigation("User");
                 });
@@ -217,7 +270,7 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.DbModels.CommentDbModel", b =>
                 {
                     b.HasOne("Data.DbModels.ArticleDbModel", "Article")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
@@ -238,7 +291,7 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.DbModels.RateDbModel", b =>
                 {
                     b.HasOne("Data.DbModels.ArticleDbModel", "Article")
-                        .WithMany()
+                        .WithMany("Rates")
                         .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
@@ -256,16 +309,16 @@ namespace Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Data.DbModels.TagDbModel", b =>
+            modelBuilder.Entity("Data.DbModels.ArticleDbModel", b =>
                 {
-                    b.HasOne("Data.DbModels.ArticleDbModel", "Article")
-                        .WithMany()
-                        .HasForeignKey("ArticleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_article_id");
+                    b.Navigation("Comments");
 
-                    b.Navigation("Article");
+                    b.Navigation("Rates");
+                });
+
+            modelBuilder.Entity("Data.DbModels.UserDbModel", b =>
+                {
+                    b.Navigation("Articles");
                 });
 #pragma warning restore 612, 618
         }
