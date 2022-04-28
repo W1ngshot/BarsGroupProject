@@ -30,7 +30,7 @@ public class AuthService : IAuthService
     //TODO возможно подумать над названием
     public async Task LoginAsync(string email, string password)
     {
-        var user = await _authenticationRepository.GetUserByEmailAsync(email);
+        var user = await _userRepository.GetUserByEmailAsync(email);
 
         var enteredPasswordHash = await _cryptographyService.EncryptPasswordAsync(password, user.PasswordSalt);
         if (enteredPasswordHash != user.PasswordHash)

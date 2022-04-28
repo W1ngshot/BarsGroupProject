@@ -38,7 +38,6 @@ public class UserRepository : IUserRepository
         entity.Nickname = user.Nickname;
         entity.Email = user.Email;
         entity.PasswordHash = user.PasswordHash;
-        entity.PasswordSalt = user.PasswordSalt;
         entity.AvatarLink = user.AvatarLink;
     }
 
