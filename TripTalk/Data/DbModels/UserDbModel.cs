@@ -6,12 +6,13 @@ namespace Data.DbModels;
 public class UserDbModel
 {
     public int Id { get; set; }
-    public string Nickname { get; set; }
-    public string Email { get; set; }
-    public string Password { get; set; }
+    public string Nickname { get; set; } = null!;
+    public string Email { get; set; } = null!;
+    public string PasswordHash { get; set; } = null!;
+    public string PasswordSalt { get; set; } = null!;
     public string? AvatarLink { get; set; }
     public DateTime RegistrationDate { get; set; }
-
+    public List<ArticleDbModel>? Articles { get; set; }
 
     internal class Map : IEntityTypeConfiguration<UserDbModel>
     {
@@ -28,8 +29,13 @@ public class UserDbModel
             builder.Property(user => user.Email)
                 .IsRequired();
 
-            builder.Property(user => user.Password)
-                .IsRequired();
+            builder.Property(user => user.PasswordHash)
+                .IsRequired()
+                .HasDefaultValue("hash");
+
+            builder.Property(user => user.PasswordSalt)
+                .IsRequired()
+                .HasDefaultValue("salt");
 
             builder.Property(user => user.RegistrationDate)
                 .IsRequired();

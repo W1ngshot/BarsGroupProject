@@ -15,6 +15,7 @@ public class ArticleRepository : IArticleRepository
         _context = context;
     }
 
+    //TODO разобраться с ссылками на изображения
     public async Task<Article> GetArticleByIdAsync(int id)
     {
         var entity = await _context.Articles.FirstOrDefaultAsync(article => article.Id == id) ??
@@ -25,12 +26,15 @@ public class ArticleRepository : IArticleRepository
             Title = entity.Title,
             ShortDescription = entity.ShortDescription,
             Text = entity.Text,
-            PictureLink = entity.AssetLink,
             UploadDate = entity.UploadDate,
-            UserId = entity.UserId
+            UserId = entity.UserId,
+            PreviewPictureLink = entity.AssetLink,
+            Rating = entity.Rating,
+            Views = entity.Views
         };
     }
 
+    //TODO разобраться с ссылками на изображения
     public async Task CreateArticleAsync(Article article)
     {
         var entity = new ArticleDbModel
@@ -38,13 +42,16 @@ public class ArticleRepository : IArticleRepository
             Title = article.Title,
             ShortDescription = article.ShortDescription,
             Text = article.Text,
-            AssetLink = article.PictureLink,
             UploadDate = article.UploadDate,
-            UserId = article.UserId
+            UserId = article.UserId,
+            AssetLink = article.PreviewPictureLink,
+            Rating = article.Rating,
+            Views = article.Views
         };
         await _context.Articles.AddAsync(entity);
     }
 
+    //TODO разобраться с ссылками на изображения
     public async Task UpdateArticleAsync(Article article)
     {
         var entity = await _context.Articles.FirstOrDefaultAsync(a => a.Id == article.Id) ??
@@ -53,26 +60,31 @@ public class ArticleRepository : IArticleRepository
         entity.Title = article.Title;
         entity.ShortDescription = article.ShortDescription;
         entity.Text = article.Text;
-        entity.AssetLink = article.PictureLink;
+        entity.AssetLink = article.PreviewPictureLink;
+        entity.Rating = article.Rating;
+        entity.Views = article.Views;
     }
 
     //TODO использовать модели, чтобы не передавать весь элемент
+    //TODO разобраться с ссылками на изображения
     public async Task<List<Article>> GetUserArticlesAsync(int userId)
     {
         var articleModelList = await _context.Articles
             .AsNoTracking()
-            .Where(a => a.UserId == userId)
+            .Where(article => article.UserId == userId)
             .ToListAsync();
 
-        return articleModelList.Select(a => new Article
+        return articleModelList.Select(article => new Article
         {
-            Id = a.Id,
-            Title = a.Title,
-            ShortDescription = a.ShortDescription,
-            Text = a.Text,
-            PictureLink = a.AssetLink,
-            UploadDate = a.UploadDate,
-            UserId = a.UserId
+            Id = article.Id,
+            Title = article.Title,
+            ShortDescription = article.ShortDescription,
+            Text = article.Text,
+            UploadDate = article.UploadDate,
+            UserId = article.UserId,
+            PreviewPictureLink = article.AssetLink,
+            Rating = article.Rating,
+            Views = article.Views
         }).ToList();
     }
 }

@@ -21,9 +21,10 @@ public class UserRepository : IUserRepository
         {
             Nickname = user.Nickname,
             Email = user.Email,
-            Password = user.Password,
-            RegistrationDate = user.RegistrationDate,
-            AvatarLink = user.AvatarLink
+            PasswordHash = user.PasswordHash,
+            PasswordSalt = user.PasswordSalt,
+            AvatarLink = user.AvatarLink,
+            RegistrationDate = user.RegistrationDate
         };
 
         await _context.Users.AddAsync(entity);
@@ -36,7 +37,8 @@ public class UserRepository : IUserRepository
         //TODO разобраться с exception
         entity.Nickname = user.Nickname;
         entity.Email = user.Email;
-        entity.Password = user.Password;
+        entity.PasswordHash = user.PasswordHash;
+        entity.PasswordSalt = user.PasswordSalt;
         entity.AvatarLink = user.AvatarLink;
     }
 
@@ -57,9 +59,10 @@ public class UserRepository : IUserRepository
             Id = entity.Id,
             Email = entity.Email,
             Nickname = entity.Nickname,
-            Password = entity.Password,
+            PasswordHash = entity.PasswordHash,
+            PasswordSalt = entity.PasswordSalt,
+            AvatarLink = entity.AvatarLink,
             RegistrationDate = entity.RegistrationDate,
-            AvatarLink = entity.AvatarLink
         };
     }
 }

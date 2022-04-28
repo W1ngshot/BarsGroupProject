@@ -20,16 +20,19 @@ public class ArticleService : IArticleService
     }
 
     //TODO добавить валидацию
-    public async Task CreateArticleAsync(string title, string shortDescription, string text, string? pictureLink, int userId)
+    public async Task CreateArticleAsync(string title, string? shortDescription, string text, string? previewPictureLink, List<string>? attachedPicturesLinks, int userId)
     {
         var article = new Article
         {
             Title = title,
             ShortDescription = shortDescription,
             Text = text,
-            PictureLink = pictureLink,
-            UploadDate = DateTime.Now,
-            UserId = userId
+            UploadDate = DateTime.UtcNow,
+            UserId = userId,
+            PreviewPictureLink = previewPictureLink,
+            AttachedPicturesLinks = attachedPicturesLinks,
+            Rating = 0,
+            Views = 0
         };
 
         await _articleRepository.CreateArticleAsync(article);
@@ -37,7 +40,7 @@ public class ArticleService : IArticleService
     }
 
     //TODO добавить валидацию
-    public async Task EditArticleAsync(int articleId, string title, string shortDescription, string text, string? pictureLink)
+    public async Task EditArticleAsync(int articleId, string title, string? shortDescription, string text, string? previewPictureLink, List<string>? attachedPicturesLinks)
     {
         var article = new Article
         {
@@ -45,7 +48,8 @@ public class ArticleService : IArticleService
             Title = title,
             ShortDescription = shortDescription,
             Text = text,
-            PictureLink = pictureLink,
+            PreviewPictureLink = previewPictureLink,
+            AttachedPicturesLinks = attachedPicturesLinks
         };
 
         await _articleRepository.UpdateArticleAsync(article);

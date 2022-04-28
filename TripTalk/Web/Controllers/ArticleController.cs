@@ -34,7 +34,7 @@ public class ArticleController : Controller
     {
         var user = User.Identity?.Name ?? throw new Exception("Ошибка авторизации");
         var currentUserId = await _userService.GetUserIdByEmailAsync(user);
-        await _articleService.CreateArticleAsync(article.Title, article.ShortDescription, article.Text, article.PictureLink, currentUserId);
+        await _articleService.CreateArticleAsync(article.Title, article.ShortDescription, article.Text, article.PictureLink, null, currentUserId);
         return View(article); //TODO подумать, куда перенаправить пользователя (возможно на эту статью)
     }
 
@@ -51,7 +51,7 @@ public class ArticleController : Controller
     [HttpPost]
     public async Task<IActionResult> Edit(int articleId, ArticleDto article)
     {
-        await _articleService.EditArticleAsync(articleId, article.Title, article.ShortDescription, article.Text, article.PictureLink);
+        await _articleService.EditArticleAsync(articleId, article.Title, article.ShortDescription, article.Text, article.PictureLink, null);
         return View(article); //TODO подумать, куда перенаправить пользователя (возможно на эту статью)
     }
 }

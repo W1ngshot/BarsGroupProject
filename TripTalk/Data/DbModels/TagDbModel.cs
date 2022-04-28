@@ -6,9 +6,8 @@ namespace Data.DbModels;
 public class TagDbModel
 {
     public int Id { get; set; }
-    public string Name { get; set; }
-    public int ArticleId { get; set; }
-    public ArticleDbModel Article { get; set; }
+    public string Name { get; set; } = null!;
+    public List<ArticleDbModel>? Articles { get; set; }
 
 
     internal class Map : IEntityTypeConfiguration<TagDbModel>
@@ -20,13 +19,15 @@ public class TagDbModel
             builder.HasKey(tag => tag.Id)
                 .HasName("pk_tag");
 
+            builder.HasAlternateKey(tag => tag.Name)
+                .HasName("ak_name");
+
             builder.Property(tag => tag.Name)
                 .IsRequired();
 
-            builder.HasOne(tag => tag.Article)
-                .WithMany()
-                .HasForeignKey(article => article.ArticleId)
-                .HasConstraintName("fk_article_id");
+            builder.HasMany(tag => tag.Articles)
+                .WithMany(article => article.Tags)
+                .UsingEntity<ArticleTagDbModel>();
         }
     }
 }
