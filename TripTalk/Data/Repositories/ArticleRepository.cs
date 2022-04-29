@@ -77,7 +77,7 @@ public class ArticleRepository : IArticleRepository
     public async Task<Article> GetArticleByIdAsync(int id)
     {
         var entity = await _context.Articles.FirstOrDefaultAsync(article => article.Id == id) ??
-                             throw new Exception("Данного пользователя не существует"); //TODO подумать как исправить exception
+                             throw new Exception(ErrorMessages.MissingUser); //TODO подумать как исправить exception
         return new Article
         {
             Id = entity.Id,
@@ -111,7 +111,7 @@ public class ArticleRepository : IArticleRepository
     public async Task UpdateArticleAsync(Article article)
     {
         var entity = await _context.Articles.FirstOrDefaultAsync(a => a.Id == article.Id) ??
-                     throw new Exception("Данного пользователя не существует"); //TODO подумать как исправить exception
+                     throw new Exception(ErrorMessages.MissingUser); //TODO подумать как исправить exception
 
         entity.Title = article.Title;
         entity.ShortDescription = article.ShortDescription;

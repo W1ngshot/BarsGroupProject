@@ -1,4 +1,5 @@
-﻿using Core.Services;
+﻿using Core;
+using Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Dto;
@@ -32,7 +33,7 @@ public class ArticleController : Controller
     [Authorize]
     public async Task<IActionResult> Create(ArticleDto article)
     {
-        var user = User.Identity?.Name ?? throw new Exception("Ошибка авторизации");
+        var user = User.Identity?.Name ?? throw new Exception(ErrorMessages.AuthError);
         var currentUserId = await _userService.GetUserIdByEmailAsync(user);
         await _articleService.CreateArticleAsync(article.Title, article.Text, currentUserId, article.ShortDescription, article.PictureLink);
         return View(article); //TODO подумать, куда перенаправить пользователя (возможно на эту статью)

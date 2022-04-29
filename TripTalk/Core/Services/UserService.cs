@@ -35,7 +35,7 @@ public class UserService : IUserService
         var enteredPasswordHash = await _cryptographyService.EncryptPasswordAsync(oldPassword, user.PasswordSalt);
 
         if (passwordHash != enteredPasswordHash)
-            throw new Exception("Неправильный пароль");
+            throw new Exception(ErrorMessages.WrongPassword);
 
         user.PasswordHash = await _cryptographyService.EncryptPasswordAsync(newPassword, user.PasswordSalt);
         await _userRepository.UpdateUserAsync(user);
