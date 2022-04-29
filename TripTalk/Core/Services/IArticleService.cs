@@ -4,8 +4,6 @@ namespace Core.Services;
 
 public interface IArticleService
 {
-    public Task<List<Article>> GetCategoryOrderedArticlesAsync(Category category, Period period, int count = int.MaxValue, int firstIndex = 0);
-
     public Task<List<Article>> GetUserArticlesAsync(int userId, int count = int.MaxValue, int firstIndex = 0);
 
     public Task<Article> GetArticleByIdAsync(int articleId);

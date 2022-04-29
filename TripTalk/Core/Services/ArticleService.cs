@@ -14,11 +14,6 @@ public class ArticleService : IArticleService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<List<Article>> GetCategoryOrderedArticlesAsync(Category category, Period period, int count = int.MaxValue, int firstIndex = 0)
-    {
-        return await _articleRepository.GetOrderedArticlesAsync(category, period, count, firstIndex);
-    }
-
     public async Task<List<Article>> GetUserArticlesAsync(int userId, int count = int.MaxValue, int firstIndex = 0)
     {
         return await _articleRepository.GetUserArticlesAsync(userId, count, firstIndex);
