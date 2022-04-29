@@ -23,13 +23,15 @@ public class RateRepository : IRateRepository
 
     public async Task SetRate(int userId, int articleId, int rating)
     {
-        var rate = await _context.Rates.FirstOrDefaultAsync(r => r.UserId == userId && r.ArticleId == articleId) ??
-            (await _context.AddAsync(new RateDbModel
+        var rate = await _context.Rates.FirstOrDefaultAsync(r => r.UserId == userId && r.ArticleId == articleId);
+        if (rate is null)
+            await _context.AddAsync(new RateDbModel
             {
                 UserId = userId,
-                ArticleId = articleId
-            })).Entity;
-
-        rate.Rating = rating;
+                ArticleId = articleId,
+                Rating = rating
+            });
+        else
+            rate.Rating = rating;
     }
 }

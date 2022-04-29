@@ -1,4 +1,5 @@
-﻿using Core.Models;
+﻿using Core;
+using Core.Models;
 using Core.RepositoryInterfaces;
 using Data.Db;
 using Data.DbModels;
@@ -33,7 +34,7 @@ public class UserRepository : IUserRepository
     public async Task UpdateUserAsync(User user)
     {
         var entity = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id) ??
-                     throw new Exception("Данного пользователя не существует");
+                     throw new Exception(ErrorMessages.MissingUser);
         //TODO разобраться с exception
         entity.Nickname = user.Nickname;
         entity.Email = user.Email;
@@ -44,7 +45,7 @@ public class UserRepository : IUserRepository
     public async Task<int> GetUserIdByEmailAsync(string email)
     {
         var entity = await _context.Users.FirstOrDefaultAsync(x => x.Email == email) ??
-                     throw new Exception("Данного пользователя не существует");
+                     throw new Exception(ErrorMessages.MissingUser);
         return entity.Id;
     }
 
@@ -52,7 +53,7 @@ public class UserRepository : IUserRepository
     public async Task<User> GetUserByEmailAsync(string email)
     {
         var entity = await _context.Users.FirstOrDefaultAsync(x => x.Email == email) ??
-                     throw new Exception("Данного пользователя не существует");
+                     throw new Exception(ErrorMessages.MissingUser);
         return new User
         {
             Id = entity.Id,

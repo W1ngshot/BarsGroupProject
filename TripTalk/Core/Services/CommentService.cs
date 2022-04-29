@@ -50,5 +50,6 @@ public class CommentService : ICommentService
     public async Task DeleteCommentAsync(int commentId)
     {
         await _commentRepository.RemoveCommentAsync(commentId);
+        await _unitOfWork.SaveChangesAsync();
     }
 }

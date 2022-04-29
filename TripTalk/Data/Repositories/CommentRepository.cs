@@ -1,4 +1,5 @@
-﻿using Core.Models;
+﻿using Core;
+using Core.Models;
 using Core.RepositoryInterfaces;
 using Data.Db;
 using Data.DbModels;
@@ -48,7 +49,7 @@ public class CommentRepository : ICommentRepository
     public async Task UpdateCommentAsync(Comment comment)
     {
         var entity = await _context.Comments.FirstOrDefaultAsync(c => c.Id == comment.Id) ??
-                     throw new Exception("Комментарий не найден");
+                     throw new Exception(ErrorMessages.MissingComment);
 
         entity.Message = comment.Message;
     }
@@ -56,7 +57,7 @@ public class CommentRepository : ICommentRepository
     public async Task RemoveCommentAsync(int commentId)
     {
         var entity = await _context.Comments.FirstOrDefaultAsync(c => c.Id == commentId) ??
-                     throw new Exception("Комментарий не найден");
+                     throw new Exception(ErrorMessages.MissingComment);
 
         _context.Comments.Remove(entity);
     }
