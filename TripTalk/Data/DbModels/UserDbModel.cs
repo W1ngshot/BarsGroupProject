@@ -12,7 +12,7 @@ public class UserDbModel
     public string PasswordSalt { get; set; } = null!;
     public string? AvatarLink { get; set; }
     public DateTime RegistrationDate { get; set; }
-    public List<ArticleDbModel>? Articles { get; set; }
+    public List<ArticleDbModel> Articles { get; set; } = new();
 
     internal class Map : IEntityTypeConfiguration<UserDbModel>
     {

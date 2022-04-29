@@ -13,14 +13,14 @@ public class RateService : IRateService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<int> GetRate(int userId, int articleId)
+    public async Task<int> GetRateAsync(int userId, int articleId)
     {
-        return await _rateRepository.GetRate(userId, articleId);
+        return await _rateRepository.GetRateAsync(userId, articleId);
     }
 
-    public async Task SetRate(int userId, int articleId, int rating)
+    public async Task SetRateAsync(int userId, int articleId, int rating)
     {
-        await _rateRepository.SetRate(userId, articleId, rating);
+        await _rateRepository.SetRateAsync(userId, articleId, rating);
         await _unitOfWork.SaveChangesAsync();
     }
 }

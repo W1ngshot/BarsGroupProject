@@ -15,6 +15,8 @@ public static class Bootstrap
         services.AddScoped<ICryptographyService, CryptographyService>();
         services.AddScoped<ICommentService, CommentService>();
         services.AddScoped<IRateService, RateService>();
+        services.AddScoped<ITagService, TagService>();
+        services.AddScoped<ISearchService, SearchService>();
 
         services.AddFluentValidation().AddValidatorsFromAssembly(typeof(AuthService).Assembly);
         return services;
