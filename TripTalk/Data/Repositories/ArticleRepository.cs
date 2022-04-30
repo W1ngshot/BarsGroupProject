@@ -50,13 +50,13 @@ public class ArticleRepository : IArticleRepository
         }).ToList();
     }
 
-    public async Task<List<Article>> GetFilteredArticlesAsync(string? searchLine, List<string>? tags, int count, int firstIndex)
+    public async Task<List<Article>> GetFilteredArticlesAsync(string searchLine, List<string>? tags, int count, int firstIndex)
     {
-        var filteredArticles = _context.Articles.AsNoTracking();
+        var filteredArticles = _context.Articles
+            .AsNoTracking()
+            .Where(article => article.Title.Contains(searchLine));
         if (tags is not null)
             filteredArticles = filteredArticles.Where(article => article.Tags.Any(tag => tags.Contains(tag.Name)));
-        if (searchLine is not null)
-            filteredArticles = filteredArticles.Where(article => article.Title.Contains(searchLine));
 
         var articleModelList = await filteredArticles
             .Skip(firstIndex)

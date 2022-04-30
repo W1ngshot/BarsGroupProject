@@ -12,7 +12,7 @@ public class ArticleCategoryService : IArticleCategoryService
         _articleRepository = articleRepository;
     }
 
-    public async Task<List<Article>> OrderByCategoryArticlesAsync(Category category, Period period, int count = int.MaxValue, int firstIndex = 0)
+    public async Task<List<Article>> GetOrderedArticlesAsync(Category category, Period period, int count = int.MaxValue, int firstIndex = 0)
     {
         return await _articleRepository.GetOrderedArticlesAsync(category, period, count, firstIndex);
     }
