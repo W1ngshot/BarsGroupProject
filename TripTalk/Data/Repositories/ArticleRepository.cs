@@ -22,13 +22,15 @@ public class ArticleRepository : IArticleRepository
     {
         var unorderedArticles = _context.Articles
             .AsNoTracking()
+            .Include(article => article.User)
+            .Include(article => article.Tags)
             .Where(article => (DateTime.UtcNow - article.UploadDate).TotalDays < (int)period);
 
         var orderedArticles = category switch
         {
-            Category.Popular => unorderedArticles.OrderByDescending(article => article.UploadDate), //a.Views вместо a.UploadDate
+            Category.Popular => unorderedArticles.OrderByDescending(article => article.Views),
             Category.Last => unorderedArticles.OrderByDescending(article => article.UploadDate),
-            Category.Best => unorderedArticles.OrderByDescending(article => article.UploadDate) //a.Rating вместо a.UploadDate
+            Category.Best => unorderedArticles.OrderByDescending(article => article.Rating)
         };
 
         var articleModelList = await orderedArticles
@@ -46,7 +48,9 @@ public class ArticleRepository : IArticleRepository
             UserId = entity.UserId,
             PreviewPictureLink = entity.AssetLink,
             Rating = entity.Rating,
-            Views = entity.Views
+            Views = entity.Views,
+            UserNickname = entity.User.Nickname,
+            TagNames = entity.Tags?.Select(tag => tag.Name).ToList() ?? new List<string>()
         }).ToList();
     }
 

@@ -1,0 +1,31 @@
+﻿.article-category {
+    display: flex;
+    flex-direction: column;
+    width: 1140px;
+    height: 355px;
+    margin: auto;
+}
+
+.article-category__header {
+    display: flex;
+    justify-content: space-between;
+    height: 55px;
+}
+
+.article-category__name {
+    color: #565656;
+}
+
+.article-category__more {
+    text-decoration: none;
+    color: #8F8F8F;
+    font-size: 16px;
+}
+
+.article-category__items {
+    width: 1140px;
+    height: 305px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}

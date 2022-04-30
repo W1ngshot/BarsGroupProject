@@ -1,1 +1,18 @@
-﻿<vc:article-preview />
+﻿@using Core.Models
+@{
+    var art = new Article
+    {
+        Id = 1,
+        Title = "asasas",
+        ShortDescription = "desc",
+        Text = "text",
+        Rating = 5,
+        Views = 10,
+        UserNickname = "W",
+        UploadDate = DateTime.Now,
+        TagNames = new List<string>()
+    };
+}
+<div>
+    <vc:article-preview article="@art"/>
+</div>

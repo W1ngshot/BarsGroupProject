@@ -1,0 +1,54 @@
+﻿@{
+    var pictureLink = ViewBag.PreviewPictureLink;
+    var hasPreviewImage = pictureLink != null;
+    //TODO добавить шрифт Inter в проект
+    //TODO добавить проверку на количество символов и замену части последних на ...
+}
+<link rel="stylesheet" href="~/css/components/article-preview.css" />
+<a class="article-preview" asp-controller="Article" asp-action="Index" asp-route-id="@ViewBag.Id">
+    <div class="article-preview__upper-block">
+        @if (hasPreviewImage)
+        {
+            <div class="article-preview__picture-box">
+                <img class="article-preview__picture" src=@pictureLink alt="Изображение статьи">
+            </div>
+            <div class="article-preview__text-when-picture">
+                <div class="article-preview__title-when-picture">
+                    @ViewBag.Title
+                </div>
+                <div class="article-preview__description-when-picture">
+                    @ViewBag.ShortDescription
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="article-preview__text-when-no-picture">
+                <div class="article-preview__title-when-no-picture">
+                    @ViewBag.Title
+                </div>
+                <div class="article-preview__description-when-no-picture">
+                    @ViewBag.ShortDescription
+                </div>
+            </div>
+        }
+    </div>
+    <div class="article-preview__lower-block">
+        <div class="article-preview__info">
+            <div class="article-preview__views-and-rates">
+                <div class="article-preview__views">
+                    @ViewBag.Views
+                </div>
+                <div class="article-preview__rates">
+                    @ViewBag.Rating
+                </div>
+            </div>
+            <div class="article-preview__author">
+                @ViewBag.UserNickname
+            </div>
+        </div>
+        <div class="article-preview__tags">
+
+        </div>
+    </div>
+</a>
