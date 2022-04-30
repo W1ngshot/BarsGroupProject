@@ -22,6 +22,7 @@ public static class Bootstraps
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ICommentRepository, CommentRepository>();
         services.AddScoped<IRateRepository, RateRepository>();
+        services.AddScoped<ITagRepository, TagRepository>();
 
         return services;
     }

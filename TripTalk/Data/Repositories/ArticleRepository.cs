@@ -17,8 +17,7 @@ public class ArticleRepository : IArticleRepository
     }
 
     //TODO использовать модели, чтобы не передавать весь элемент
-    //TODO использовать свойства статьи Views и Rating вместо заглушки
-    public async Task<List<Article>> GetCategoryArticlesAsync(Category category, Period period, int count, int firstIndex)
+    public async Task<List<Article>> GetOrderedArticlesAsync(Category category, Period period, int count, int firstIndex)
     {
         var unorderedArticles = _context.Articles
             .AsNoTracking()
@@ -26,12 +25,40 @@ public class ArticleRepository : IArticleRepository
 
         var orderedArticles = category switch
         {
-            Category.Popular => unorderedArticles.OrderByDescending(article => article.UploadDate), //a.Views вместо a.UploadDate
+            Category.Popular => unorderedArticles.OrderByDescending(article => article.Views),
             Category.Last => unorderedArticles.OrderByDescending(article => article.UploadDate),
-            Category.Best => unorderedArticles.OrderByDescending(article => article.UploadDate) //a.Rating вместо a.UploadDate
+            Category.Best => unorderedArticles.OrderByDescending(article => article.Rating),
+            _ => throw new Exception(ErrorMessages.InvalidCategoryValue)
         };
 
         var articleModelList = await orderedArticles
+            .Skip(firstIndex)
+            .Take(count)
+            .ToListAsync();
+
+        return articleModelList.Select(entity => new Article
+        {
+            Id = entity.Id,
+            Title = entity.Title,
+            ShortDescription = entity.ShortDescription,
+            Text = entity.Text,
+            UploadDate = entity.UploadDate,
+            UserId = entity.UserId,
+            PreviewPictureLink = entity.AssetLink,
+            Rating = entity.Rating,
+            Views = entity.Views
+        }).ToList();
+    }
+
+    public async Task<List<Article>> GetFilteredArticlesAsync(string searchLine, List<string>? tags, int count, int firstIndex)
+    {
+        var filteredArticles = _context.Articles
+            .AsNoTracking()
+            .Where(article => article.Title.Contains(searchLine));
+        if (tags is not null)
+            filteredArticles = filteredArticles.Where(article => article.Tags.Any(tag => tags.Contains(tag.Name)));
+
+        var articleModelList = await filteredArticles
             .Skip(firstIndex)
             .Take(count)
             .ToListAsync();
@@ -77,7 +104,7 @@ public class ArticleRepository : IArticleRepository
     public async Task<Article> GetArticleByIdAsync(int id)
     {
         var entity = await _context.Articles.FirstOrDefaultAsync(article => article.Id == id) ??
-                             throw new Exception(ErrorMessages.MissingUser); //TODO подумать как исправить exception
+            throw new Exception(ErrorMessages.MissingUser); //TODO подумать как исправить exception
         return new Article
         {
             Id = entity.Id,
@@ -92,7 +119,7 @@ public class ArticleRepository : IArticleRepository
         };
     }
 
-    public async Task CreateArticleAsync(Article article)
+    public async Task AddArticleAsync(Article article)
     {
         var entity = new ArticleDbModel
         {
@@ -111,7 +138,7 @@ public class ArticleRepository : IArticleRepository
     public async Task UpdateArticleAsync(Article article)
     {
         var entity = await _context.Articles.FirstOrDefaultAsync(a => a.Id == article.Id) ??
-                     throw new Exception(ErrorMessages.MissingUser); //TODO подумать как исправить exception
+            throw new Exception(ErrorMessages.MissingUser); //TODO подумать как исправить exception
 
         entity.Title = article.Title;
         entity.ShortDescription = article.ShortDescription;
@@ -119,5 +146,13 @@ public class ArticleRepository : IArticleRepository
         entity.AssetLink = article.PreviewPictureLink;
         entity.Rating = article.Rating;
         entity.Views = article.Views;
+    }
+
+    public async Task RemoveArticleAsync(int id)
+    {
+        var entity = await _context.Articles.FirstOrDefaultAsync(a => a.Id == id) ??
+            throw new Exception(ErrorMessages.MissingArticle);
+
+        _context.Articles.Remove(entity);
     }
 }

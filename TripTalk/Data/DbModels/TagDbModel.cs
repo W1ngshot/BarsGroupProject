@@ -7,7 +7,7 @@ public class TagDbModel
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;
-    public List<ArticleDbModel>? Articles { get; set; }
+    public List<ArticleDbModel> Articles { get; set; } = new();
 
 
     internal class Map : IEntityTypeConfiguration<TagDbModel>

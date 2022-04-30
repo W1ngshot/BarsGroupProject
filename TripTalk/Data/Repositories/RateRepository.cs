@@ -14,14 +14,14 @@ public class RateRepository : IRateRepository
         _context = context;
     }
 
-    public async Task<int> GetRate(int userId, int articleId)
+    public async Task<int> GetRateAsync(int userId, int articleId)
     {
         var rate = await _context.Rates.FirstOrDefaultAsync(r => r.UserId == userId && r.ArticleId == articleId);
 
         return rate?.Rating ?? 0;
     }
 
-    public async Task SetRate(int userId, int articleId, int rating)
+    public async Task SetRateAsync(int userId, int articleId, int rating)
     {
         var rate = await _context.Rates.FirstOrDefaultAsync(r => r.UserId == userId && r.ArticleId == articleId);
         if (rate is null)

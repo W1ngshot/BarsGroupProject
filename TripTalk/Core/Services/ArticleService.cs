@@ -14,11 +14,6 @@ public class ArticleService : IArticleService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<List<Article>> GetCategoryArticlesAsync(Category category, Period period, int count = int.MaxValue, int firstIndex = 0)
-    {
-        return await _articleRepository.GetCategoryArticlesAsync(category, period, count, firstIndex);
-    }
-
     public async Task<List<Article>> GetUserArticlesAsync(int userId, int count = int.MaxValue, int firstIndex = 0)
     {
         return await _articleRepository.GetUserArticlesAsync(userId, count, firstIndex);
@@ -45,7 +40,7 @@ public class ArticleService : IArticleService
             Views = 0
         };
 
-        await _articleRepository.CreateArticleAsync(article);
+        await _articleRepository.AddArticleAsync(article);
         await _unitOfWork.SaveChangesAsync();
     }
 
@@ -63,6 +58,12 @@ public class ArticleService : IArticleService
         };
 
         await _articleRepository.UpdateArticleAsync(article);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task DeleteArticleAsync(int articleId)
+    {
+        await _articleRepository.RemoveArticleAsync(articleId);
         await _unitOfWork.SaveChangesAsync();
     }
 }

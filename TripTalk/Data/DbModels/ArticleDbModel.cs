@@ -15,9 +15,9 @@ public class ArticleDbModel
     public string? AssetLink { get; set; }
     public int Rating { get; set; }
     public int Views { get; set; }
-    public List<TagDbModel>? Tags { get; set; }
-    public List<CommentDbModel>? Comments { get; set; }
-    public List<RateDbModel>? Rates { get; set; }
+    public List<TagDbModel> Tags { get; set; } = new();
+    public List<CommentDbModel> Comments { get; set; } = new();
+    public List<RateDbModel> Rates { get; set; } = new();
 
 
     internal class Map : IEntityTypeConfiguration<ArticleDbModel>

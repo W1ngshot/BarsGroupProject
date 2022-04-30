@@ -30,7 +30,7 @@ public class CommentService : ICommentService
             ArticleId = articleId
         };
 
-        await _commentRepository.CreateCommentAsync(comment);
+        await _commentRepository.AddCommentAsync(comment);
         await _unitOfWork.SaveChangesAsync();
     }
 

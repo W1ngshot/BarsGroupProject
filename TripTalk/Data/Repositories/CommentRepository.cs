@@ -33,7 +33,7 @@ public class CommentRepository : ICommentRepository
         }).ToList();
     }
 
-    public async Task CreateCommentAsync(Comment comment)
+    public async Task AddCommentAsync(Comment comment)
     {
         var entity = new CommentDbModel
         {
@@ -49,15 +49,15 @@ public class CommentRepository : ICommentRepository
     public async Task UpdateCommentAsync(Comment comment)
     {
         var entity = await _context.Comments.FirstOrDefaultAsync(c => c.Id == comment.Id) ??
-                     throw new Exception(ErrorMessages.MissingComment);
+            throw new Exception(ErrorMessages.MissingComment);
 
         entity.Message = comment.Message;
     }
 
-    public async Task RemoveCommentAsync(int commentId)
+    public async Task RemoveCommentAsync(int id)
     {
-        var entity = await _context.Comments.FirstOrDefaultAsync(c => c.Id == commentId) ??
-                     throw new Exception(ErrorMessages.MissingComment);
+        var entity = await _context.Comments.FirstOrDefaultAsync(c => c.Id == id) ??
+            throw new Exception(ErrorMessages.MissingComment);
 
         _context.Comments.Remove(entity);
     }

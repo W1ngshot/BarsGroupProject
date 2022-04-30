@@ -6,9 +6,9 @@ public interface ICommentRepository
 {
     public Task<List<Comment>> GetArticleCommentsAsync(int articleId);
 
-    public Task CreateCommentAsync(Comment comment);
+    public Task AddCommentAsync(Comment comment);
 
     public Task UpdateCommentAsync(Comment comment);
 
-    public Task RemoveCommentAsync(int commentId);
+    public Task RemoveCommentAsync(int id);
 }
