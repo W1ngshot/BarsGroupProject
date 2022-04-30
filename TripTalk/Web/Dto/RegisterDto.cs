@@ -4,7 +4,7 @@ namespace Web.Dto;
 
 public class RegisterDto
 {
-    [Required(ErrorMessage = "Не указан ник")]
+    [Required(ErrorMessage = "Не указан никнейм")]
     public string NickName { get; set; }
 
     [Required(ErrorMessage = "Не указан Email")]

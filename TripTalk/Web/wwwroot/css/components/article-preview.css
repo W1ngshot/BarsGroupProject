@@ -1,13 +1,10 @@
 ﻿.article-preview {
     display: flex;
     flex-direction: column;
-
     width: 560px;
     height: 150px;
-
-    border: 2px solid #C4C4C4;
+    border: 3px solid #C4C4C4;
     border-radius: 5px;
-
     text-decoration: none;
 }
 
@@ -15,13 +12,14 @@
     display: flex;
     height: 90px;
     color: #565656;
-
     margin: 10px 15px 0 15px;
+    text-decoration: none;
 }
 
 .article-preview__lower-block {
     display: flex;
     height: 50px;
+    text-decoration: none;
 }
 
 .article-preview__picture-box {
@@ -30,13 +28,14 @@
     height: 90px;
     max-width: 120px;
     max-height: 90px;
+    text-decoration: none;
 }
 
 .article-preview__picture {
     width: 100%;
     height: 100%;
-
     border-radius: 3px;
+    text-decoration: none;
 }
 
 .article-preview__text-when-picture {
@@ -44,23 +43,24 @@
     flex-direction: column;
     max-width: 395px;
     padding-left: 15px;
+    text-decoration: none;
 }
 
 .article-preview__text-when-no-picture {
     max-width: 530px;
+    text-decoration: none;
 }
 
 .article-preview__title-when-picture {
     display: flex;
     height: 25px;
     max-height: 25px;
-
     font-size: 20px;
     font-weight: bold;
     line-height: 100%;
-
     white-space: nowrap;
     overflow: hidden;
+    text-decoration: none;
 }
 
 .article-preview__description-when-picture {
@@ -71,6 +71,7 @@
     max-height: 60px;
     overflow: hidden;
     line-height: 120%;
+    text-decoration: none;
 }
 
 .article-preview__title-when-no-picture {
@@ -80,6 +81,7 @@
     line-height: 100%;
     white-space: nowrap;
     overflow: hidden;
+    text-decoration: none;
 }
 
 .article-preview__description-when-no-picture {
@@ -90,6 +92,7 @@
     max-height: 60px;
     overflow: hidden;
     line-height: 120%;
+    text-decoration: none;
 }
 
 .article-preview__info {
@@ -99,6 +102,7 @@
     font-size: 11px;
     margin: 7px 0 7px 15px;
     justify-content: space-between;
+    text-decoration: none;
 }
 
 .article-preview__tags {
@@ -106,6 +110,7 @@
     flex-direction: row;
     -webkit-align-items: flex-start;
     align-items: flex-start;
+    text-decoration: none;
 }
 
 .article-preview__views-and-rates {
@@ -113,6 +118,7 @@
     justify-content: space-between;
     width: 120px;
     line-height: 100%;
+    text-decoration: none;
 }
 
 .article-preview__author {
@@ -126,8 +132,10 @@
 
 .article-preview__views {
     color: #C4C4C4;
+    text-decoration: none;
 }
 
 .article-preview__rates {
     color: #94C776;
+    text-decoration: none;
 }

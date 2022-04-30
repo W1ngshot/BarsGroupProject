@@ -12,4 +12,6 @@ public class Article
     public List<string>? AttachedPicturesLinks { get; set; }
     public int Rating { get; set; }
     public int Views { get; set; }
+    public string UserNickname { get; set; }
+    public List<string> TagNames { get; set; } = new();
 }
