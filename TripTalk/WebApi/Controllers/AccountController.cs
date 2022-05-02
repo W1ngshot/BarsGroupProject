@@ -33,6 +33,7 @@ public class AccountController : Controller
         return userProfileModel;
     }
 
+    //TODO настроить количество для страниц
     public async Task<List<Article>> MyArticles()
     {
         var email = User.Identity?.Name ?? throw new Exception(ErrorMessages.AuthError);

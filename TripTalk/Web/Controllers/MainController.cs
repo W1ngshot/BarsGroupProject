@@ -1,10 +1,10 @@
 ﻿using Core;
 using Core.Services;
 using Microsoft.AspNetCore.Mvc;
-using Web.Dto;
-using Web.Models;
+using OldWeb.Dto;
+using OldWeb.Models;
 
-namespace Web.Controllers;
+namespace OldWeb.Controllers;
 
 public class MainController : Controller
 {

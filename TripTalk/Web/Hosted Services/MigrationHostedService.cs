@@ -1,7 +1,7 @@
 ﻿using Data.Db;
 using Microsoft.EntityFrameworkCore;
 
-namespace Web.Hosted_Services;
+namespace OldWeb.Hosted_Services;
 
 public class MigrationHostedService : IHostedService
 {

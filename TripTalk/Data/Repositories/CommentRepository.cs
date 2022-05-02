@@ -21,6 +21,7 @@ public class CommentRepository : ICommentRepository
         var commentModelList = await _context.Comments
             .AsNoTracking()
             .Where(comment => comment.ArticleId == articleId)
+            .OrderByDescending(comment => comment.Date)
             .ToListAsync();
 
         return commentModelList.Select(entity => new Comment

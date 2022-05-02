@@ -8,7 +8,7 @@ namespace WebApi.Controllers;
 public class SearchController : Controller
 {
     private readonly ISearchService _searchService;
-    private const int ElementsOnPage = 6;
+    private const int ArticlesOnPage = 6;
 
     public SearchController(ISearchService searchService)
     {
@@ -17,11 +17,11 @@ public class SearchController : Controller
 
     public async Task<SearchModel> Index(SearchDto searchDto)
     {
-        var firstElementIndex = ElementsOnPage * (searchDto.PageNumber - 1);
+        var firstElementIndex = ArticlesOnPage * (searchDto.PageNumber - 1);
         var searchModel = new SearchModel
         {
             SearchedArticles = await _searchService.FindArticlesAsync(searchDto.Text, searchDto.Tags,
-                ElementsOnPage, firstElementIndex)
+                ArticlesOnPage, firstElementIndex)
         };
         return searchModel;
     }

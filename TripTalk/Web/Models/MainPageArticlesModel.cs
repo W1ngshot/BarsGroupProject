@@ -1,6 +1,6 @@
 ﻿using Core.Models;
 
-namespace Web.Models;
+namespace OldWeb.Models;
 
 public class MainPageArticlesModel
 {

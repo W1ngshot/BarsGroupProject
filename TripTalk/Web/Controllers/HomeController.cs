@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
-using Web.Models;
+using Microsoft.AspNetCore.Mvc;
+using OldWeb.Models;
 
-namespace Web.Controllers;
+namespace OldWeb.Controllers;
 
 public class HomeController : Controller
 {

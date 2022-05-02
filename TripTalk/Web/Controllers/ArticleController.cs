@@ -2,9 +2,9 @@
 using Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Web.Dto;
+using OldWeb.Dto;
 
-namespace Web.Controllers;
+namespace OldWeb.Controllers;
 
 public class ArticleController : Controller
 {

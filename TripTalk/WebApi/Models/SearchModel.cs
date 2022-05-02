@@ -2,7 +2,7 @@
 
 namespace WebApi.Models;
 
-public class SearchArticlesModel
+public class SearchModel
 {
     public List<Article> SearchedArticles { get; set; } = new();
 }
