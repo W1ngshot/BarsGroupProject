@@ -27,7 +27,7 @@ public class UserService : IUserService
     }
 
     //TODO добавить валидацию введенных паролей
-    public async Task ChangePasswordAsync(string email, string oldPassword, string newPassword)
+    public async Task ChangePasswordAsync(string email, string oldPassword, string newPassword, string confirmPassword)
     {
         var user = await _userRepository.GetUserByEmailAsync(email);
 

@@ -1,0 +1,20 @@
+﻿<div class="header">
+    <img class="site-logo" alt="logo" src="~/logo-with-text.svg"/>
+    @if (User.Identity?.Name != null)
+    {
+        <div class="user-image">
+            A
+        </div>
+    }
+    else
+    {
+        <div class="header-buttons">
+            <a class="register-button" asp-controller="Auth" asp-action="Register">
+                <div class="header-buttons-text">Регистрация</div>
+            </a>
+            <a class="login-button" asp-controller="Auth" asp-action="Login">
+                <div class="header-buttons-text">Войти</div>
+            </a>
+        </div>
+    }
+</div>

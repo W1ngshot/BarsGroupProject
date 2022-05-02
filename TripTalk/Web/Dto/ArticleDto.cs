@@ -1,4 +1,4 @@
-﻿namespace Web.Dto;
+﻿namespace OldWeb.Dto;
 
 public class ArticleDto
 {

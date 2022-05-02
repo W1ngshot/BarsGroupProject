@@ -1,12 +1,12 @@
-﻿using Core.Services;
+﻿using System.Security.Claims;
+using Core.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-using Web.Dto;
+using Microsoft.AspNetCore.Mvc;
+using OldWeb.Dto;
 
-namespace Web.Controllers;
+namespace OldWeb.Controllers;
 
 public class AuthController : Controller
 {
@@ -50,7 +50,7 @@ public class AuthController : Controller
     {
         if (ModelState.IsValid)
         {
-            await _authenticationService.RegisterAsync(model.NickName, model.Email, model.Password); //TODO придумать как работать с исключениями
+            await _authenticationService.RegisterAsync(model.Nickname, model.Email, model.Password); //TODO придумать как работать с исключениями
             await Authenticate(model.Email);
 
             return RedirectToAction("Index", "Home");

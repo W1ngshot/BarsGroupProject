@@ -14,6 +14,6 @@ public class AuthenticationRepository : IAuthenticationRepository
         _context = context;
     }
 
-    public async Task<bool> EnsureNicknameOrEmailAreAvailableAsync(string nickname, string email) =>
+    public async Task<bool> IsNicknameOrEmailAreNotAvailableAsync(string nickname, string email) =>
         await _context.Users.AnyAsync(user => user.Nickname == nickname || user.Email == email);
 }

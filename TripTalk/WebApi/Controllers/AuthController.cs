@@ -1,0 +1,47 @@
+﻿using System.Security.Claims;
+using Core.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using WebApi.Dto;
+
+namespace WebApi.Controllers;
+
+public class AuthController : Controller
+{
+    private readonly IAuthService _authenticationService;
+
+    public AuthController(IAuthService authenticationService)
+    {
+        _authenticationService = authenticationService;
+    }
+
+    [HttpPost]
+    public async Task Login(LoginDto loginDto)
+    {
+        await _authenticationService.LoginAsync(loginDto.Email, loginDto.Password);
+        await Authenticate(loginDto.Email);
+    }
+
+    [HttpPost]
+    public async Task Register(RegisterDto registerDto)
+    {
+        await _authenticationService.RegisterAsync(registerDto.Nickname, registerDto.Email, registerDto.Password);
+        await Authenticate(registerDto.Email);
+    }
+
+    private async Task Authenticate(string email)
+    {
+        var claims = new List<Claim> { new(ClaimsIdentity.DefaultNameClaimType, email) };
+        var id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+
+        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+    }
+
+    [Authorize]
+    public async Task Logout()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+    }
+}

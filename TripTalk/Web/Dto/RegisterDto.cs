@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Web.Dto;
+namespace OldWeb.Dto;
 
 public class RegisterDto
 {
     [Required(ErrorMessage = "Не указан никнейм")]
-    public string NickName { get; set; }
+    public string Nickname { get; set; }
 
     [Required(ErrorMessage = "Не указан Email")]
     public string Email { get; set; }
@@ -15,6 +15,7 @@ public class RegisterDto
     public string Password { get; set; }
 
     [DataType(DataType.Password)]
+    [Required(ErrorMessage = "Введите пароль повторно")]
     [Compare("Password", ErrorMessage = "Пароль введен неверно")]
     public string ConfirmPassword { get; set; }
 }

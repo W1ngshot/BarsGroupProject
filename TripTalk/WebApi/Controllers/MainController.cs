@@ -1,10 +1,9 @@
 ﻿using Core;
 using Core.Services;
 using Microsoft.AspNetCore.Mvc;
-using Web.Dto;
-using Web.Models;
+using WebApi.Models;
 
-namespace Web.Controllers;
+namespace WebApi.Controllers;
 
 public class MainController : Controller
 {
@@ -16,7 +15,7 @@ public class MainController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<MainPageArticlesModel> Index()
     {
         var popularArticles = await _articleCategoryService.GetOrderedArticlesAsync(Category.Popular, Period.AllTime, 4);
         var latestArticles = await _articleCategoryService.GetOrderedArticlesAsync(Category.Last, Period.AllTime, 4);
@@ -27,23 +26,6 @@ public class MainController : Controller
             LatestArticles = latestArticles,
             BestArticles = bestArticles
         };
-        return View(mainArticleModel);
-    }
-
-    public IActionResult Index(SearchDto searchModel)
-    {
-        return RedirectToAction("Search", searchModel);
-    }
-
-    [HttpGet]
-    public IActionResult Search()
-    {
-        return View();
-    }
-
-    public IActionResult Search(SearchDto searchModel)
-    {
-        //TODO реализовать поиск
-        return View(searchModel);
+        return mainArticleModel;
     }
 }

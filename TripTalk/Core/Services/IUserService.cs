@@ -8,5 +8,5 @@ public interface IUserService
 
     public Task<User> GetUserByEmailAsync(string email);
 
-    public Task ChangePasswordAsync(string email, string oldPassword, string newPassword);
+    public Task ChangePasswordAsync(string email, string oldPassword, string newPassword, string confirmPassword);
 }

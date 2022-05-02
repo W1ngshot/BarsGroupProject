@@ -1,7 +1,7 @@
 ﻿using Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Web.Components;
+namespace OldWeb.Components;
 
 public class ArticleCategory : ViewComponent
 {

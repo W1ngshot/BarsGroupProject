@@ -40,7 +40,7 @@ public class AuthService : IAuthService
     //TODO возможно подумать над названием
     public async Task RegisterAsync(string nickname, string email, string password)
     {
-        if (!await _authenticationRepository.EnsureNicknameOrEmailAreAvailableAsync(nickname, email))
+        if (await _authenticationRepository.IsNicknameOrEmailAreNotAvailableAsync(nickname, email))
             throw new Exception(ValidationMessages.LoginOrEmailAlreadyExists); //TODO придумать что-то сюда
 
         var passwordSalt = _cryptographyService.GenerateSalt();

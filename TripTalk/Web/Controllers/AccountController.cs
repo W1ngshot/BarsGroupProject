@@ -2,9 +2,10 @@
 using Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Web.Dto;
+using OldWeb.Dto;
+using OldWeb.Models;
 
-namespace Web.Controllers;
+namespace OldWeb.Controllers;
 
 [Authorize]
 public class AccountController : Controller
@@ -23,6 +24,18 @@ public class AccountController : Controller
         var email = User.Identity?.Name ?? throw new Exception(ErrorMessages.AuthError);
         var user = await _userService.GetUserByEmailAsync(email);
         return View(user);
+    }
+
+    public async Task<IActionResult> MyAccount()
+    {
+        var email = User.Identity?.Name ?? throw new Exception(ErrorMessages.AuthError);
+        var user = await _userService.GetUserByEmailAsync(email);
+        var userProfileModel = new UserProfileModel
+        {
+            User = user,
+            Articles = await _articleService.GetUserArticlesAsync(user.Id, 4)
+        };
+        return View(userProfileModel);
     }
 
     public async Task<IActionResult> MyArticles()

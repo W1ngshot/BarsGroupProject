@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Web.Hosted_Services;
+using OldWeb.Hosted_Services;
 
-namespace Web;
+namespace OldWeb;
 
 public static class Bootstraps
 {

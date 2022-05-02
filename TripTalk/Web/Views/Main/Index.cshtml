@@ -1,3 +1,5 @@
-﻿@model MainPageArticlesModel
-
+﻿@model OldWeb.Models.MainPageArticlesModel
+<vc:header />
 <vc:article-category category-name="Популярное" articles="@Model.PopularArticles" />
+<vc:article-category category-name="Новое" articles="@Model.LatestArticles" />
+<vc:article-category category-name="Лучшее" articles="@Model.BestArticles" />
