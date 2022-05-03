@@ -4,6 +4,8 @@ namespace Core.Services;
 
 public interface IUserService
 {
+    public Task<User> GetUserByIdAsync(int id);
+
     public Task<int> GetUserIdByEmailAsync(string email);
 
     public Task<User> GetUserByEmailAsync(string email);

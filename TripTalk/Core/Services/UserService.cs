@@ -16,6 +16,11 @@ public class UserService : IUserService
         _cryptographyService = cryptographyService;
     }
 
+    public async Task<User> GetUserByIdAsync(int id)
+    {
+        return await _userRepository.GetUserByIdAsync(id);
+    }
+
     public async Task<int> GetUserIdByEmailAsync(string email)
     {
         return await _userRepository.GetUserIdByEmailAsync(email);

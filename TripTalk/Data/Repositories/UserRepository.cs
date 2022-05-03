@@ -65,4 +65,20 @@ public class UserRepository : IUserRepository
             RegistrationDate = entity.RegistrationDate,
         };
     }
+
+    public async Task<User> GetUserByIdAsync(int id)
+    {
+        var entity = await _context.Users.FirstOrDefaultAsync(user => user.Id == id) ??
+                     throw new Exception(ErrorMessages.MissingUser);
+        return new User
+        {
+            Id = entity.Id,
+            Email = entity.Email,
+            Nickname = entity.Nickname,
+            PasswordHash = entity.PasswordHash,
+            PasswordSalt = entity.PasswordSalt,
+            AvatarLink = entity.AvatarLink,
+            RegistrationDate = entity.RegistrationDate,
+        };
+    }
 }

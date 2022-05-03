@@ -24,17 +24,27 @@ public class AccountController : Controller
         _articleService = articleService;
     }
 
+    [AllowAnonymous]
+    [HttpGet("{id:int}")]
+    public async Task<UserProfileModel> Index(int id)
+    {
+        return new UserProfileModel
+        {
+            User = await _userService.GetUserByIdAsync(id),
+            Articles = await _articleService.GetUserArticlesAsync(id, 4)
+        };
+    }
+
     [HttpGet("MyAccount")]
     public async Task<UserProfileModel> MyAccount()
     {
         var email = User.Identity?.Name ?? throw new ValidationException(ErrorMessages.AuthError);
         var user = await _userService.GetUserByEmailAsync(email);
-        var userProfileModel = new UserProfileModel
+        return new UserProfileModel
         {
             User = user,
             Articles = await _articleService.GetUserArticlesAsync(user.Id, 4)
         };
-        return userProfileModel;
     }
 
     [HttpGet("MyArticles")]
