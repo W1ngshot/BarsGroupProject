@@ -8,6 +8,8 @@ using WebApi.Dto;
 
 namespace WebApi.Controllers;
 
+[ApiController]
+[Route("[controller]")]
 public class AuthController : Controller
 {
     private readonly IAuthService _authenticationService;
@@ -17,14 +19,14 @@ public class AuthController : Controller
         _authenticationService = authenticationService;
     }
 
-    [HttpPost]
+    [HttpPost("Login")]
     public async Task Login(LoginDto loginDto)
     {
         await _authenticationService.LoginAsync(loginDto.Email, loginDto.Password);
         await Authenticate(loginDto.Email);
     }
 
-    [HttpPost]
+    [HttpPost("Register")]
     public async Task Register(RegisterDto registerDto)
     {
         await _authenticationService.RegisterAsync(registerDto.Nickname, registerDto.Email, registerDto.Password);
@@ -40,6 +42,7 @@ public class AuthController : Controller
     }
 
     [Authorize]
+    [HttpPut("Logout")]
     public async Task Logout()
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

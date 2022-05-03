@@ -7,6 +7,8 @@ using WebApi.Dto;
 namespace WebApi.Controllers;
 
 [Authorize]
+[ApiController]
+[Route("[controller]")]
 public class CommentController : Controller
 {
     private readonly ICommentService _commentService;
@@ -18,6 +20,7 @@ public class CommentController : Controller
         _userService = userService;
     }
 
+    [HttpPost("Add")]
     public async Task Add(AddCommentDto commentDto)
     {
         var user = User.Identity?.Name ?? throw new Exception(ErrorMessages.AuthError);
@@ -25,6 +28,7 @@ public class CommentController : Controller
         await _commentService.CreateCommentAsync(commentDto.Message, userId, commentDto.ArticleId);
     }
 
+    [HttpPut("Edit")]
     public async Task Edit(EditCommentDto commentDto)
     {
         var user = User.Identity?.Name ?? throw new Exception(ErrorMessages.AuthError);
@@ -33,6 +37,7 @@ public class CommentController : Controller
         //TODO передавать сюда userId и проверять == ли оно владельцу коммента
     }
 
+    [HttpDelete("Delete/{commentId:int}")]
     public async Task Delete(int commentId)
     {
         var user = User.Identity?.Name ?? throw new Exception(ErrorMessages.AuthError);

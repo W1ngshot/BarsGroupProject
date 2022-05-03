@@ -8,6 +8,8 @@ using WebApi.Models;
 
 namespace WebApi.Controllers;
 
+[ApiController]
+[Route("[controller]")]
 public class ArticleController : Controller
 {
     private const int ArticlesOnPage = 6;
@@ -30,6 +32,7 @@ public class ArticleController : Controller
         _commentService = commentService;
     }
 
+    [HttpGet("{articleId:int}")]
     public async Task<ArticlePageModel> Index(int articleId)
     {
         var articleModel = new ArticlePageModel
@@ -41,15 +44,17 @@ public class ArticleController : Controller
     }
 
     [Authorize]
+    [HttpPost("Create")]
     public async Task Create(ArticleDto articleDto)
     {
         var user = User.Identity?.Name ?? throw new Exception(ErrorMessages.AuthError);
         var currentUserId = await _userService.GetUserIdByEmailAsync(user);
         await _articleService.CreateArticleAsync(articleDto.Title, articleDto.Text, currentUserId,
-            articleDto.ShortDescription, articleDto.PictureLink);
+            articleDto.ShortDescription, articleDto.PictureLink, articleDto.AttachedPicturesLinks);
     }
 
     [Authorize]
+    [HttpPost("AddRate")]
     public async Task AddRate(int articleId, Rate rate)
     {
         var user = User.Identity?.Name ?? throw new Exception(ErrorMessages.AuthError);
@@ -60,6 +65,7 @@ public class ArticleController : Controller
 
     //TODO добавить проверку, что пользователь является владельцем статьи
     [Authorize]
+    [HttpGet("Edit/{articleId:int}")]
     public async Task<Article> Edit(int articleId)
     {
         return await _articleService.GetArticleByIdAsync(articleId);
@@ -67,19 +73,22 @@ public class ArticleController : Controller
 
     //TODO добавить проверку, что пользователь является владельцем статьи
     [Authorize]
-    [HttpPost]
+    [HttpPut("Edit")]
     public async Task Edit(int articleId, ArticleDto article)
     {
         await _articleService.EditArticleAsync(articleId, article.Title, article.Text, article.ShortDescription,
-            article.PictureLink);
+            article.PictureLink, article.AttachedPicturesLinks);
     }
 
+    [HttpGet("Popular")]
     public async Task<List<Article>> PopularArticles(CategoryArticleDto categoryDto) => 
         await GetCategoryArticles(Category.Popular, categoryDto);
 
+    [HttpGet("Best")]
     public async Task<List<Article>> BestArticles(CategoryArticleDto categoryDto) =>
         await GetCategoryArticles(Category.Best, categoryDto);
 
+    [HttpGet("Latest")]
     public async Task<List<Article>> LatestArticles(CategoryArticleDto categoryDto) =>
         await GetCategoryArticles(Category.Last, categoryDto);
 

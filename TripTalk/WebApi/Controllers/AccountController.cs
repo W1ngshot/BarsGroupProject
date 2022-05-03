@@ -10,8 +10,11 @@ using WebApi.Models;
 namespace WebApi.Controllers;
 
 [Authorize]
+[ApiController]
+[Route("[controller]")]
 public class AccountController : Controller
 {
+    private const int ArticlesOnPage = 6;
     private readonly IUserService _userService;
     private readonly IArticleService _articleService;
 
@@ -21,6 +24,7 @@ public class AccountController : Controller
         _articleService = articleService;
     }
 
+    [HttpGet("MyAccount")]
     public async Task<UserProfileModel> MyAccount()
     {
         var email = User.Identity?.Name ?? throw new ValidationException(ErrorMessages.AuthError);
@@ -33,14 +37,18 @@ public class AccountController : Controller
         return userProfileModel;
     }
 
-    //TODO настроить количество для страниц
-    public async Task<List<Article>> MyArticles()
+    [HttpGet("MyArticles")]
+    public async Task<List<Article>> MyArticles(int pageNumber = 1)
     {
         var email = User.Identity?.Name ?? throw new Exception(ErrorMessages.AuthError);
         var userId = await _userService.GetUserIdByEmailAsync(email);
-        return await _articleService.GetUserArticlesAsync(userId);
+
+        var firstElementIndex = ArticlesOnPage * (pageNumber - 1);
+
+        return await _articleService.GetUserArticlesAsync(userId, ArticlesOnPage, firstElementIndex);
     }
 
+    [HttpPut("ChangePassword")]
     public async Task ChangePassword(ChangePasswordDto changePasswordDto)
     {
         var email = User.Identity?.Name ?? throw new Exception(ErrorMessages.AuthError);

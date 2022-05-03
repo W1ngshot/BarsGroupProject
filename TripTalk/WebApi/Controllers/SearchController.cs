@@ -5,6 +5,8 @@ using WebApi.Models;
 
 namespace WebApi.Controllers;
 
+[ApiController]
+[Route("[controller]")]
 public class SearchController : Controller
 {
     private readonly ISearchService _searchService;
@@ -15,6 +17,7 @@ public class SearchController : Controller
         _searchService = searchService;
     }
 
+    [HttpGet("Search")]
     public async Task<SearchModel> Index(SearchDto searchDto)
     {
         var firstElementIndex = ArticlesOnPage * (searchDto.PageNumber - 1);

@@ -5,6 +5,8 @@ using WebApi.Models;
 
 namespace WebApi.Controllers;
 
+[ApiController]
+[Route("[controller]")] 
 public class MainController : Controller
 {
     private readonly IArticleCategoryService _articleCategoryService;
@@ -14,7 +16,7 @@ public class MainController : Controller
         _articleCategoryService = articleCategoryService;
     }
 
-    [HttpGet]
+    [HttpGet("")]
     public async Task<MainPageArticlesModel> Index()
     {
         var popularArticles = await _articleCategoryService.GetOrderedArticlesAsync(Category.Popular, Period.AllTime, 4);

@@ -6,4 +6,5 @@ public class ArticleDto
     public string ShortDescription { get; set; } = string.Empty;
     public string Text { get; set; } = string.Empty;
     public string? PictureLink { get; set; }
+    public List<string>? AttachedPicturesLinks { get; set; }
 }
