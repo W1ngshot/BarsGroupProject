@@ -36,10 +36,22 @@ public class AccountController : Controller
         };
     }
 
+    [AllowAnonymous]
+    [HttpGet("UserArticles/{userId:int}")]
+    public async Task<ArticlesModel> UserArticles(int userId, int pageNumber = 1)
+    {
+        var firstElementIndex = ArticlesOnPage * (pageNumber - 1);
+        return new ArticlesModel
+        {
+            Articles = await _articleService.GetUserArticlesAsync(userId, 6, firstElementIndex),
+            TotalCount = await _articleService.GetUserArticlesCountAsync(userId)
+        };
+    }
+
     [HttpGet("MyAccount")]
     public async Task<UserProfileModel> MyAccount()
     {
-        var email = User.Identity?.Name ?? throw new ValidationException(ErrorMessages.AuthError);
+        var email = User.Identity?.Name ?? throw new AuthorizationException();
         var user = await _userService.GetUserByEmailAsync(email);
         return new UserProfileModel
         {
@@ -51,7 +63,7 @@ public class AccountController : Controller
     [HttpGet("MyArticles")]
     public async Task<ArticlesModel> MyArticles(int pageNumber = 1)
     {
-        var email = User.Identity?.Name ?? throw new ValidationException(ErrorMessages.AuthError);
+        var email = User.Identity?.Name ?? throw new AuthorizationException();
         var userId = await _userService.GetUserIdByEmailAsync(email);
 
         var firstElementIndex = ArticlesOnPage * (pageNumber - 1);
@@ -66,7 +78,7 @@ public class AccountController : Controller
     [HttpPut("ChangePassword")]
     public async Task ChangePassword(ChangePasswordDto changePasswordDto)
     {
-        var email = User.Identity?.Name ?? throw new ValidationException(ErrorMessages.AuthError);
+        var email = User.Identity?.Name ?? throw new AuthorizationException();
         await _userService.ChangePasswordAsync(email, changePasswordDto.OldPassword, changePasswordDto.NewPassword,
             changePasswordDto.ConfirmNewPassword);
     }

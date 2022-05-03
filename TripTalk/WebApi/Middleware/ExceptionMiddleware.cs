@@ -20,12 +20,17 @@ public class ExceptionMiddleware
         catch (ValidationException ex)
         {
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
-            await context.Response.WriteAsJsonAsync(new { ex.Message });
+            await context.Response.WriteAsJsonAsync(new {ex.Message});
         }
         catch (FluentValidation.ValidationException ex)
         {
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
             await context.Response.WriteAsJsonAsync(ex.Errors.Select(x => x.ErrorMessage));
+        }
+        catch (AuthorizationException ex)
+        {
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            await context.Response.WriteAsJsonAsync(new { Message = "Ошибка авторизации" });
         }
         catch
         {

@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.CustomExceptions;
 using Core.Models;
 using Core.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -47,7 +48,7 @@ public class ArticleController : Controller
     [HttpPost("Create")]
     public async Task Create(ArticleDto articleDto)
     {
-        var user = User.Identity?.Name ?? throw new Exception(ErrorMessages.AuthError);
+        var user = User.Identity?.Name ?? throw new AuthorizationException();
         var currentUserId = await _userService.GetUserIdByEmailAsync(user);
         await _articleService.CreateArticleAsync(articleDto.Title, articleDto.Text, currentUserId,
             articleDto.ShortDescription, articleDto.PictureLink, articleDto.AttachedPicturesLinks);
@@ -57,7 +58,7 @@ public class ArticleController : Controller
     [HttpPost("AddRate")]
     public async Task AddRate(int articleId, Rate rate)
     {
-        var user = User.Identity?.Name ?? throw new Exception(ErrorMessages.AuthError);
+        var user = User.Identity?.Name ?? throw new AuthorizationException();
         var userId = await _userService.GetUserIdByEmailAsync(user);
         await _rateService.SetRateAsync(userId, articleId, rate);
     }

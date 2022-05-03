@@ -5,7 +5,6 @@ namespace Core.Validators;
 
 public class RegisterUserValidator : AbstractValidator<User>
 {
-    //TODO отрефакторить
     public RegisterUserValidator()
     {
         RuleFor(user => user.Nickname)
