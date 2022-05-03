@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.CustomExceptions;
 using Core.Models;
 using Core.RepositoryInterfaces;
 using Data.Db;
@@ -34,8 +35,8 @@ public class UserRepository : IUserRepository
     public async Task UpdateUserAsync(User user)
     {
         var entity = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id) ??
-            throw new Exception(ErrorMessages.MissingUser);
-        //TODO разобраться с exception
+            throw new ValidationException(ErrorMessages.MissingUser);
+
         entity.Nickname = user.Nickname;
         entity.Email = user.Email;
         entity.PasswordHash = user.PasswordHash;
@@ -45,15 +46,14 @@ public class UserRepository : IUserRepository
     public async Task<int> GetUserIdByEmailAsync(string email)
     {
         var entity = await _context.Users.FirstOrDefaultAsync(x => x.Email == email) ??
-            throw new Exception(ErrorMessages.MissingUser);
+            throw new ValidationException(ErrorMessages.MissingUser);
         return entity.Id;
     }
 
-    //TODO переделать Core.Models в Domains, а Models возможно перенести из Web в Core, чтобы не передавать в данном случае пароль
     public async Task<User> GetUserByEmailAsync(string email)
     {
         var entity = await _context.Users.FirstOrDefaultAsync(x => x.Email == email) ??
-            throw new Exception(ErrorMessages.MissingUser);
+            throw new ValidationException(ErrorMessages.MissingUser);
         return new User
         {
             Id = entity.Id,
@@ -69,7 +69,7 @@ public class UserRepository : IUserRepository
     public async Task<User> GetUserByIdAsync(int id)
     {
         var entity = await _context.Users.FirstOrDefaultAsync(user => user.Id == id) ??
-                     throw new Exception(ErrorMessages.MissingUser);
+                     throw new ValidationException(ErrorMessages.MissingUser);
         return new User
         {
             Id = entity.Id,

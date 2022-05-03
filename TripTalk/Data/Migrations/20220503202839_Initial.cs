@@ -54,7 +54,6 @@ namespace Data.Migrations
                     upload_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     user_id = table.Column<int>(type: "integer", nullable: false),
                     asset_link = table.Column<string>(type: "text", nullable: true),
-                    rating = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     views = table.Column<int>(type: "integer", nullable: false, defaultValue: 0)
                 },
                 constraints: table =>

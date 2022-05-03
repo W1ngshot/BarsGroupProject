@@ -17,4 +17,10 @@ public interface IArticleRepository
     public Task UpdateArticleAsync(Article article);
 
     public Task RemoveArticleAsync(int id);
+
+    public Task<int> GetArticlesCountAsync();
+
+    public Task<int> GetFilteredArticlesCountAsync(string searchLine, List<string>? tags);
+
+    public Task<int> GetUserArticlesCountAsync(int userId);
 }

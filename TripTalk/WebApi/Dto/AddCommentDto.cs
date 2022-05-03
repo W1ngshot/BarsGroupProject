@@ -1,7 +1,12 @@
-﻿namespace WebApi.Dto;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WebApi.Dto;
 
 public class AddCommentDto
 {
-    public string Message { get; set; }
+    [Required]
+    public string Message { get; set; } = string.Empty;
+
+    [Required]
     public int ArticleId { get; set; }
 }

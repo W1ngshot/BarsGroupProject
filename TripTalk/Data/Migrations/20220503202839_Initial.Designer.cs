@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(TripTalkContext))]
-    [Migration("20220428180646_Initial")]
+    [Migration("20220503202839_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,12 +55,6 @@ namespace Data.Migrations
                     b.Property<string>("AssetLink")
                         .HasColumnType("text")
                         .HasColumnName("asset_link");
-
-                    b.Property<int>("Rating")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValue(0)
-                        .HasColumnName("rating");
 
                     b.Property<string>("ShortDescription")
                         .HasColumnType("text")

@@ -10,22 +10,24 @@ namespace WebApi.Controllers;
 public class SearchController : Controller
 {
     private readonly ISearchService _searchService;
+    private readonly IArticleService _articleService;
     private const int ArticlesOnPage = 6;
 
-    public SearchController(ISearchService searchService)
+    public SearchController(ISearchService searchService, IArticleService articleService)
     {
         _searchService = searchService;
+        _articleService = articleService;
     }
 
-    [HttpGet("Search")]
-    public async Task<SearchModel> Index(SearchDto searchDto)
+    [HttpGet("")]
+    public async Task<ArticlesModel> Index(SearchDto searchDto)
     {
         var firstElementIndex = ArticlesOnPage * (searchDto.PageNumber - 1);
-        var searchModel = new SearchModel
+        return new ArticlesModel
         {
-            SearchedArticles = await _searchService.FindArticlesAsync(searchDto.Text, searchDto.Tags,
-                ArticlesOnPage, firstElementIndex)
+            Articles = await _searchService.FindArticlesAsync(searchDto.Text, searchDto.Tags,
+                ArticlesOnPage, firstElementIndex),
+            TotalCount = await _articleService.GetFilteredArticlesCountAsync(searchDto.Text, searchDto.Tags)
         };
-        return searchModel;
     }
 }

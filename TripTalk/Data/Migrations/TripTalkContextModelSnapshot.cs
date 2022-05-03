@@ -54,12 +54,6 @@ namespace Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("asset_link");
 
-                    b.Property<int>("Rating")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValue(0)
-                        .HasColumnName("rating");
-
                     b.Property<string>("ShortDescription")
                         .HasColumnType("text")
                         .HasColumnName("short_description");

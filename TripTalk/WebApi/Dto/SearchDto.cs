@@ -1,8 +1,11 @@
-﻿namespace WebApi.Dto;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WebApi.Dto;
 
 public class SearchDto
 {
-    public string Text { get; set; } = null!;
+    [Required]
+    public string Text { get; set; } = string.Empty;
 
     public List<string>? Tags { get; set; } = null;
 

@@ -81,21 +81,25 @@ public class ArticleController : Controller
     }
 
     [HttpGet("Popular")]
-    public async Task<List<Article>> PopularArticles(Period period, int pageNumber = 1) => 
+    public async Task<ArticlesModel> PopularArticles(Period period, int pageNumber = 1) => 
         await GetCategoryArticles(Category.Popular, period, pageNumber);
 
     [HttpGet("Best")]
-    public async Task<List<Article>> BestArticles(Period period, int pageNumber = 1) =>
+    public async Task<ArticlesModel> BestArticles(Period period, int pageNumber = 1) =>
         await GetCategoryArticles(Category.Best, period, pageNumber);
 
     [HttpGet("Latest")]
-    public async Task<List<Article>> LatestArticles(Period period, int pageNumber = 1) =>
+    public async Task<ArticlesModel> LatestArticles(Period period, int pageNumber = 1) =>
         await GetCategoryArticles(Category.Last, period, pageNumber);
 
-    private async Task<List<Article>> GetCategoryArticles(Category category, Period period, int pageNumber)
+    private async Task<ArticlesModel> GetCategoryArticles(Category category, Period period, int pageNumber)
     {
         var firstElementIndex = ArticlesOnPage * (pageNumber - 1);
-        return await _articleCategoryService.GetOrderedArticlesAsync(category, period,
-            ArticlesOnPage, firstElementIndex);
+        return new ArticlesModel
+        {
+            Articles = await _articleCategoryService.GetOrderedArticlesAsync(category, period,
+                ArticlesOnPage, firstElementIndex),
+            TotalCount = await _articleCategoryService.GetArticlesCount()
+        };
     }
 }

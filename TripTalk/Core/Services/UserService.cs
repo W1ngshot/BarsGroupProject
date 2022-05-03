@@ -1,4 +1,5 @@
-﻿using Core.Models;
+﻿using Core.CustomExceptions;
+using Core.Models;
 using Core.RepositoryInterfaces;
 
 namespace Core.Services;
@@ -40,7 +41,7 @@ public class UserService : IUserService
         var enteredPasswordHash = await _cryptographyService.EncryptPasswordAsync(oldPassword, user.PasswordSalt);
 
         if (passwordHash != enteredPasswordHash)
-            throw new Exception(ErrorMessages.WrongPassword);
+            throw new ValidationException(ErrorMessages.WrongPassword);
 
         user.PasswordHash = await _cryptographyService.EncryptPasswordAsync(newPassword, user.PasswordSalt);
         await _userRepository.UpdateUserAsync(user);
