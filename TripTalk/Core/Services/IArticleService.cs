@@ -13,4 +13,8 @@ public interface IArticleService
     public Task EditArticleAsync(int articleId, string title, string text, string? shortDescription = null, string? previewPictureLink = null, List<string>? attachedPicturesLinks = null);
 
     public Task DeleteArticleAsync(int articleId);
+
+    public Task<int> GetFilteredArticlesCountAsync(string searchLine, List<string>? tags);
+
+    public Task<int> GetUserArticlesCountAsync(int userId);
 }

@@ -1,4 +1,5 @@
-﻿using Core.Models;
+﻿using Core.CustomExceptions;
+using Core.Models;
 using Core.RepositoryInterfaces;
 
 namespace Core.Services;
@@ -16,6 +17,11 @@ public class UserService : IUserService
         _cryptographyService = cryptographyService;
     }
 
+    public async Task<User> GetUserByIdAsync(int id)
+    {
+        return await _userRepository.GetUserByIdAsync(id);
+    }
+
     public async Task<int> GetUserIdByEmailAsync(string email)
     {
         return await _userRepository.GetUserIdByEmailAsync(email);
@@ -27,7 +33,7 @@ public class UserService : IUserService
     }
 
     //TODO добавить валидацию введенных паролей
-    public async Task ChangePasswordAsync(string email, string oldPassword, string newPassword)
+    public async Task ChangePasswordAsync(string email, string oldPassword, string newPassword, string confirmPassword)
     {
         var user = await _userRepository.GetUserByEmailAsync(email);
 
@@ -35,7 +41,7 @@ public class UserService : IUserService
         var enteredPasswordHash = await _cryptographyService.EncryptPasswordAsync(oldPassword, user.PasswordSalt);
 
         if (passwordHash != enteredPasswordHash)
-            throw new Exception(ErrorMessages.WrongPassword);
+            throw new ValidationException(ErrorMessages.WrongPassword);
 
         user.PasswordHash = await _cryptographyService.EncryptPasswordAsync(newPassword, user.PasswordSalt);
         await _userRepository.UpdateUserAsync(user);

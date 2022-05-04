@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.CustomExceptions;
 using Core.Models;
 using Core.RepositoryInterfaces;
 using Data.Db;
@@ -21,6 +22,7 @@ public class CommentRepository : ICommentRepository
         var commentModelList = await _context.Comments
             .AsNoTracking()
             .Where(comment => comment.ArticleId == articleId)
+            .OrderByDescending(comment => comment.Date)
             .ToListAsync();
 
         return commentModelList.Select(entity => new Comment
@@ -49,7 +51,7 @@ public class CommentRepository : ICommentRepository
     public async Task UpdateCommentAsync(Comment comment)
     {
         var entity = await _context.Comments.FirstOrDefaultAsync(c => c.Id == comment.Id) ??
-            throw new Exception(ErrorMessages.MissingComment);
+            throw new ValidationException(ErrorMessages.MissingComment);
 
         entity.Message = comment.Message;
     }
@@ -57,7 +59,7 @@ public class CommentRepository : ICommentRepository
     public async Task RemoveCommentAsync(int id)
     {
         var entity = await _context.Comments.FirstOrDefaultAsync(c => c.Id == id) ??
-            throw new Exception(ErrorMessages.MissingComment);
+            throw new ValidationException(ErrorMessages.MissingComment);
 
         _context.Comments.Remove(entity);
     }

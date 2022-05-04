@@ -9,9 +9,9 @@ public class Article
     public DateTime UploadDate { get; set; }
     public int UserId { get; set; }
     public string? PreviewPictureLink { get; set; }
-    public List<string>? AttachedPicturesLinks { get; set; }
     public int Rating { get; set; }
     public int Views { get; set; }
-    public string UserNickname { get; set; }
     public List<string> TagNames { get; set; } = new();
+    public string UserNickname { get; set; } = null!;
+    public string? UserAvatarLink { get; set; }
 }

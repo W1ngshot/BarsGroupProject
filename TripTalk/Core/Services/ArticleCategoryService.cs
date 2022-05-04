@@ -16,4 +16,9 @@ public class ArticleCategoryService : IArticleCategoryService
     {
         return await _articleRepository.GetOrderedArticlesAsync(category, period, count, firstIndex);
     }
+
+    public async Task<int> GetArticlesCount()
+    {
+        return await _articleRepository.GetArticlesCountAsync();
+    }
 }

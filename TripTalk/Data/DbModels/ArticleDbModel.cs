@@ -13,7 +13,6 @@ public class ArticleDbModel
     public UserDbModel User { get; set; } = null!;
     public int UserId { get; set; }
     public string? AssetLink { get; set; }
-    public int Rating { get; set; }
     public int Views { get; set; }
     public List<TagDbModel> Tags { get; set; } = new();
     public List<CommentDbModel> Comments { get; set; } = new();
@@ -42,10 +41,6 @@ public class ArticleDbModel
                 .WithMany(user => user.Articles)
                 .HasForeignKey(article => article.UserId)
                 .HasConstraintName("fk_user_id");
-
-            builder.Property(article => article.Rating)
-                .IsRequired()
-                .HasDefaultValue(0);
 
             builder.Property(article => article.Views)
                 .IsRequired()

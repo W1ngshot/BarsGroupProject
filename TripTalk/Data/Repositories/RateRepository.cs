@@ -1,4 +1,5 @@
-﻿using Core.RepositoryInterfaces;
+﻿using Core;
+using Core.RepositoryInterfaces;
 using Data.Db;
 using Data.DbModels;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +22,7 @@ public class RateRepository : IRateRepository
         return rate?.Rating ?? 0;
     }
 
-    public async Task SetRateAsync(int userId, int articleId, int rating)
+    public async Task SetRateAsync(int userId, int articleId, Rate rating)
     {
         var rate = await _context.Rates.FirstOrDefaultAsync(r => r.UserId == userId && r.ArticleId == articleId);
         if (rate is null)
@@ -29,9 +30,9 @@ public class RateRepository : IRateRepository
             {
                 UserId = userId,
                 ArticleId = articleId,
-                Rating = rating
+                Rating = (int)rating
             });
         else
-            rate.Rating = rating;
+            rate.Rating = (int)rating;
     }
 }

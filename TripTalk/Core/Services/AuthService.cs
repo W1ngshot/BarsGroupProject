@@ -7,8 +7,8 @@ namespace Core.Services;
 public class AuthService : IAuthService
 {
     #region Initialize Info
-    private readonly IAuthenticationRepository _authenticationRepository; //TODO
-    private readonly IUserRepository _userRepository; //TODO
+    private readonly IAuthenticationRepository _authenticationRepository;
+    private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<User> _registerUserValidator;
     private readonly ICryptographyService _cryptographyService;
@@ -27,21 +27,19 @@ public class AuthService : IAuthService
     }
     #endregion
 
-    //TODO возможно подумать над названием
     public async Task LoginAsync(string email, string password)
     {
         var user = await _userRepository.GetUserByEmailAsync(email);
 
         var enteredPasswordHash = await _cryptographyService.EncryptPasswordAsync(password, user.PasswordSalt);
         if (enteredPasswordHash != user.PasswordHash)
-            throw new Exception("Пароль введён неверно");
+            throw new ValidationException(ErrorMessages.WrongPassword);
     }
 
-    //TODO возможно подумать над названием
     public async Task RegisterAsync(string nickname, string email, string password)
     {
-        if (!await _authenticationRepository.EnsureNicknameOrEmailAreAvailableAsync(nickname, email))
-            throw new Exception(ValidationMessages.LoginOrEmailAlreadyExists); //TODO придумать что-то сюда
+        if (await _authenticationRepository.IsNicknameOrEmailAreNotAvailableAsync(nickname, email))
+            throw new ValidationException(ValidationMessages.LoginOrEmailAlreadyExists);
 
         var passwordSalt = _cryptographyService.GenerateSalt();
         var passwordHash = await _cryptographyService.EncryptPasswordAsync(password, passwordSalt);
@@ -55,7 +53,7 @@ public class AuthService : IAuthService
             RegistrationDate = DateTime.UtcNow
         };
 
-        await _registerUserValidator.ValidateAndThrowAsync(user); //TODO разобраться с exception
+        await _registerUserValidator.ValidateAndThrowAsync(user);
 
         await _userRepository.AddUserAsync(user);
         await _unitOfWork.SaveChangesAsync();

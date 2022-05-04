@@ -17,7 +17,7 @@ public class ArticleValidator : AbstractValidator<Article>
             .MaximumLength(60)
             .WithMessage(ValidationMessages.TooLongArticleTitle);
         RuleFor(a => a.Title)
-            .Matches(@"^[\w\s,.!?""':;`-()]+$")
+            .Matches(@"^[\w\s,.!?\""':;`\-\\/(\)]+$")
             .WithMessage(ValidationMessages.ArticleTitleContainsWrongSymbols);
 
         RuleFor(a => a.ShortDescription)

@@ -18,7 +18,7 @@ public class RateService : IRateService
         return await _rateRepository.GetRateAsync(userId, articleId);
     }
 
-    public async Task SetRateAsync(int userId, int articleId, int rating)
+    public async Task SetRateAsync(int userId, int articleId, Rate rating)
     {
         await _rateRepository.SetRateAsync(userId, articleId, rating);
         await _unitOfWork.SaveChangesAsync();
