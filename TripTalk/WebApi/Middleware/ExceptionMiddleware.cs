@@ -27,10 +27,10 @@ public class ExceptionMiddleware
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
             await context.Response.WriteAsJsonAsync(ex.Errors.Select(x => x.ErrorMessage));
         }
-        catch (AuthorizationException ex)
+        catch (AuthorizationException)
         {
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            await context.Response.WriteAsJsonAsync(new { Message = "Ошибка авторизации" });
+            await context.Response.WriteAsJsonAsync(new { Message = "Unauthorized" });
         }
         catch
         {

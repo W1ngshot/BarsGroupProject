@@ -43,16 +43,16 @@ public class UserRepository : IUserRepository
         entity.AvatarLink = user.AvatarLink;
     }
 
-    public async Task<int> GetUserIdByEmailAsync(string email)
+    public async Task<int> GetUserIdByNicknameAsync(string nickname)
     {
-        var entity = await _context.Users.FirstOrDefaultAsync(x => x.Email == email) ??
+        var entity = await _context.Users.FirstOrDefaultAsync(user => user.Nickname == nickname) ??
             throw new ValidationException(ErrorMessages.MissingUser);
         return entity.Id;
     }
 
-    public async Task<User> GetUserByEmailAsync(string email)
+    public async Task<User> GetUserByNicknameAsync(string nickname)
     {
-        var entity = await _context.Users.FirstOrDefaultAsync(x => x.Email == email) ??
+        var entity = await _context.Users.FirstOrDefaultAsync(user => user.Nickname == nickname) ??
             throw new ValidationException(ErrorMessages.MissingUser);
         return new User
         {

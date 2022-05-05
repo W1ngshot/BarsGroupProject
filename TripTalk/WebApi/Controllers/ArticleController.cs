@@ -48,8 +48,8 @@ public class ArticleController : Controller
     [HttpPost("Create")]
     public async Task Create(ArticleDto articleDto)
     {
-        var user = User.Identity?.Name ?? throw new AuthorizationException();
-        var currentUserId = await _userService.GetUserIdByEmailAsync(user);
+        var nickname = HttpContext.Items["UserNickname"]?.ToString() ?? throw new AuthorizationException();
+        var currentUserId = await _userService.GetUserIdByNicknameAsync(nickname);
         await _articleService.CreateArticleAsync(articleDto.Title, articleDto.Text, currentUserId,
             articleDto.ShortDescription, articleDto.PictureLink, articleDto.AttachedPicturesLinks);
     }
@@ -58,8 +58,8 @@ public class ArticleController : Controller
     [HttpPost("AddRate")]
     public async Task AddRate(int articleId, Rate rate)
     {
-        var user = User.Identity?.Name ?? throw new AuthorizationException();
-        var userId = await _userService.GetUserIdByEmailAsync(user);
+        var nickname = HttpContext.Items["UserNickname"]?.ToString() ?? throw new AuthorizationException();
+        var userId = await _userService.GetUserIdByNicknameAsync(nickname);
         await _rateService.SetRateAsync(userId, articleId, rate);
     }
 
@@ -82,15 +82,15 @@ public class ArticleController : Controller
     }
 
     [HttpGet("Popular")]
-    public async Task<ArticlesModel> PopularArticles(Period period, int pageNumber = 1) => 
+    public async Task<ArticlesModel> PopularArticles(Period period = Period.AllTime, int pageNumber = 1) => 
         await GetCategoryArticles(Category.Popular, period, pageNumber);
 
     [HttpGet("Best")]
-    public async Task<ArticlesModel> BestArticles(Period period, int pageNumber = 1) =>
+    public async Task<ArticlesModel> BestArticles(Period period = Period.AllTime, int pageNumber = 1) =>
         await GetCategoryArticles(Category.Best, period, pageNumber);
 
     [HttpGet("Latest")]
-    public async Task<ArticlesModel> LatestArticles(Period period, int pageNumber = 1) =>
+    public async Task<ArticlesModel> LatestArticles(Period period = Period.AllTime, int pageNumber = 1) =>
         await GetCategoryArticles(Category.Last, period, pageNumber);
 
     private async Task<ArticlesModel> GetCategoryArticles(Category category, Period period, int pageNumber)

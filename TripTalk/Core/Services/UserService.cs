@@ -22,20 +22,20 @@ public class UserService : IUserService
         return await _userRepository.GetUserByIdAsync(id);
     }
 
-    public async Task<int> GetUserIdByEmailAsync(string email)
+    public async Task<int> GetUserIdByNicknameAsync(string nickname)
     {
-        return await _userRepository.GetUserIdByEmailAsync(email);
+        return await _userRepository.GetUserIdByNicknameAsync(nickname);
     }
 
-    public async Task<User> GetUserByEmailAsync(string email)
+    public async Task<User> GetUserByNicknameAsync(string nickname)
     {
-        return await _userRepository.GetUserByEmailAsync(email);
+        return await _userRepository.GetUserByNicknameAsync(nickname);
     }
 
     //TODO добавить валидацию введенных паролей
-    public async Task ChangePasswordAsync(string email, string oldPassword, string newPassword, string confirmPassword)
+    public async Task ChangePasswordAsync(string nickname, string oldPassword, string newPassword, string confirmPassword)
     {
-        var user = await _userRepository.GetUserByEmailAsync(email);
+        var user = await _userRepository.GetUserByNicknameAsync(nickname);
 
         var passwordHash = user.PasswordHash;
         var enteredPasswordHash = await _cryptographyService.EncryptPasswordAsync(oldPassword, user.PasswordSalt);
