@@ -1,4 +1,4 @@
-﻿using Core.Services;
+﻿using Core.Domains.Article.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Dto;
 using WebApi.Models;

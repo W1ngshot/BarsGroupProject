@@ -1,5 +1,4 @@
-﻿using Core.RepositoryInterfaces;
-using Core.Models;
+﻿using Core.Domains.User.Repository;
 using Data.Db;
 using Microsoft.EntityFrameworkCore;
 

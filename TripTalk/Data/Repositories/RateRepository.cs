@@ -1,5 +1,6 @@
 ﻿using Core;
-using Core.RepositoryInterfaces;
+using Core.Domains.Rate;
+using Core.Domains.Rate.Repository;
 using Data.Db;
 using Data.DbModels;
 using Microsoft.EntityFrameworkCore;

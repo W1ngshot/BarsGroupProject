@@ -1,4 +1,4 @@
-﻿using Core.Models;
+﻿using Core.Domains.User;
 using WebApi.Models;
 
 namespace WebApi.ModelExtensions;
