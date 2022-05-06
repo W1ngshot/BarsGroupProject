@@ -4,9 +4,9 @@ public interface IUserService
 {
     public Task<User> GetUserByIdAsync(int id);
 
-    public Task<int> GetUserIdByEmailAsync(string email);
+    public Task<int> GetUserIdByNicknameAsync(string nickname);
 
-    public Task<User> GetUserByEmailAsync(string email);
+    public Task<User> GetUserByNicknameAsync(string nickname);
 
-    public Task ChangePasswordAsync(string email, string oldPassword, string newPassword, string confirmPassword);
+    public Task ChangePasswordAsync(string nickname, string oldPassword, string newPassword, string confirmPassword);
 }

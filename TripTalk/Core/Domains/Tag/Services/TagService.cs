@@ -1,5 +1,5 @@
 ﻿using Core.Domains.Tag.Repository;
-using Core.Domains.Tag.Services.Interafaces;
+using Core.Domains.Tag.Services.Interfaces;
 
 namespace Core.Domains.Tag.Services;
 
@@ -14,9 +14,10 @@ public class TagService : ITagService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task CreateTagAsync(string name)
+    public async Task AddTagsAsync(List<string> tags, int articleId)
     {
-        await _tagRepository.AddTagAsync(name);
+        //TODO доделать метод, поменяв реализацию tagRepository
+        //await _tagRepository.AddTagAsync(name);
         await _unitOfWork.SaveChangesAsync();
     }
 

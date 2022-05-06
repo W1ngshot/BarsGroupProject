@@ -17,7 +17,7 @@ public class AuthService : IAuthService
 
     public AuthService(IAuthenticationRepository authenticationRepository,
         IUserRepository userRepository,
-        IUnitOfWork unitOfWork, 
+        IUnitOfWork unitOfWork,
         IValidator<User> registerUserValidator,
         ICryptographyService cryptographyService)
     {
@@ -29,13 +29,14 @@ public class AuthService : IAuthService
     }
     #endregion
 
-    public async Task LoginAsync(string email, string password)
+    public async Task<int> LoginAsync(string nickname, string password)
     {
-        var user = await _userRepository.GetUserByEmailAsync(email);
+        var user = await _userRepository.GetUserByNicknameAsync(nickname);
 
         var enteredPasswordHash = await _cryptographyService.EncryptPasswordAsync(password, user.PasswordSalt);
         if (enteredPasswordHash != user.PasswordHash)
             throw new ValidationException(ErrorMessages.WrongPassword);
+        return user.Id;
     }
 
     public async Task RegisterAsync(string nickname, string email, string password)

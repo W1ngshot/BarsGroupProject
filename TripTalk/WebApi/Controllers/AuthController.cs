@@ -1,9 +1,10 @@
-﻿using System.Security.Claims;
-using Core.Domains.User.Services.Interfaces;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Core.Domains.User.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using WebApi.Dto;
 
 namespace WebApi.Controllers;
@@ -13,38 +14,48 @@ namespace WebApi.Controllers;
 public class AuthController : Controller
 {
     private readonly IAuthService _authenticationService;
+    private readonly IConfiguration _configuration;
+    private readonly IUserService _userService;
 
-    public AuthController(IAuthService authenticationService)
+    public AuthController(IAuthService authenticationService, IConfiguration configuration, IUserService userService)
     {
         _authenticationService = authenticationService;
+        _configuration = configuration;
+        _userService = userService;
     }
 
     [HttpPost("Login")]
-    public async Task Login(LoginDto loginDto)
+    public async Task<string> Login(LoginDto loginDto)
     {
-        await _authenticationService.LoginAsync(loginDto.Email, loginDto.Password);
-        await Authenticate(loginDto.Email);
+        var userId = await _authenticationService.LoginAsync(loginDto.Nickname, loginDto.Password);
+        return GenerateJwtToken(loginDto.Nickname, userId);
     }
 
     [HttpPost("Register")]
-    public async Task Register(RegisterDto registerDto)
+    public async Task<string> Register(RegisterDto registerDto)
     {
         await _authenticationService.RegisterAsync(registerDto.Nickname, registerDto.Email, registerDto.Password);
-        await Authenticate(registerDto.Email);
+        var userId = await _userService.GetUserIdByNicknameAsync(registerDto.Nickname);
+        return GenerateJwtToken(registerDto.Nickname, userId);
     }
 
-    private async Task Authenticate(string email)
+    private string GenerateJwtToken(string nickname, int userId)
     {
-        var claims = new List<Claim> { new(ClaimsIdentity.DefaultNameClaimType, email) };
-        var id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+        var key = Encoding.ASCII.GetBytes(_configuration["Jwt:key"]);
+        var jwt = new JwtSecurityToken(
+            claims: new List<Claim> { new("Name", nickname) },
+            expires: DateTime.UtcNow.AddHours(1),
+            issuer: _configuration["Jwt:Issuer"],
+            audience: _configuration["Jwt:Audience"],
+            signingCredentials: new SigningCredentials(new SymmetricSecurityKey(key),
+                SecurityAlgorithms.HmacSha256Signature));
+        return new JwtSecurityTokenHandler().WriteToken(jwt);
     }
 
     [Authorize]
     [HttpPut("Logout")]
     public async Task Logout()
     {
-        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        //TODO ???
     }
 }

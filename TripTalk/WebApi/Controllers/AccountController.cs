@@ -52,8 +52,8 @@ public class AccountController : Controller
     [HttpGet("MyAccount")]
     public async Task<UserProfileModel> MyAccount()
     {
-        var email = User.Identity?.Name ?? throw new AuthorizationException();
-        var user = await _userService.GetUserByEmailAsync(email);
+        var nickname = HttpContext.Items["UserNickname"]?.ToString() ?? throw new AuthorizationException();
+        var user = await _userService.GetUserByNicknameAsync(nickname);
         return new UserProfileModel
         {
             User = user.ToPublicUser(),
@@ -64,8 +64,8 @@ public class AccountController : Controller
     [HttpGet("MyArticles")]
     public async Task<ArticlesModel> MyArticles(int pageNumber = 1)
     {
-        var email = User.Identity?.Name ?? throw new AuthorizationException();
-        var userId = await _userService.GetUserIdByEmailAsync(email);
+        var nickname = HttpContext.Items["UserNickname"]?.ToString() ?? throw new AuthorizationException();
+        var userId = await _userService.GetUserIdByNicknameAsync(nickname);
 
         var firstElementIndex = ArticlesOnPage * (pageNumber - 1);
 
@@ -79,8 +79,8 @@ public class AccountController : Controller
     [HttpPut("ChangePassword")]
     public async Task ChangePassword(ChangePasswordDto changePasswordDto)
     {
-        var email = User.Identity?.Name ?? throw new AuthorizationException();
-        await _userService.ChangePasswordAsync(email, changePasswordDto.OldPassword, changePasswordDto.NewPassword,
+        var nickname = HttpContext.Items["UserNickname"]?.ToString() ?? throw new AuthorizationException();
+        await _userService.ChangePasswordAsync(nickname, changePasswordDto.OldPassword, changePasswordDto.NewPassword,
             changePasswordDto.ConfirmNewPassword);
     }
 }
