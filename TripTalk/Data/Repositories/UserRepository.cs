@@ -1,7 +1,8 @@
 ﻿using Core;
 using Core.CustomExceptions;
-using Core.Models;
-using Core.RepositoryInterfaces;
+using Core.CustomExceptions.Messages;
+using Core.Domains.User;
+using Core.Domains.User.Repository;
 using Data.Db;
 using Data.DbModels;
 using Microsoft.EntityFrameworkCore;

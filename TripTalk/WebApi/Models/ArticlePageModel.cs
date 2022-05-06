@@ -1,4 +1,5 @@
-﻿using Core.Models;
+﻿using Core.Domains.Article;
+using Core.Domains.Comment;
 
 namespace WebApi.Models;
 

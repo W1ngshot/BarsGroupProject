@@ -1,4 +1,14 @@
-﻿using Core.Services;
+﻿using Core.Cryptography;
+using Core.Domains.Article.Services;
+using Core.Domains.Article.Services.Interfaces;
+using Core.Domains.Comment.Services;
+using Core.Domains.Comment.Services.Interfaces;
+using Core.Domains.Rate.Services;
+using Core.Domains.Rate.Services.Interfaces;
+using Core.Domains.Tag.Services;
+using Core.Domains.Tag.Services.Interafaces;
+using Core.Domains.User.Services;
+using Core.Domains.User.Services.Interfaces;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;

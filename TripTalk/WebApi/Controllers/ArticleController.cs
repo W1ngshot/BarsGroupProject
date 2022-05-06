@@ -1,7 +1,11 @@
 ﻿using Core;
 using Core.CustomExceptions;
-using Core.Models;
-using Core.Services;
+using Core.Domains.Article;
+using Core.Domains.Article.Services.Interfaces;
+using Core.Domains.Comment.Services.Interfaces;
+using Core.Domains.Rate;
+using Core.Domains.Rate.Services.Interfaces;
+using Core.Domains.User.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Dto;

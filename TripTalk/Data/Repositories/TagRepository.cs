@@ -1,4 +1,4 @@
-﻿using Core.RepositoryInterfaces;
+﻿using Core.Domains.Tag.Repository;
 using Data.Db;
 using Data.DbModels;
 using Microsoft.EntityFrameworkCore;

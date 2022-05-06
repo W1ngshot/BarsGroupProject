@@ -1,5 +1,9 @@
 ﻿using Core;
-using Core.RepositoryInterfaces;
+using Core.Domains.Article.Repository;
+using Core.Domains.Comment.Repository;
+using Core.Domains.Rate.Repository;
+using Core.Domains.Tag.Repository;
+using Core.Domains.User.Repository;
 using Data.Db;
 using Data.Repositories;
 using Microsoft.EntityFrameworkCore;
