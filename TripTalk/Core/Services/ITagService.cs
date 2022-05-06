@@ -2,7 +2,7 @@
 
 public interface ITagService
 {
-    public Task CreateTagAsync(string name);
+    public Task AddTagsAsync(List<string> tags, int articleId);
 
     public Task<bool> IsTagExistsAsync(string name);
 }

@@ -12,7 +12,7 @@ public interface IArticleRepository
 
     public Task<Article> GetArticleByIdAsync(int id);
 
-    public Task AddArticleAsync(Article article);
+    public Task<int> AddArticleAsync(Article article);
 
     public Task UpdateArticleAsync(Article article);
 

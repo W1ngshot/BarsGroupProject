@@ -49,9 +49,9 @@ public class ArticleController : Controller
     public async Task Create(ArticleDto articleDto)
     {
         var nickname = HttpContext.Items["UserNickname"]?.ToString() ?? throw new AuthorizationException();
-        var currentUserId = await _userService.GetUserIdByNicknameAsync(nickname);
-        await _articleService.CreateArticleAsync(articleDto.Title, articleDto.Text, currentUserId,
-            articleDto.ShortDescription, articleDto.PictureLink, articleDto.AttachedPicturesLinks);
+        var userId = await _userService.GetUserIdByNicknameAsync(nickname);
+        await _articleService.CreateArticleAsync(articleDto.Title, articleDto.Text, userId,
+            articleDto.ShortDescription, articleDto.PictureLink, articleDto.Tags);
     }
 
     [Authorize]
@@ -78,7 +78,7 @@ public class ArticleController : Controller
     public async Task Edit(int articleId, ArticleDto article)
     {
         await _articleService.EditArticleAsync(articleId, article.Title, article.Text, article.ShortDescription,
-            article.PictureLink, article.AttachedPicturesLinks);
+            article.PictureLink, article.Tags);
     }
 
     [HttpGet("Popular")]

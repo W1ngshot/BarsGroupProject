@@ -27,7 +27,7 @@ public class TagDbModel
 
             builder.HasMany(tag => tag.Articles)
                 .WithMany(article => article.Tags)
-                .UsingEntity(builder => builder.ToTable("attached_tags"));
+                .UsingEntity(b => b.ToTable("attached_tags"));
         }
     }
 }
