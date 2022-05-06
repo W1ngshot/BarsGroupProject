@@ -14,5 +14,5 @@ public class ArticleDto
 
     public string? PictureLink { get; set; }
 
-    public List<string>? AttachedPicturesLinks { get; set; }
+    public List<string>? Tags { get; set; }
 }

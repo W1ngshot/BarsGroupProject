@@ -9,12 +9,15 @@ public class ArticleService : IArticleService
     private readonly IArticleRepository _articleRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<Article> _validator;
+    private readonly ITagService _tagService;
 
-    public ArticleService(IArticleRepository articleRepository, IUnitOfWork unitOfWork, IValidator<Article> validator)
+    public ArticleService(IArticleRepository articleRepository, IUnitOfWork unitOfWork,
+        IValidator<Article> validator, ITagService tagService)
     {
         _articleRepository = articleRepository;
         _unitOfWork = unitOfWork;
         _validator = validator;
+        _tagService = tagService;
     }
 
     public async Task<List<Article>> GetUserArticlesAsync(int userId, int count = int.MaxValue, int firstIndex = 0)
@@ -28,7 +31,7 @@ public class ArticleService : IArticleService
     }
 
     public async Task CreateArticleAsync(string title, string text, int userId, string? shortDescription = null,
-        string? previewPictureLink = null, List<string>? attachedPicturesLinks = null)
+        string? previewPictureLink = null, List<string>? tags = null)
     {
         var article = new Article
         {
@@ -38,17 +41,17 @@ public class ArticleService : IArticleService
             UploadDate = DateTime.UtcNow,
             UserId = userId,
             PreviewPictureLink = previewPictureLink,
-            Rating = 0,
             Views = 0
         };
         await _validator.ValidateAndThrowAsync(article);
 
-        await _articleRepository.AddArticleAsync(article);
+        var articleId = await _articleRepository.AddArticleAsync(article);
+        await _tagService.AddTagsAsync(tags ?? new List<string>(), articleId);
         await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task EditArticleAsync(int articleId, string title, string text, string? shortDescription = null,
-        string? previewPictureLink = null, List<string>? attachedPicturesLinks = null)
+        string? previewPictureLink = null, List<string>? tags = null)
     {
         var article = new Article
         {

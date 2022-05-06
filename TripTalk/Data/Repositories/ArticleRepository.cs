@@ -164,7 +164,7 @@ public class ArticleRepository : IArticleRepository
         };
     }
 
-    public async Task AddArticleAsync(Article article)
+    public async Task<int> AddArticleAsync(Article article)
     {
         var entity = new ArticleDbModel
         {
@@ -177,6 +177,7 @@ public class ArticleRepository : IArticleRepository
             Views = article.Views
         };
         await _context.Articles.AddAsync(entity);
+        return entity.Id;
     }
 
     public async Task UpdateArticleAsync(Article article)

@@ -8,9 +8,9 @@ public interface IUserRepository
 
     public Task UpdateUserAsync(User user);
 
-    public Task<int> GetUserIdByEmailAsync(string email);
+    public Task<int> GetUserIdByNicknameAsync(string nickname);
 
-    public Task<User> GetUserByEmailAsync(string email);
+    public Task<User> GetUserByNicknameAsync(string nickname);
 
     public Task<User> GetUserByIdAsync(int id);
 }

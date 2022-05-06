@@ -24,16 +24,16 @@ public class CommentController : Controller
     [HttpPost("Add")]
     public async Task Add(AddCommentDto commentDto)
     {
-        var user = User.Identity?.Name ?? throw new AuthorizationException();
-        var userId = await _userService.GetUserIdByEmailAsync(user);
+        var nickname = HttpContext.Items["UserNickname"]?.ToString() ?? throw new AuthorizationException();
+        var userId = await _userService.GetUserIdByNicknameAsync(nickname);
         await _commentService.CreateCommentAsync(commentDto.Message, userId, commentDto.ArticleId);
     }
 
     [HttpPut("Edit")]
     public async Task Edit(EditCommentDto commentDto)
     {
-        var user = User.Identity?.Name ?? throw new AuthorizationException();
-        var userId = await _userService.GetUserIdByEmailAsync(user);
+        var nickname = HttpContext.Items["UserNickname"]?.ToString() ?? throw new AuthorizationException();
+        var userId = await _userService.GetUserIdByNicknameAsync(nickname);
         await _commentService.EditCommentAsync(commentDto.CommentId, commentDto.Message);
         //TODO передавать сюда userId и проверять == ли оно владельцу коммента
     }
@@ -41,8 +41,8 @@ public class CommentController : Controller
     [HttpDelete("Delete/{commentId:int}")]
     public async Task Delete(int commentId)
     {
-        var user = User.Identity?.Name ?? throw new AuthorizationException();
-        var userId = await _userService.GetUserIdByEmailAsync(user);
+        var nickname = HttpContext.Items["UserNickname"]?.ToString() ?? throw new AuthorizationException();
+        var userId = await _userService.GetUserIdByNicknameAsync(nickname);
         await _commentService.DeleteCommentAsync(commentId);
         //TODO передавать сюда userId и проверять == ли оно владельцу коммента
     }
