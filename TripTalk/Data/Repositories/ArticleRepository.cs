@@ -178,6 +178,7 @@ public class ArticleRepository : IArticleRepository
             Views = article.Views
         };
         await _context.Articles.AddAsync(entity);
+        _context.SaveChanges();
         return entity.Id;
     }
 

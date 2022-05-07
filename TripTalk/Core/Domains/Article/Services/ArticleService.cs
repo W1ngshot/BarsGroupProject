@@ -60,11 +60,12 @@ public class ArticleService : IArticleService
             Title = title,
             ShortDescription = shortDescription,
             Text = text,
-            PreviewPictureLink = previewPictureLink,
+            PreviewPictureLink = previewPictureLink
         };
         await _validator.ValidateAndThrowAsync(article);
 
         await _articleRepository.UpdateArticleAsync(article);
+        await _tagService.AddTagsAsync(tags ?? new List<string>(), articleId);
         await _unitOfWork.SaveChangesAsync();
     }
 

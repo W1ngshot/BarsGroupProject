@@ -16,9 +16,12 @@ public class TagService : ITagService
 
     public async Task AddTagsAsync(List<string> tags, int articleId)
     {
-        //TODO доделать метод, поменяв реализацию tagRepository
-        //await _tagRepository.AddTagAsync(name);
+        foreach (var tag in tags)
+            if (!await IsTagExistsAsync(tag))
+                await _tagRepository.AddTagAsync(tag);
         await _unitOfWork.SaveChangesAsync();
+
+        await _tagRepository.AttachTagsAsync(tags, articleId);
     }
 
     public async Task<bool> IsTagExistsAsync(string name)
