@@ -34,13 +34,10 @@ public class TagRepository : ITagRepository
 
         foreach (var tag in articleDb.Tags)
             tag.Articles.Remove(articleDb);
-        articleDb.Tags.Clear();
-
         foreach (var tag in tagsDb)
-        {
-            articleDb.Tags.Add(tag);
             tag.Articles.Add(articleDb);
-        }
+
+        articleDb.Tags = tagsDb;
     }
 
     public async Task<bool> IsTagExistsAsync(string name)

@@ -22,6 +22,7 @@ public class TagService : ITagService
         await _unitOfWork.SaveChangesAsync();
 
         await _tagRepository.AttachTagsAsync(tags, articleId);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task<bool> IsTagExistsAsync(string name)

@@ -48,7 +48,6 @@ public class ArticleService : IArticleService
 
         var articleId = await _articleRepository.AddArticleAsync(article);
         await _tagService.AddTagsAsync(tags ?? new List<string>(), articleId);
-        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task EditArticleAsync(int articleId, string title, string text, string? shortDescription = null,
@@ -66,7 +65,6 @@ public class ArticleService : IArticleService
 
         await _articleRepository.UpdateArticleAsync(article);
         await _tagService.AddTagsAsync(tags ?? new List<string>(), articleId);
-        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task DeleteArticleAsync(int articleId)
