@@ -41,6 +41,7 @@ builder.Services.AddHostedService<MigrationHostedService>();
 
 var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<OptionsFakeMiddleware>();
 app.UseMiddleware<JwtAuthenticationMiddleware>();
 
 // Configure the HTTP request pipeline.

@@ -1,5 +1,4 @@
-﻿using Core;
-using Core.CustomExceptions;
+﻿using Core.CustomExceptions;
 using Core.Domains.Article;
 using Core.Domains.Article.Services.Interfaces;
 using Core.Domains.Comment.Services.Interfaces;
