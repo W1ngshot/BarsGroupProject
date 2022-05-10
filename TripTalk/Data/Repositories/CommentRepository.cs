@@ -1,5 +1,4 @@
-﻿using Core;
-using Core.CustomExceptions;
+﻿using Core.CustomExceptions;
 using Core.CustomExceptions.Messages;
 using Core.Domains.Comment;
 using Core.Domains.Comment.Repository;

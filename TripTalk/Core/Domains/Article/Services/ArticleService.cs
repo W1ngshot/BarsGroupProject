@@ -28,7 +28,13 @@ public class ArticleService : IArticleService
 
     public async Task<Article> GetArticleByIdAsync(int articleId)
     {
-        return await _articleRepository.GetArticleByIdAsync(articleId);
+        var article = await _articleRepository.GetArticleByIdAsync(articleId);
+
+        article.Views++;
+        await _articleRepository.UpdateArticleAsync(article);
+
+        await _unitOfWork.SaveChangesAsync();
+        return article;
     }
 
     public async Task CreateArticleAsync(string title, string text, int userId, string? shortDescription = null,

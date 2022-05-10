@@ -1,5 +1,4 @@
-﻿using Core;
-using Core.Domains.Rate;
+﻿using Core.Domains.Rate;
 using Core.Domains.Rate.Repository;
 using Data.Db;
 using Data.DbModels;

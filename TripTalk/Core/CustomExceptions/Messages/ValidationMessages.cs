@@ -18,4 +18,21 @@ public class ValidationMessages
     public const string EmptyArticleText = "Введите текст статьи";
     public const string TooShortArticleText = "Текст статьи должен содержать не менее 500 символов";
     public const string TooLongArticleText = "Текст статьи должен содержать не более 10 тысяч символов";
+
+    public const string TooMuchTags = "Максимум 3 тега на статью";
+    public const string TooLongTagName = "Слишком длинное имя тега";
+    public const string TooShortTagName = "Слишком короткое имя тега";
+    public const string EmptyTagName = "Имя тега не может быть пустым";
+    public const string TagNameContainsWrongSymbols = "Название статьи содержит недопустимые символы";
+
+    public const string EmptyNewPassword = "Новый пароль не может быть пустым";
+    public const string EmptyConfirmPassword = "Подтверждение пароля не может быть пустым";
+    public const string NewPasswordNotEqualToConfirmPassword = "Пароли не совпадают";
+    public const string NewPasswordContainsWrongSymbols = "Новый пароль содержит недопустимые символы";
+    public const string TooLongNewPassword = "Слишком длинный новый пароль";
+    public const string TooShortNewPassword = "Слишком короткий новый пароль";
+
+    public const string EmptyCommentMessage = "Комментарий не может быть пустым";
+    public const string TooLongCommentMessage = "Комментарий слишком длинный";
+    public const string CommentMessageContainsWrongSymbols = "Комментарий содержит недопустимые символы";
 }
