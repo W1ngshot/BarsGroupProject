@@ -15,4 +15,6 @@ public interface IArticleService
     public Task<int> GetFilteredArticlesCountAsync(string searchLine, List<string>? tags);
 
     public Task<int> GetUserArticlesCountAsync(int userId);
+
+    public Task EnsureArticleAuthorshipAsync(int userId, int articleId);
 }

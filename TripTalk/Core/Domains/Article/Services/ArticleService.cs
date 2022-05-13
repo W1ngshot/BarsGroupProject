@@ -1,4 +1,5 @@
-﻿using Core.Domains.Article.Repository;
+﻿using Core.CustomExceptions.Messages;
+using Core.Domains.Article.Repository;
 using Core.Domains.Article.Services.Interfaces;
 using Core.Domains.Tag.Services.Interfaces;
 using FluentValidation;
@@ -87,5 +88,12 @@ public class ArticleService : IArticleService
     public async Task<int> GetUserArticlesCountAsync(int userId)
     {
         return await _articleRepository.GetUserArticlesCountAsync(userId);
+    }
+
+    public async Task EnsureArticleAuthorshipAsync(int userId, int articleId)
+    {
+        var article = await GetArticleByIdAsync(userId);
+        if (article.UserId != userId)
+            throw new ValidationException(ErrorMessages.SomeoneElseArticle);
     }
 }

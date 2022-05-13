@@ -67,19 +67,35 @@ public class ArticleController : Controller
     }
 
 
-    //TODO добавить проверку, что пользователь является владельцем статьи
     [Authorize]
     [HttpGet("Edit/{articleId:int}")]
     public async Task<Article> Edit(int articleId)
     {
+        var nickname = HttpContext.Items["UserNickname"]?.ToString() ?? throw new AuthorizationException();
+        var userId = await _userService.GetUserIdByNicknameAsync(nickname);
+        await _articleService.EnsureArticleAuthorshipAsync(userId, articleId);
+
         return await _articleService.GetArticleByIdAsync(articleId);
     }
 
-    //TODO добавить проверку, что пользователь является владельцем статьи
+    [HttpDelete("Delete/{articleId:int}")]
+    public async Task Delete(int articleId)
+    {
+        var nickname = HttpContext.Items["UserNickname"]?.ToString() ?? throw new AuthorizationException();
+        var userId = await _userService.GetUserIdByNicknameAsync(nickname);
+        await _articleService.EnsureArticleAuthorshipAsync(userId, articleId);
+
+        await _articleService.DeleteArticleAsync(articleId);
+    }
+
     [Authorize]
     [HttpPut("Edit")]
     public async Task Edit(int articleId, ArticleDto article)
     {
+        var nickname = HttpContext.Items["UserNickname"]?.ToString() ?? throw new AuthorizationException();
+        var userId = await _userService.GetUserIdByNicknameAsync(nickname);
+        await _articleService.EnsureArticleAuthorshipAsync(userId, articleId);
+
         await _articleService.EditArticleAsync(articleId, article.Title, article.Text, article.ShortDescription,
             article.PictureLink, article.Tags);
     }

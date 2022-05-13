@@ -10,4 +10,7 @@ public class ErrorMessages
     public const string AuthError = "Ошибка авторизации";
 
     public const string InvalidCategoryValue = "Данной категории не существует";
+
+    public const string SomeoneElseArticle = "Чужая статья";
+    public const string SomeoneElseComment = "Чужой комментарий";
 }
