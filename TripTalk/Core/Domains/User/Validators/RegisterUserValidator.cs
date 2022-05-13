@@ -17,7 +17,7 @@ public class RegisterUserValidator : AbstractValidator<User>
             .MaximumLength(25)
             .WithMessage(ValidationMessages.TooLongLogin);
         RuleFor(user => user.Nickname)
-            .Matches(@"^(\d|[a-zA-z])+$")
+            .Matches(@"^[\w\s]+$")
             .WithMessage(ValidationMessages.LoginContainsWrongSymbols);
 
         RuleFor(user => user.Email)
