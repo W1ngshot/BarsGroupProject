@@ -25,12 +25,12 @@ public class ValidationMessages
     public const string EmptyTagName = "Имя тега не может быть пустым";
     public const string TagNameContainsWrongSymbols = "Название статьи содержит недопустимые символы";
 
-    public const string EmptyNewPassword = "Новый пароль не может быть пустым";
+    public const string EmptyPassword = "Пароль не может быть пустым";
     public const string EmptyConfirmPassword = "Подтверждение пароля не может быть пустым";
-    public const string NewPasswordNotEqualToConfirmPassword = "Пароли не совпадают";
-    public const string NewPasswordContainsWrongSymbols = "Новый пароль содержит недопустимые символы";
-    public const string TooLongNewPassword = "Слишком длинный новый пароль";
-    public const string TooShortNewPassword = "Слишком короткий новый пароль";
+    public const string PasswordNotEqualToConfirmPassword = "Пароли не совпадают";
+    public const string PasswordContainsWrongSymbols = "Пароль содержит недопустимые символы";
+    public const string TooLongPassword = "Слишком длинный пароль";
+    public const string TooShortPassword = "Слишком короткий пароль";
 
     public const string EmptyCommentMessage = "Комментарий не может быть пустым";
     public const string TooLongCommentMessage = "Комментарий слишком длинный";

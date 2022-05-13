@@ -13,18 +13,21 @@ public class AuthService : IAuthService
     private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<User> _registerUserValidator;
+    private readonly IValidator<SetPassword> _passwordValidator;
     private readonly ICryptographyService _cryptographyService;
 
     public AuthService(IAuthenticationRepository authenticationRepository,
         IUserRepository userRepository,
         IUnitOfWork unitOfWork, 
         IValidator<User> registerUserValidator,
+        IValidator<SetPassword> passwordValidator,
         ICryptographyService cryptographyService)
     {
         _authenticationRepository = authenticationRepository;
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;
         _registerUserValidator = registerUserValidator;
+        _passwordValidator = passwordValidator;
         _cryptographyService = cryptographyService;
     }
     #endregion
@@ -39,7 +42,7 @@ public class AuthService : IAuthService
         return user.Id;
     }
 
-    public async Task RegisterAsync(string nickname, string email, string password)
+    public async Task RegisterAsync(string nickname, string email, string password, string confirmPassword)
     {
         if (await _authenticationRepository.IsNicknameOrEmailAreNotAvailableAsync(nickname, email))
             throw new ValidationException(ValidationMessages.LoginOrEmailAlreadyExists);
@@ -57,6 +60,12 @@ public class AuthService : IAuthService
         };
 
         await _registerUserValidator.ValidateAndThrowAsync(user);
+
+        await _passwordValidator.ValidateAndThrowAsync(new SetPassword
+        {
+            Password = password,
+            ConfirmPassword = password
+        });
 
         await _userRepository.AddUserAsync(user);
         await _unitOfWork.SaveChangesAsync();

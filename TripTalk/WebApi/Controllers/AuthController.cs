@@ -31,7 +31,7 @@ public class AuthController : Controller
     [HttpPost("Register")]
     public async Task<string> Register(RegisterDto registerDto)
     {
-        await _authenticationService.RegisterAsync(registerDto.Nickname, registerDto.Email, registerDto.Password);
+        await _authenticationService.RegisterAsync(registerDto.Nickname, registerDto.Email, registerDto.Password, registerDto.ConfirmPassword);
         return GenerateJwtToken(registerDto.Nickname);
     }
 

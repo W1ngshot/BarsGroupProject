@@ -12,10 +12,10 @@ public class UserService : IUserService
     private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICryptographyService _cryptographyService;
-    private readonly IValidator<ChangePassword> _validator;
+    private readonly IValidator<SetPassword> _validator;
 
     public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork,
-        ICryptographyService cryptographyService, IValidator<ChangePassword> validator)
+        ICryptographyService cryptographyService, IValidator<SetPassword> validator)
     {
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;
@@ -40,12 +40,6 @@ public class UserService : IUserService
 
     public async Task ChangePasswordAsync(string nickname, string oldPassword, string newPassword, string confirmPassword)
     {
-        await _validator.ValidateAndThrowAsync(new ChangePassword
-        {
-            Password = newPassword,
-            ConfirmPassword = confirmPassword
-        });
-
         var user = await _userRepository.GetUserByNicknameAsync(nickname);
 
         var passwordHash = user.PasswordHash;
@@ -53,6 +47,12 @@ public class UserService : IUserService
 
         if (passwordHash != enteredPasswordHash)
             throw new ValidationException(ErrorMessages.WrongPassword);
+
+        await _validator.ValidateAndThrowAsync(new SetPassword
+        {
+            Password = newPassword,
+            ConfirmPassword = confirmPassword
+        });
 
         user.PasswordHash = await _cryptographyService.EncryptPasswordAsync(newPassword, user.PasswordSalt);
         await _userRepository.UpdateUserAsync(user);

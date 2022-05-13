@@ -3,13 +3,13 @@ using FluentValidation;
 
 namespace Core.Domains.User.Validators;
 
-public class ChangePasswordValidator : AbstractValidator<ChangePassword>
+public class SetPasswordValidator : AbstractValidator<SetPassword>
 {
-    public ChangePasswordValidator()
+    public SetPasswordValidator()
     {
         RuleFor(form => form.Password)
             .NotEmpty()
-            .WithMessage(ValidationMessages.EmptyNewPassword);
+            .WithMessage(ValidationMessages.EmptyPassword);
 
         RuleFor(form => form.ConfirmPassword)
             .NotEmpty()
@@ -17,15 +17,15 @@ public class ChangePasswordValidator : AbstractValidator<ChangePassword>
 
         RuleFor(form => form.Password)
             .MinimumLength(8)
-            .WithMessage(ValidationMessages.TooShortNewPassword);
+            .WithMessage(ValidationMessages.TooShortPassword);
         RuleFor(form => form.Password)
             .MaximumLength(40)
-            .WithMessage(ValidationMessages.TooLongNewPassword);
+            .WithMessage(ValidationMessages.TooLongPassword);
         RuleFor(form => form.Password)
             .Equal(form => form.ConfirmPassword)
-            .WithMessage(ValidationMessages.NewPasswordNotEqualToConfirmPassword);
+            .WithMessage(ValidationMessages.PasswordNotEqualToConfirmPassword);
         RuleFor(form => form.Password)
             .Matches(@"^[\w\s,.!?\""':;`\-\\/(\)]+$")
-            .WithMessage(ValidationMessages.NewPasswordContainsWrongSymbols);
+            .WithMessage(ValidationMessages.PasswordContainsWrongSymbols);
     }
 }
