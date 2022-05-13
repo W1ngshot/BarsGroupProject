@@ -49,11 +49,11 @@ public class ArticleController : Controller
 
     [Authorize]
     [HttpPost("Create")]
-    public async Task Create(ArticleDto articleDto)
+    public async Task<Article> Create(ArticleDto articleDto)
     {
         var nickname = HttpContext.Items["UserNickname"]?.ToString() ?? throw new AuthorizationException();
         var userId = await _userService.GetUserIdByNicknameAsync(nickname);
-        await _articleService.CreateArticleAsync(articleDto.Title, articleDto.Text, userId,
+        return await _articleService.CreateArticleAsync(articleDto.Title, articleDto.Text, userId,
             articleDto.ShortDescription, articleDto.PictureLink, articleDto.Tags);
     }
 
@@ -65,7 +65,6 @@ public class ArticleController : Controller
         var userId = await _userService.GetUserIdByNicknameAsync(nickname);
         await _rateService.SetRateAsync(userId, articleId, rate);
     }
-
 
     [Authorize]
     [HttpGet("Edit/{articleId:int}")]
@@ -90,14 +89,17 @@ public class ArticleController : Controller
 
     [Authorize]
     [HttpPut("Edit")]
-    public async Task Edit(int articleId, ArticleDto article)
+    public async Task<ArticlePageModel> Edit(int articleId, ArticleDto article)
     {
         var nickname = HttpContext.Items["UserNickname"]?.ToString() ?? throw new AuthorizationException();
         var userId = await _userService.GetUserIdByNicknameAsync(nickname);
         await _articleService.EnsureArticleAuthorshipAsync(userId, articleId);
-
-        await _articleService.EditArticleAsync(articleId, article.Title, article.Text, article.ShortDescription,
-            article.PictureLink, article.Tags);
+        return new ArticlePageModel
+        {
+            Article =  await _articleService.EditArticleAsync(articleId, article.Title, article.Text, article.ShortDescription,
+                article.PictureLink, article.Tags),
+            Comments = await _commentService.GetArticleCommentsAsync(articleId)
+        };
     }
 
     [HttpGet("Popular")]

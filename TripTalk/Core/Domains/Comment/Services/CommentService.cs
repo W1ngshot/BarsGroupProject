@@ -2,6 +2,7 @@
 using Core.Domains.Comment.Repository;
 using Core.Domains.Comment.Services.Interfaces;
 using FluentValidation;
+using ValidationException = Core.CustomExceptions.ValidationException;
 
 namespace Core.Domains.Comment.Services;
 
