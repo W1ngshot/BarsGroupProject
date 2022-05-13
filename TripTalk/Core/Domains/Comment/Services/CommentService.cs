@@ -1,4 +1,5 @@
-﻿using Core.Domains.Comment.Repository;
+﻿using Core.CustomExceptions.Messages;
+using Core.Domains.Comment.Repository;
 using Core.Domains.Comment.Services.Interfaces;
 using FluentValidation;
 
@@ -20,6 +21,11 @@ public class CommentService : ICommentService
     public async Task<List<Comment>> GetArticleCommentsAsync(int articleId)
     {
         return await _commentRepository.GetArticleCommentsAsync(articleId);
+    }
+
+    public async Task<Comment> GetCommentByIdAsync(int commentId)
+    {
+        return await _commentRepository.GetCommentByIdAsync(commentId);
     }
 
     public async Task CreateCommentAsync(string message, int userId, int articleId)
@@ -56,5 +62,12 @@ public class CommentService : ICommentService
     {
         await _commentRepository.RemoveCommentAsync(commentId);
         await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task EnsureCommentAuthorshipAsync(int userId, int commentId)
+    {
+        var article = await GetCommentByIdAsync(commentId);
+        if (article.UserId != userId)
+            throw new ValidationException(ErrorMessages.SomeoneElseComment);
     }
 }

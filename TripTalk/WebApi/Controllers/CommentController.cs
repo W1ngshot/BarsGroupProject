@@ -34,8 +34,9 @@ public class CommentController : Controller
     {
         var nickname = HttpContext.Items["UserNickname"]?.ToString() ?? throw new AuthorizationException();
         var userId = await _userService.GetUserIdByNicknameAsync(nickname);
+        await _commentService.EnsureCommentAuthorshipAsync(userId, commentDto.CommentId);
+
         await _commentService.EditCommentAsync(commentDto.CommentId, commentDto.Message);
-        //TODO передавать сюда userId и проверять == ли оно владельцу коммента
     }
 
     [HttpDelete("Delete/{commentId:int}")]
@@ -43,7 +44,8 @@ public class CommentController : Controller
     {
         var nickname = HttpContext.Items["UserNickname"]?.ToString() ?? throw new AuthorizationException();
         var userId = await _userService.GetUserIdByNicknameAsync(nickname);
+        await _commentService.EnsureCommentAuthorshipAsync(userId, commentId);
+
         await _commentService.DeleteCommentAsync(commentId);
-        //TODO передавать сюда userId и проверять == ли оно владельцу коммента
     }
 }

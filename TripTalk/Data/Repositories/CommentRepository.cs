@@ -35,6 +35,20 @@ public class CommentRepository : ICommentRepository
         }).ToList();
     }
 
+    public async Task<Comment> GetCommentByIdAsync(int id)
+    {
+        var entity = await _context.Comments.FirstOrDefaultAsync(comment => comment.Id == id) ??
+            throw new ValidationException(ErrorMessages.MissingComment);
+        return new Comment
+        {
+            Id = entity.Id,
+            Message = entity.Message,
+            Date = entity.Date,
+            UserId = entity.UserId,
+            ArticleId = entity.ArticleId
+        };
+    }
+
     public async Task AddCommentAsync(Comment comment)
     {
         var entity = new CommentDbModel
