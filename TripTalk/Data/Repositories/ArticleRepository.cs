@@ -51,7 +51,7 @@ public class ArticleRepository : IArticleRepository
             PreviewPictureLink = entity.AssetLink,
             Rating = entity.Rates.Sum(rate => rate.Rating),
             Views = entity.Views,
-            TagNames = entity.Tags.Select(tag => tag.Name).ToList(),
+            Tags = entity.Tags.Select(tag => tag.Name).ToList(),
             UserNickname = entity.User.Nickname,
             UserAvatarLink = entity.User.AvatarLink
         }).ToList();
@@ -89,7 +89,7 @@ public class ArticleRepository : IArticleRepository
             PreviewPictureLink = entity.AssetLink,
             Rating = entity.Rates.Sum(rate => rate.Rating),
             Views = entity.Views,
-            TagNames = entity.Tags.Select(tag => tag.Name).ToList(),
+            Tags = entity.Tags.Select(tag => tag.Name).ToList(),
             UserNickname = entity.User.Nickname,
             UserAvatarLink = entity.User.AvatarLink
         }).ToList();
@@ -134,7 +134,7 @@ public class ArticleRepository : IArticleRepository
             PreviewPictureLink = entity.AssetLink,
             Rating = entity.Rates.Sum(rate => rate.Rating),
             Views = entity.Views,
-            TagNames = entity.Tags.Select(tag => tag.Name).ToList(),
+            Tags = entity.Tags.Select(tag => tag.Name).ToList(),
             UserNickname = entity.User.Nickname,
             UserAvatarLink = entity.User.AvatarLink
         }).ToList();
@@ -158,7 +158,7 @@ public class ArticleRepository : IArticleRepository
             PreviewPictureLink = entity.AssetLink,
             Rating = entity.Rates.Sum(rate => rate.Rating),
             Views = entity.Views,
-            TagNames = entity.Tags.Select(tag => tag.Name).ToList(),
+            Tags = entity.Tags.Select(tag => tag.Name).ToList(),
             UserNickname = entity.User.Nickname,
             UserAvatarLink = entity.User.AvatarLink
         };
@@ -177,7 +177,7 @@ public class ArticleRepository : IArticleRepository
             Views = article.Views
         };
         await _context.Articles.AddAsync(entity);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return entity.Id;
     }
 

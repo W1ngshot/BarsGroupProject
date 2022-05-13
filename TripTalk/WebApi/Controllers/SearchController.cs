@@ -20,14 +20,16 @@ public class SearchController : Controller
     }
 
     [HttpGet("")]
-    public async Task<ArticlesModel> Index(SearchDto searchDto)
+    public async Task<ArticlesModel> Index(string q, string? tagsString, int pageNumber = 1)
     {
-        var firstElementIndex = ArticlesOnPage * (searchDto.PageNumber - 1);
+        var tags = tagsString?.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList()
+                   ?? new List<string>();
+        var firstElementIndex = ArticlesOnPage * (pageNumber - 1);
         return new ArticlesModel
         {
-            Articles = await _searchService.FindArticlesAsync(searchDto.Text, searchDto.Tags,
+            Articles = await _searchService.FindArticlesAsync(q, tags,
                 ArticlesOnPage, firstElementIndex),
-            TotalCount = await _articleService.GetFilteredArticlesCountAsync(searchDto.Text, searchDto.Tags)
+            TotalCount = await _articleService.GetFilteredArticlesCountAsync(q, tags)
         };
     }
 }

@@ -3,6 +3,7 @@ using Core.Domains.Article.Repository;
 using Core.Domains.Article.Services.Interfaces;
 using Core.Domains.Tag.Services.Interfaces;
 using FluentValidation;
+using ValidationException = Core.CustomExceptions.ValidationException;
 
 namespace Core.Domains.Article.Services;
 
@@ -38,7 +39,7 @@ public class ArticleService : IArticleService
         return article;
     }
 
-    public async Task CreateArticleAsync(string title, string text, int userId, string? shortDescription = null,
+    public async Task<Article> CreateArticleAsync(string title, string text, int userId, string? shortDescription = null,
         string? previewPictureLink = null, List<string>? tags = null)
     {
         var article = new Article
@@ -55,9 +56,11 @@ public class ArticleService : IArticleService
 
         var articleId = await _articleRepository.AddArticleAsync(article);
         await _tagService.AddTagsAsync(tags ?? new List<string>(), articleId);
+        
+        return await _articleRepository.GetArticleByIdAsync(articleId);
     }
 
-    public async Task EditArticleAsync(int articleId, string title, string text, string? shortDescription = null,
+    public async Task<Article> EditArticleAsync(int articleId, string title, string text, string? shortDescription = null,
         string? previewPictureLink = null, List<string>? tags = null)
     {
         var article = new Article
@@ -72,6 +75,8 @@ public class ArticleService : IArticleService
 
         await _articleRepository.UpdateArticleAsync(article);
         await _tagService.AddTagsAsync(tags ?? new List<string>(), articleId);
+
+        return await _articleRepository.GetArticleByIdAsync(articleId);
     }
 
     public async Task DeleteArticleAsync(int articleId)

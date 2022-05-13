@@ -11,7 +11,7 @@ public class Article
     public string? PreviewPictureLink { get; set; }
     public int Rating { get; set; }
     public int Views { get; set; }
-    public List<string> TagNames { get; set; } = new();
+    public List<string> Tags { get; set; } = new();
     public string UserNickname { get; set; } = null!;
     public string? UserAvatarLink { get; set; }
 }

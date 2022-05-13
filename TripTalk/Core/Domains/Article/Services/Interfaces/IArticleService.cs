@@ -6,9 +6,9 @@ public interface IArticleService
 
     public Task<Article> GetArticleByIdAsync(int articleId);
 
-    public Task CreateArticleAsync(string title, string text, int userId, string? shortDescription = null, string? previewPictureLink = null, List<string>? tags = null);
+    public Task<Article> CreateArticleAsync(string title, string text, int userId, string? shortDescription = null, string? previewPictureLink = null, List<string>? tags = null);
 
-    public Task EditArticleAsync(int articleId, string title, string text, string? shortDescription = null, string? previewPictureLink = null, List<string>? tags = null);
+    public Task<Article> EditArticleAsync(int articleId, string title, string text, string? shortDescription = null, string? previewPictureLink = null, List<string>? tags = null);
 
     public Task DeleteArticleAsync(int articleId);
 

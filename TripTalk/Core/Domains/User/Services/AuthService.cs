@@ -3,6 +3,7 @@ using Core.CustomExceptions.Messages;
 using Core.Domains.User.Repository;
 using Core.Domains.User.Services.Interfaces;
 using FluentValidation;
+using ValidationException = Core.CustomExceptions.ValidationException;
 
 namespace Core.Domains.User.Services;
 
