@@ -6,9 +6,9 @@ public interface ICommentService
 
     public Task<Comment> GetCommentByIdAsync(int commentId);
 
-    public Task CreateCommentAsync(string message, int userId, int articleId);
+    public Task<Comment> CreateCommentAsync(string message, int userId, int articleId);
 
-    public Task EditCommentAsync(int commentId, string message);
+    public Task<Comment> EditCommentAsync(int commentId, string message);
 
     public Task DeleteCommentAsync(int commentId);
 

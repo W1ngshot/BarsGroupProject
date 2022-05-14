@@ -29,7 +29,7 @@ public class CommentService : ICommentService
         return await _commentRepository.GetCommentByIdAsync(commentId);
     }
 
-    public async Task CreateCommentAsync(string message, int userId, int articleId)
+    public async Task<Comment> CreateCommentAsync(string message, int userId, int articleId)
     {
         var comment = new Comment
         {
@@ -41,11 +41,13 @@ public class CommentService : ICommentService
 
         await _validator.ValidateAndThrowAsync(comment);
 
-        await _commentRepository.AddCommentAsync(comment);
+        var commentId = await _commentRepository.AddCommentAsync(comment);
         await _unitOfWork.SaveChangesAsync();
+
+        return await GetCommentByIdAsync(commentId);
     }
 
-    public async Task EditCommentAsync(int commentId, string message)
+    public async Task<Comment> EditCommentAsync(int commentId, string message)
     {
         var comment = new Comment
         {
@@ -57,6 +59,8 @@ public class CommentService : ICommentService
 
         await _commentRepository.UpdateCommentAsync(comment);
         await _unitOfWork.SaveChangesAsync();
+
+        return await GetCommentByIdAsync(commentId);
     }
 
     public async Task DeleteCommentAsync(int commentId)

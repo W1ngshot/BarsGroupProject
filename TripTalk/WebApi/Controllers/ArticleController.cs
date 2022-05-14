@@ -21,30 +21,22 @@ public class ArticleController : Controller
     private readonly IUserService _userService;
     private readonly IRateService _rateService;
     private readonly IArticleCategoryService _articleCategoryService;
-    private readonly ICommentService _commentService;
 
     public ArticleController(IArticleService articleService,
         IUserService userService,
         IRateService rateService,
-        IArticleCategoryService articleCategoryService, 
-        ICommentService commentService)
+        IArticleCategoryService articleCategoryService)
     {
         _articleService = articleService;
         _userService = userService;
         _rateService = rateService;
         _articleCategoryService = articleCategoryService;
-        _commentService = commentService;
     }
 
     [HttpGet("{articleId:int}")]
-    public async Task<ArticlePageModel> Index(int articleId)
+    public async Task<Article> Index(int articleId)
     {
-        var articleModel = new ArticlePageModel
-        {
-            Article = await _articleService.GetArticleByIdAsync(articleId),
-            Comments = await _commentService.GetArticleCommentsAsync(articleId)
-        };
-        return articleModel;
+        return await _articleService.GetArticleByIdAsync(articleId);
     }
 
     [Authorize]
@@ -64,6 +56,17 @@ public class ArticleController : Controller
         var nickname = HttpContext.Items["UserNickname"]?.ToString() ?? throw new AuthorizationException();
         var userId = await _userService.GetUserIdByNicknameAsync(nickname);
         await _rateService.SetRateAsync(userId, articleId, rate);
+    }
+
+    [HttpGet("GetCurrentUserRate")]
+    public async Task<int> GetCurrentUserRate(int articleId)
+    {
+        var nickname = HttpContext.Items["UserNickname"]?.ToString();
+        if (nickname == null)
+            return 0;
+
+        var userId = await _userService.GetUserIdByNicknameAsync(nickname);
+        return await _rateService.GetRateAsync(userId, articleId);
     }
 
     [Authorize]
@@ -89,17 +92,14 @@ public class ArticleController : Controller
 
     [Authorize]
     [HttpPut("Edit")]
-    public async Task<ArticlePageModel> Edit(int articleId, ArticleDto article)
+    public async Task<Article> Edit(int articleId, ArticleDto article)
     {
         var nickname = HttpContext.Items["UserNickname"]?.ToString() ?? throw new AuthorizationException();
         var userId = await _userService.GetUserIdByNicknameAsync(nickname);
         await _articleService.EnsureArticleAuthorshipAsync(userId, articleId);
-        return new ArticlePageModel
-        {
-            Article =  await _articleService.EditArticleAsync(articleId, article.Title, article.Text, article.ShortDescription,
-                article.PictureLink, article.Tags),
-            Comments = await _commentService.GetArticleCommentsAsync(articleId)
-        };
+
+        return await _articleService.EditArticleAsync(articleId, article.Title, article.Text, article.ShortDescription,
+            article.PictureLink, article.Tags);
     }
 
     [HttpGet("Popular")]

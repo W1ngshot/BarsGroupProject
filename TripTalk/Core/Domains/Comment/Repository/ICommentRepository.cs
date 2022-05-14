@@ -6,7 +6,7 @@ public interface ICommentRepository
 
     public Task<Comment> GetCommentByIdAsync(int id);
 
-    public Task AddCommentAsync(Comment comment);
+    public Task<int> AddCommentAsync(Comment comment);
 
     public Task UpdateCommentAsync(Comment comment);
 
