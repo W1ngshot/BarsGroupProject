@@ -1,4 +1,5 @@
 ﻿using Core.CustomExceptions;
+using Core.Domains.Comment;
 using Core.Domains.Comment.Services.Interfaces;
 using Core.Domains.User.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -22,21 +23,21 @@ public class CommentController : Controller
     }
 
     [HttpPost("Add")]
-    public async Task Add(AddCommentDto commentDto)
+    public async Task<Comment> Add(AddCommentDto commentDto)
     {
         var nickname = HttpContext.Items["UserNickname"]?.ToString() ?? throw new AuthorizationException();
         var userId = await _userService.GetUserIdByNicknameAsync(nickname);
-        await _commentService.CreateCommentAsync(commentDto.Message, userId, commentDto.ArticleId);
+        return await _commentService.CreateCommentAsync(commentDto.Message, userId, commentDto.ArticleId);
     }
 
     [HttpPut("Edit")]
-    public async Task Edit(EditCommentDto commentDto)
+    public async Task<Comment> Edit(EditCommentDto commentDto)
     {
         var nickname = HttpContext.Items["UserNickname"]?.ToString() ?? throw new AuthorizationException();
         var userId = await _userService.GetUserIdByNicknameAsync(nickname);
         await _commentService.EnsureCommentAuthorshipAsync(userId, commentDto.CommentId);
 
-        await _commentService.EditCommentAsync(commentDto.CommentId, commentDto.Message);
+        return await _commentService.EditCommentAsync(commentDto.CommentId, commentDto.Message);
     }
 
     [HttpDelete("Delete/{commentId:int}")]
@@ -47,5 +48,11 @@ public class CommentController : Controller
         await _commentService.EnsureCommentAuthorshipAsync(userId, commentId);
 
         await _commentService.DeleteCommentAsync(commentId);
+    }
+
+    [HttpGet("ArticleComments/{articleId:int}")]
+    public async Task<List<Comment>> GetArticleComments(int articleId)
+    {
+        return await _commentService.GetArticleCommentsAsync(articleId);
     }
 }

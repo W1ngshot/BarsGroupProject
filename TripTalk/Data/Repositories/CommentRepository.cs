@@ -21,6 +21,7 @@ public class CommentRepository : ICommentRepository
     {
         var commentModelList = await _context.Comments
             .AsNoTracking()
+            .Include(comment => comment.User)
             .Where(comment => comment.ArticleId == articleId)
             .OrderByDescending(comment => comment.Date)
             .ToListAsync();
@@ -31,35 +32,44 @@ public class CommentRepository : ICommentRepository
             Message = entity.Message,
             Date = entity.Date,
             UserId = entity.UserId,
-            ArticleId = entity.ArticleId
+            ArticleId = entity.ArticleId,
+            UserNickname = entity.User.Nickname,
+            UserAvatarLink = entity.User.AvatarLink
         }).ToList();
     }
 
     public async Task<Comment> GetCommentByIdAsync(int id)
     {
-        var entity = await _context.Comments.FirstOrDefaultAsync(comment => comment.Id == id) ??
+        var entity = await _context.Comments
+                         .Include(comment => comment.User)
+                         .FirstOrDefaultAsync(comment => comment.Id == id) ??
             throw new ValidationException(ErrorMessages.MissingComment);
+
         return new Comment
         {
             Id = entity.Id,
             Message = entity.Message,
             Date = entity.Date,
             UserId = entity.UserId,
-            ArticleId = entity.ArticleId
+            ArticleId = entity.ArticleId,
+            UserNickname = entity.User.Nickname,
+            UserAvatarLink = entity.User.AvatarLink
         };
     }
 
-    public async Task AddCommentAsync(Comment comment)
+    public async Task<int> AddCommentAsync(Comment comment)
     {
         var entity = new CommentDbModel
         {
-            Id = comment.Id,
             Message = comment.Message,
             Date = comment.Date,
             UserId = comment.UserId,
             ArticleId = comment.ArticleId
         };
         await _context.Comments.AddAsync(entity);
+        await _context.SaveChangesAsync();
+
+        return entity.Id;
     }
 
     public async Task UpdateCommentAsync(Comment comment)
