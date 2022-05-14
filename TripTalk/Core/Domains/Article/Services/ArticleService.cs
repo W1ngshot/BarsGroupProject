@@ -36,8 +36,7 @@ public class ArticleService : IArticleService
             await _unitOfWork.SaveChangesAsync();
         }
 
-        var article = await _articleRepository.GetArticleByIdAsync(articleId);
-        return article;
+        return await _articleRepository.GetArticleByIdAsync(articleId);
     }
 
     public async Task<Article> CreateArticleAsync(string title, string text, int userId, string? shortDescription = null,
