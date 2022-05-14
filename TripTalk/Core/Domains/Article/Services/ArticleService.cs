@@ -28,15 +28,15 @@ public class ArticleService : IArticleService
         return await _articleRepository.GetUserArticlesAsync(userId, count, firstIndex);
     }
 
-    public async Task<Article> GetArticleByIdAsync(int articleId)
+    public async Task<Article> GetArticleByIdAsync(int articleId, bool updateViews = false)
     {
-        var article = await _articleRepository.GetArticleByIdAsync(articleId);
+        if (updateViews)
+        {
+            await _articleRepository.UpdateArticleViewsAsync(articleId);
+            await _unitOfWork.SaveChangesAsync();
+        }
 
-        article.Views++;
-        await _articleRepository.UpdateArticleAsync(article);
-
-        await _unitOfWork.SaveChangesAsync();
-        return article;
+        return await _articleRepository.GetArticleByIdAsync(articleId);
     }
 
     public async Task<Article> CreateArticleAsync(string title, string text, int userId, string? shortDescription = null,
@@ -97,7 +97,7 @@ public class ArticleService : IArticleService
 
     public async Task EnsureArticleAuthorshipAsync(int userId, int articleId)
     {
-        var article = await GetArticleByIdAsync(userId);
+        var article = await GetArticleByIdAsync(articleId);
         if (article.UserId != userId)
             throw new ValidationException(ErrorMessages.SomeoneElseArticle);
     }
