@@ -36,7 +36,7 @@ public class ArticleController : Controller
     [HttpGet("{articleId:int}")]
     public async Task<Article> Index(int articleId)
     {
-        return await _articleService.GetArticleByIdAsync(articleId);
+        return await _articleService.GetArticleByIdAsync(articleId, true);
     }
 
     [Authorize]

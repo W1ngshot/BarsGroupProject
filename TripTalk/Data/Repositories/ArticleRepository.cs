@@ -62,12 +62,12 @@ public class ArticleRepository : IArticleRepository
         return await _context.Articles.CountAsync();
     }
 
-    public async Task<List<Article>> GetFilteredArticlesAsync(string searchLine, List<string>? tags, int count, int firstIndex)
+    public async Task<List<Article>> GetFilteredArticlesAsync(string searchLine, List<string> tags, int count, int firstIndex)
     {
         var filteredArticles = _context.Articles
             .AsNoTracking()
             .Where(article => article.Title.Contains(searchLine));
-        if (tags is not null)
+        if (tags.Count > 0)
             filteredArticles = filteredArticles.Where(article => article.Tags.Any(tag => tags.Contains(tag.Name)));
 
         var articleModelList = await filteredArticles
@@ -190,7 +190,14 @@ public class ArticleRepository : IArticleRepository
         entity.ShortDescription = article.ShortDescription;
         entity.Text = article.Text;
         entity.AssetLink = article.PreviewPictureLink;
-        entity.Views = article.Views;
+    }
+
+    public async Task UpdateArticleViewsAsync(int id)
+    {
+        var entity = await _context.Articles.FirstOrDefaultAsync(a => a.Id == id) ??
+            throw new ValidationException(ErrorMessages.MissingArticle);
+
+        entity.Views++;
     }
 
     public async Task RemoveArticleAsync(int id)

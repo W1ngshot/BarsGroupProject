@@ -12,7 +12,7 @@ public class SearchService : ISearchService
         _articleRepository = articleRepository;
     }
 
-    public async Task<List<Article>> FindArticlesAsync(string searchLine, List<string>? tags = null, int count = int.MaxValue, int firstIndex = 0)
+    public async Task<List<Article>> FindArticlesAsync(string searchLine, List<string> tags, int count = int.MaxValue, int firstIndex = 0)
     {
         return await _articleRepository.GetFilteredArticlesAsync(searchLine, tags, count, firstIndex);
     }
