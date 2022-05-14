@@ -31,11 +31,12 @@ public class ArticleService : IArticleService
     public async Task<Article> GetArticleByIdAsync(int articleId, bool updateViews = false)
     {
         if (updateViews)
+        {
             await _articleRepository.UpdateArticleViewsAsync(articleId);
+            await _unitOfWork.SaveChangesAsync();
+        }
 
         var article = await _articleRepository.GetArticleByIdAsync(articleId);
-
-        await _unitOfWork.SaveChangesAsync();
         return article;
     }
 
