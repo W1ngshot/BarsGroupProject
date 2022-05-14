@@ -11,7 +11,6 @@ public class ValidationMessages
     public const string LoginOrEmailAlreadyExists = "Данный логин или почта уже были зарегистрированы";
 
     public const string EmptyArticleTitle = "Введите название статьи";
-    public const string TooShortArticleTitle = "Слишком короткое название";
     public const string TooLongArticleTitle = "Слишком длинное название";
     public const string ArticleTitleContainsWrongSymbols = "Недопустимые символы в названии";
     public const string TooLongArticleDescription = "Слишком длинное описание";
