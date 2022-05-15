@@ -30,7 +30,12 @@ public class ExceptionMiddleware
         catch (AuthorizationException)
         {
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            await context.Response.WriteAsJsonAsync(new { Message = "Unauthorized" });
+            await context.Response.WriteAsJsonAsync(new {Message = "Unauthorized"});
+        }
+        catch (NotFoundException)
+        {
+            context.Response.StatusCode = StatusCodes.Status404NotFound;
+            await context.Response.WriteAsJsonAsync(new { Message = "Not Found" });
         }
         catch
         {

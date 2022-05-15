@@ -32,7 +32,8 @@ public class AccountController : Controller
         return new UserProfileModel
         {
             User = user.ToPublicUser(),
-            Articles = await _articleService.GetUserArticlesAsync(id, 4)
+            Articles = await _articleService.GetUserArticlesAsync(id, 4),
+            TotalCount = await _articleService.GetUserArticlesCountAsync(id)
         };
     }
 
@@ -56,7 +57,8 @@ public class AccountController : Controller
         return new UserProfileModel
         {
             User = user.ToPublicUser(),
-            Articles = await _articleService.GetUserArticlesAsync(user.Id, 4)
+            Articles = await _articleService.GetUserArticlesAsync(user.Id, 4),
+            TotalCount = await _articleService.GetUserArticlesCountAsync(user.Id)
         };
     }
 

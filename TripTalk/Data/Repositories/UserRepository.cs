@@ -35,7 +35,7 @@ public class UserRepository : IUserRepository
     public async Task UpdateUserAsync(User user)
     {
         var entity = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id) ??
-            throw new ValidationException(ErrorMessages.MissingUser);
+            throw new NotFoundException();
 
         entity.Nickname = user.Nickname;
         entity.Email = user.Email;
@@ -46,14 +46,14 @@ public class UserRepository : IUserRepository
     public async Task<int> GetUserIdByNicknameAsync(string nickname)
     {
         var entity = await _context.Users.FirstOrDefaultAsync(user => user.Nickname == nickname) ??
-            throw new ValidationException(ErrorMessages.MissingUser);
+            throw new NotFoundException();
         return entity.Id;
     }
 
     public async Task<User> GetUserByNicknameAsync(string nickname)
     {
         var entity = await _context.Users.FirstOrDefaultAsync(user => user.Nickname == nickname) ??
-            throw new ValidationException(ErrorMessages.MissingUser);
+            throw new NotFoundException();
         return new User
         {
             Id = entity.Id,
@@ -69,7 +69,7 @@ public class UserRepository : IUserRepository
     public async Task<User> GetUserByIdAsync(int id)
     {
         var entity = await _context.Users.FirstOrDefaultAsync(user => user.Id == id) ??
-                     throw new ValidationException(ErrorMessages.MissingUser);
+                     throw new NotFoundException();
         return new User
         {
             Id = entity.Id,

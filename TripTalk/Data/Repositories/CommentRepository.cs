@@ -43,7 +43,7 @@ public class CommentRepository : ICommentRepository
         var entity = await _context.Comments
                          .Include(comment => comment.User)
                          .FirstOrDefaultAsync(comment => comment.Id == id) ??
-            throw new ValidationException(ErrorMessages.MissingComment);
+            throw new NotFoundException();
 
         return new Comment
         {
@@ -75,7 +75,7 @@ public class CommentRepository : ICommentRepository
     public async Task UpdateCommentAsync(Comment comment)
     {
         var entity = await _context.Comments.FirstOrDefaultAsync(c => c.Id == comment.Id) ??
-            throw new ValidationException(ErrorMessages.MissingComment);
+            throw new NotFoundException();
 
         entity.Message = comment.Message;
     }
@@ -83,7 +83,7 @@ public class CommentRepository : ICommentRepository
     public async Task RemoveCommentAsync(int id)
     {
         var entity = await _context.Comments.FirstOrDefaultAsync(c => c.Id == id) ??
-            throw new ValidationException(ErrorMessages.MissingComment);
+            throw new NotFoundException();
 
         _context.Comments.Remove(entity);
     }
