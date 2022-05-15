@@ -29,7 +29,7 @@ public class TagRepository : ITagRepository
     public async Task AttachTagsAsync(List<string> tags, int articleId)
     {
         var articleDb = await _context.Articles.Include(a => a.Tags).FirstOrDefaultAsync(a => a.Id == articleId) ??
-            throw new ValidationException(ErrorMessages.MissingArticle);
+            throw new NotFoundException();
         var tagsDb = await _context.Tags.Where(t => tags.Contains(t.Name)).ToListAsync();
 
         foreach (var tag in articleDb.Tags)

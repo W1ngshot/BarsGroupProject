@@ -146,7 +146,7 @@ public class ArticleRepository : IArticleRepository
                          .Include(article => article.Tags)
                          .Include(article => article.Rates)
                          .FirstOrDefaultAsync(article => article.Id == id) ??
-            throw new ValidationException(ErrorMessages.MissingArticle);
+            throw new NotFoundException();
         return new Article
         {
             Id = entity.Id,
@@ -184,7 +184,7 @@ public class ArticleRepository : IArticleRepository
     public async Task UpdateArticleAsync(Article article)
     {
         var entity = await _context.Articles.FirstOrDefaultAsync(a => a.Id == article.Id) ??
-            throw new ValidationException(ErrorMessages.MissingArticle);
+            throw new NotFoundException();
 
         entity.Title = article.Title;
         entity.ShortDescription = article.ShortDescription;
@@ -195,7 +195,7 @@ public class ArticleRepository : IArticleRepository
     public async Task UpdateArticleViewsAsync(int id)
     {
         var entity = await _context.Articles.FirstOrDefaultAsync(a => a.Id == id) ??
-            throw new ValidationException(ErrorMessages.MissingArticle);
+            throw new NotFoundException();
 
         entity.Views++;
     }
@@ -203,7 +203,7 @@ public class ArticleRepository : IArticleRepository
     public async Task RemoveArticleAsync(int id)
     {
         var entity = await _context.Articles.FirstOrDefaultAsync(a => a.Id == id) ??
-            throw new ValidationException(ErrorMessages.MissingArticle);
+            throw new NotFoundException();
 
         _context.Articles.Remove(entity);
     }
