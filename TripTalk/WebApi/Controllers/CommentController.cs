@@ -50,6 +50,7 @@ public class CommentController : Controller
         await _commentService.DeleteCommentAsync(commentId);
     }
 
+    [AllowAnonymous]
     [HttpGet("ArticleComments/{articleId:int}")]
     public async Task<List<Comment>> GetArticleComments(int articleId)
     {
