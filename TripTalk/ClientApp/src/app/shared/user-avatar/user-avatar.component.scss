@@ -1,0 +1,68 @@
+@import 'src/variables.scss';
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $color-bg-main;
+}
+
+.user-avatar--size-large {
+  width: 60px;
+  height: 60px;
+}
+
+.user-avatar__image {
+  width: 40px;
+  height: 40px;
+  font-size: 0;
+
+  &::before {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    content: '';
+    z-index: 1;
+    background-color: $color-bg-main;
+  }
+
+  &::after {
+    @include font-size-3extra-large;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    width: 40px;
+    height: 40px;
+    background-color: $color-bg-avatar;
+    color: $color-text-contrast;
+    border-radius: 50%;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    text-transform: uppercase;
+    content: attr(alt);
+    z-index: 2;
+  }
+}
+
+.user-avatar__image--size-large {
+  width: 60px;
+  height: 60px;
+
+  &::after {
+    width: 60px;
+    height: 60px;
+  }
+}

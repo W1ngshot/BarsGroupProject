@@ -1,0 +1,47 @@
+<main class="auth-page">
+  <h1 class="auth-page__title">{{ pageTitle }}</h1>
+
+  <form class="auth-page__form" [formGroup]="form" (ngSubmit)="onFormSubmit()">
+    <input
+      class="auth-page__form-input"
+      type="text"
+      placeholder="Имя пользователя"
+      formControlName="nickname"
+      autocomplete="username"
+    />
+    <div class="auth-page__form-input-error" *ngIf="isFormNicknameErrorShown">Введите корректное имя пользователя</div>
+
+    <input
+      class="auth-page__form-input"
+      type="email"
+      placeholder="Email"
+      formControlName="email"
+      *ngIf="isRegisterPage"
+    />
+    <div class="auth-page__form-input-error" *ngIf="isFormEmailErrorShown">Введите корректный email</div>
+
+    <input
+      class="auth-page__form-input"
+      type="password"
+      placeholder="Пароль"
+      formControlName="password"
+      autocomplete="password"
+    />
+    <div class="auth-page__form-input-error" *ngIf="isFormPasswordErrorShown">Введите пароль</div>
+
+    <input
+      class="auth-page__form-input"
+      type="password"
+      placeholder="Повторите пароль"
+      formControlName="confirmPassword"
+      autocomplete="password"
+      *ngIf="isRegisterPage"
+    />
+    <div class="auth-page__form-input-error" *ngIf="isFormConfirmPasswordErrorShown">Пароли не совпадают</div>
+
+    <input class="auth-page__form-submit" type="submit" [value]="submitButtonText" />
+    <div class="auth-page__form-input-error" *ngIf="errorMessage">{{ errorMessage }}</div>
+  </form>
+
+  <a class="auth-page__alternative-link" [routerLink]="alternativeLinkPath">{{ alternativeLinkName }}</a>
+</main>

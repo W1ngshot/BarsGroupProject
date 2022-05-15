@@ -1,0 +1,144 @@
+@import 'src/variables.scss';
+
+.article-view {
+  padding-bottom: 30px;
+}
+
+.article-view__header {
+  height: 500px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 60px;
+  box-sizing: border-box;
+}
+
+.article-view__title {
+  @include font-size-dohuya-large;
+  color: $color-text-contrast;
+  margin-bottom: 21px;
+  text-shadow: $shadow-illustration-text;
+}
+
+// Я панк как Пошлая Молли и предки отстой!
+
+.article-view__short-description {
+  @include font-size-extra-large;
+  color: $color-text-contrast;
+  text-shadow: $shadow-illustration-text;
+}
+
+.article-view__text {
+  margin-top: 40px;
+  @include font-size-large;
+}
+
+.article-view__separator {
+  height: 2px;
+  margin: 20px 0;
+  background-color: $color-separator;
+}
+
+.article-view__meta {
+  display: flex;
+  align-items: center;
+}
+
+.article-view__date {
+  margin-right: auto;
+}
+
+.article-view__rating {
+  margin-right: 30px;
+}
+
+.article-view__views {
+  display: flex;
+  align-items: center;
+  color: $color-text-secondary;
+  margin-right: 30px;
+
+  svg {
+    margin-right: 8px;
+  }
+}
+
+.article-view__author {
+  display: flex;
+  align-items: center;
+}
+
+.article-view__author-name {
+  margin-right: 10px;
+  color: $color-text-secondary;
+}
+
+.article-view__tags {
+  margin-right: 30px;
+}
+
+.article-view__tag {
+  &:not(:last-child) {
+    margin-right: 5px;
+  }
+}
+
+.article-view__comments {
+  margin-top: 30px;
+}
+
+.article-view__comments-heading {
+  @include font-size-3extra-large;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.article-view__new-comment-input {
+  @include font-size-large;
+  height: 160px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px;
+  border: 1px solid $color-border;
+  border-radius: 5px;
+  background-color: $color-bg-input;
+  margin-bottom: 15px;
+}
+
+.article-view__new-comment-submit {
+  @include font-size-large;
+  font-weight: 600;
+  color: $color-text-contrast;
+  background-color: $color-accent;
+  height: 32px;
+  padding: 0 15px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.article-view__comment {
+  margin-top: 20px;
+  display: flex;
+}
+
+.article-view__comment-text {
+  width: 100%;
+  margin-left: 15px;
+}
+
+.article-view__comment-nickname {
+  @include font-size-extra-large;
+  font-weight: 500;
+}
+
+.article-view__comment-message {
+  @include font-size-medium;
+  margin-top: 5px;
+}

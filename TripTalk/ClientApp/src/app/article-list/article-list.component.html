@@ -1,0 +1,31 @@
+<main class="article-list-view">
+  <h1 class="article-list-view__heading">{{ title }}</h1>
+  <div class="article-list-view__results" *ngIf="articles">
+    <app-article-card
+      class="article-list-view__result"
+      *ngFor="let article of articles"
+      [isViewsShown]="false"
+      [isEditable]="currentCategory === 'my'"
+      [title]="article.title"
+      [shortDescription]="article.shortDescription"
+      [tags]="article.tags"
+      [rating]="article.rating"
+      [userNickname]="article.userNickname"
+      [previewUrl]="article.previewPictureLink"
+      [id]="article.id"
+      [userId]="article.userId"
+    ></app-article-card>
+
+    <div class="article-list-view__no-results" *ngIf="articles.length === 0">
+      На сайте пока что нет статей, но есть Слава КПСС
+
+      <img class="article-list-view__no-results-image" src="assets/no-articles.jpg" alt="No articles" />
+    </div>
+  </div>
+
+  <app-pagination
+    [totalCount]="totalPageCount"
+    [current]="currentPageNumber"
+    [linkPrefix]="paginationLinkPrefix"
+  ></app-pagination>
+</main>

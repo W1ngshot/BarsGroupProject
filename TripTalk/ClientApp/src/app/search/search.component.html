@@ -1,0 +1,32 @@
+<main class="search-view">
+  <h1 class="search-view__heading">Поиск</h1>
+  <app-search [initialValue]="searchInitialValue" [initialTags]="searchInitialTags"></app-search>
+
+  <div class="search-view__results" *ngIf="articles">
+    <app-article-card
+      class="search-view__result"
+      *ngFor="let article of articles"
+      [isViewsShown]="false"
+      [title]="article.title"
+      [shortDescription]="article.shortDescription"
+      [tags]="article.tags"
+      [rating]="article.rating"
+      [userNickname]="article.userNickname"
+      [previewUrl]="article.previewPictureLink"
+      [id]="article.id"
+      [userId]="article.userId"
+    ></app-article-card>
+
+    <div class="search-view__no-results" *ngIf="articles.length === 0">
+      К сожалению мы нашли только Славу КПСС
+
+      <img class="search-view__no-results-image" src="assets/no-articles.jpg" alt="No articles" />
+    </div>
+  </div>
+
+  <app-pagination
+    [totalCount]="totalPageCount"
+    [current]="currentPageNumber"
+    [linkPrefix]="paginationLinkPrefix"
+  ></app-pagination>
+</main>

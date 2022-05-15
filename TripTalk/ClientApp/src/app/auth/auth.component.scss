@@ -1,0 +1,64 @@
+@import 'src/variables.scss';
+
+.auth-page {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.auth-page__title {
+  @include font-size-3extra-large;
+  margin: 20px 0;
+  text-align: center;
+  font-weight: 400;
+  color: $color-text-primary;
+}
+
+.auth-page__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth-page__form-input {
+  @include font-size-large;
+  height: 40px;
+  max-width: 320px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px;
+  border: 1px solid $color-border;
+  border-radius: 5px;
+  background-color: $color-bg-input;
+
+  &:not(:first-child) {
+    margin-top: 10px;
+  }
+}
+
+.auth-page__form-input-error {
+  @include font-size-small;
+  color: $color-text-danger;
+  margin-top: 5px;
+}
+
+.auth-page__form-submit {
+  @include font-size-large;
+  font-weight: 600;
+  color: $color-text-contrast;
+  max-width: 320px;
+  width: 100%;
+  background-color: $color-accent;
+  margin-top: 25px;
+  height: 40px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.auth-page__alternative-link {
+  @include font-size-medium;
+  margin-top: 10px;
+  text-align: center;
+  color: $color-accent;
+}
