@@ -1,0 +1,10 @@
+<div class="search">
+  <form class="search__form" (submit)="onFormSubmit($event)">
+    <input class="search__form-input" type="text" placeholder="Вставить текст" [formControl]="inputControl" />
+    <input class="search__form-submit" type="submit" value="Поиск" />
+  </form>
+
+  <div class="search__tags">
+    <app-location-tag-list [initialTags]="initialTags" (change)="onTagsChange($event)"></app-location-tag-list>
+  </div>
+</div>

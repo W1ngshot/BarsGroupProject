@@ -1,0 +1,111 @@
+@import 'src/variables.scss';
+
+.article-edit-view {
+  padding-bottom: 30px;
+}
+
+.article-edit-view__heading {
+  @include font-size-5extra-large;
+  margin: 20px auto;
+  text-align: center;
+  font-weight: 500;
+}
+
+.article-edit-view__base-info {
+  display: flex;
+  align-items: stretch;
+  padding-bottom: 20px;
+  border-bottom: 2px solid $color-separator;
+}
+
+.article-edit-view__cover-upload {
+  width: 350px;
+  height: 210px;
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.article-edit-view__name-description-wrap {
+  width: 100%;
+  margin-left: 30px;
+}
+
+.article-edit-view__label {
+  @include font-size-medium;
+  width: 100%;
+  display: block;
+  color: $color-text-secondary;
+}
+
+.article-edit-view__name {
+  @include font-size-large;
+  height: 40px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px;
+  border: 1px solid $color-border;
+  border-radius: 5px;
+  background-color: $color-bg-input;
+  margin-bottom: 15px;
+}
+
+.article-edit-view__description {
+  @include font-size-large;
+  height: 100px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px;
+  border: 1px solid $color-border;
+  border-radius: 5px;
+  background-color: $color-bg-input;
+  margin-bottom: 15px;
+}
+
+.article-edit-view__text-wrap {
+  margin-top: 20px;
+}
+
+.article-edit-view__text {
+  @include font-size-large;
+  height: 240px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px;
+  border: 1px solid $color-border;
+  border-radius: 5px;
+  background-color: $color-bg-input;
+  margin-bottom: 15px;
+}
+
+.article-edit-view__tag {
+  margin-right: 5px;
+}
+
+.article-edit-view__submit {
+  margin-top: 30px;
+  @include font-size-medium;
+  text-transform: uppercase;
+  height: 32px;
+  width: 132px;
+  box-sizing: border-box;
+  font-weight: 500;
+  border-radius: 16px;
+  background-color: $color-accent;
+  border: none;
+  color: $color-text-contrast;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.article-edit-view__error-mesage {
+  @include font-size-medium;
+  margin-top: 10px;
+  color: $color-text-danger;
+}

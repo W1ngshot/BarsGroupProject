@@ -1,0 +1,48 @@
+@import 'src/variables.scss';
+
+.header {
+  height: 70px;
+  border-bottom: 2px solid $color-separator;
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.header__logo-wrap {
+  margin-right: auto;
+}
+
+.header__register {
+  background-color: $color-accent;
+  border: none;
+  color: $color-text-contrast;
+}
+
+.header__login,
+.header__add-article {
+  color: $color-accent;
+  background-color: transparent;
+  border: 1px solid $color-accent;
+  margin-left: 15px;
+}
+
+.header__register,
+.header__login,
+.header__add-article {
+  @include font-size-medium;
+  text-transform: uppercase;
+  height: 32px;
+  width: 132px;
+  box-sizing: border-box;
+  font-weight: 500;
+  border-radius: 16px;
+}
+
+.header__add-article {
+  width: auto;
+  margin-right: 30px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  text-decoration: none;
+}

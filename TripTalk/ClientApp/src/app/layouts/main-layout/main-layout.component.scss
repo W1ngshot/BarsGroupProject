@@ -1,0 +1,13 @@
+@import 'src/variables.scss';
+
+.main-layout {
+  width: 100%;
+  max-width: 1240px;
+  margin: auto;
+  margin-bottom: 120px;
+  min-height: calc(100vh - 120px);
+  box-sizing: border-box;
+  padding: 0 50px;
+  background-color: $color-bg-main;
+  box-shadow: $shadow-app-container;
+}

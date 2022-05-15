@@ -1,0 +1,57 @@
+<main class="profile-view">
+  <h1 class="profile-view__heading">Профиль</h1>
+  <section class="profile-view__account-info" *ngIf="currentUser">
+    <div class="profile-view__avatar-container">
+      <img class="profile-view__avatar" src="assets/missing-image.png" [alt]="currentUser.nickname" />
+    </div>
+
+    <div class="profile-view__account-info-text-container">
+      <div class="profile-view__account-info-line">
+        <div class="profile-view__account-info-line-label">Никнейм</div>
+        <div class="profile-view__account-info-line-value">
+          {{ currentUser.nickname }}
+        </div>
+      </div>
+
+      <div class="profile-view__account-info-line">
+        <div class="profile-view__account-info-line-label">Email</div>
+        <div class="profile-view__account-info-line-value">
+          {{ currentUser.email }}
+        </div>
+      </div>
+
+      <div class="profile-view__account-info-line">
+        <div class="profile-view__account-info-line-label">Дата регистрации</div>
+        <div class="profile-view__account-info-line-value">
+          {{ currentUser.registrationDate | date: 'longDate':'ru' }}
+        </div>
+      </div>
+
+      <a class="profile-view__password-change" *ngIf="isSelfProfile" routerLink="/change-password">Сменить пароль</a>
+    </div>
+  </section>
+
+  <section class="profile-view__articles" *ngIf="currentUserArticles && currentUserArticles.length > 0">
+    <div class="profile-view__articles-header">
+      <h2 class="profile-view__articles-heading">Мои статьи ({{ totalArticleCount }})</h2>
+      <a class="profile-view__articles-more" routerLink="/profile/articles">Больше</a>
+    </div>
+
+    <div class="profile-view__articles-row" *ngFor="let articleRow of currentUserArticleRows">
+      <app-article-card
+        class="profile-view__article-card"
+        *ngFor="let article of articleRow"
+        [isViewsShown]="false"
+        [isEditable]="isSelfProfile"
+        [title]="article.title"
+        [shortDescription]="article.shortDescription"
+        [tags]="article.tags"
+        [rating]="article.rating"
+        [userNickname]="article.userNickname"
+        [previewUrl]="article.previewPictureLink"
+        [id]="article.id"
+        [userId]="article.userId"
+      ></app-article-card>
+    </div>
+  </section>
+</main>

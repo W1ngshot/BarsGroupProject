@@ -1,0 +1,32 @@
+@import 'src/variables.scss';
+
+.article-list-view {
+  padding-bottom: 30px;
+}
+
+.article-list-view__heading {
+  @include font-size-5extra-large;
+  margin: 20px auto;
+  text-align: center;
+  font-weight: 500;
+}
+
+.article-list-view__results {
+  margin-top: 30px;
+}
+
+.article-list-view__result {
+  margin-bottom: 20px;
+  display: block;
+}
+
+.article-list-view__no-results {
+  text-align: center;
+  @include font-size-2extra-large;
+}
+
+.article-list-view__no-results-image {
+  width: 100%;
+  display: block;
+  margin-top: 10px;
+}

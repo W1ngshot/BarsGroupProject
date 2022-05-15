@@ -1,0 +1,11 @@
+<div class="location-tag-list">
+  <app-location-tag
+    class="location-tag-list__tag"
+    *ngFor="let tagName of tags; let i = index"
+    [name]="tagName"
+    [focusOnMount]="focusTagOnMount"
+    (input)="onTagInput(i, $event)"
+    (delete)="onTagDelete(i)"
+  ></app-location-tag>
+  <app-location-tag-add *ngIf="tags.length < 3" (click)="onTagAdd()"></app-location-tag-add>
+</div>

@@ -1,0 +1,56 @@
+@import 'src/variables.scss';
+
+.auth-layout {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('/assets/auth-bg.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.auth-layout__modal {
+  width: 640px;
+  max-width: calc(100% - 40px);
+  min-height: 540px;
+  background-color: $color-bg-main;
+  box-shadow: $shadow-auth-modal;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 20fr 44fr;
+  overflow: hidden;
+}
+
+.auth-layout__side-image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.auth-layout__main {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.auth-layout__logo {
+  margin: 20px 0;
+  width: 225px;
+  height: 120px;
+
+  img {
+    width: 100%;
+  }
+}
+
+.auth-layout__separator {
+  height: 2px;
+  width: calc(100% - 50px);
+  background-color: $color-separator;
+}
+
+.auth-layout__child-container {
+  width: 100%;
+}

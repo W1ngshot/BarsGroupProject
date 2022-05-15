@@ -1,0 +1,14 @@
+<header class="header">
+  <a class="header__logo-wrap" routerLink="/"><img class="header__logo" src="assets/logo.svg" alt="logo" /></a>
+
+  <a class="header__add-article" routerLink="/article/add" *ngIf="isLoggedIn">Добавить статью</a>
+
+  <a routerLink="/profile" *ngIf="isLoggedIn; else authButtons">
+    <app-user-avatar [nickname]="userNickname"></app-user-avatar>
+  </a>
+
+  <ng-template #authButtons>
+    <button class="header__register" routerLink="/register">Регистрация</button>
+    <button class="header__login" routerLink="/login">Войти</button>
+  </ng-template>
+</header>

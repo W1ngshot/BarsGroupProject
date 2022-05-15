@@ -1,0 +1,71 @@
+$color-accent: #4194f7;
+
+$color-text-primary: #212121;
+$color-text-secondary: #444444;
+$color-text-contrast: #ffffff;
+$color-text-danger: #f92c53;
+
+$color-bg-body: #f5f5f5;
+$color-bg-main: #ffffff;
+$color-bg-input: #fafafa;
+$color-bg-tag: #49b481;
+$color-bg-tag-add: #e5947b;
+$color-bg-avatar: #5c7fa7;
+
+$color-border: #c4c4c4;
+
+$color-separator: #f5f5f5;
+
+$shadow-app-container: 0px 0px 4px rgba(0, 0, 0, 0.1);
+$shadow-auth-modal: 0px 0px 32px rgba(0, 12, 15, 0.3);
+$shadow-illustration-text: 0px 0px 8px rgba(0, 12, 15, 0.3);
+
+@mixin font-size-small {
+  font-size: 12px;
+  line-height: 14px;
+}
+
+@mixin font-size-medium {
+  font-size: 14px;
+  line-height: 18px;
+}
+
+@mixin font-size-large {
+  font-size: 16px;
+  line-height: 20px;
+}
+
+@mixin font-size-extra-large {
+  font-size: 18px;
+  line-height: 22px;
+}
+
+@mixin font-size-2extra-large {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+@mixin font-size-3extra-large {
+  font-size: 24px;
+  line-height: 29px;
+}
+
+@mixin font-size-4extra-large {
+  font-size: 28px;
+  line-height: 34px;
+}
+
+@mixin font-size-5extra-large {
+  font-size: 32px;
+  line-height: 39px;
+}
+
+@mixin font-size-dohuya-large {
+  font-size: 40px;
+  line-height: 48px;
+}
+
+@mixin font-size-pizdec-large {
+  font-size: 50px;
+  line-height: 61px;
+}

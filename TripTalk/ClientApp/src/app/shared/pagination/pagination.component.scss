@@ -1,0 +1,20 @@
+@import 'src/variables.scss';
+
+.pagination {
+  display: flex;
+}
+
+.pagination__link {
+  @include font-size-large;
+  color: $color-text-secondary;
+  font-weight: 500;
+  text-decoration: none;
+
+  &:not(:last-child) {
+    margin-right: 20px;
+  }
+}
+
+.pagination__link--active {
+  color: $color-accent;
+}

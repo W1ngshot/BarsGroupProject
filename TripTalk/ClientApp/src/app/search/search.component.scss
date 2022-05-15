@@ -1,0 +1,32 @@
+@import 'src/variables.scss';
+
+.search-view {
+  padding-bottom: 30px;
+}
+
+.search-view__heading {
+  @include font-size-5extra-large;
+  margin: 20px auto;
+  text-align: center;
+  font-weight: 500;
+}
+
+.search-view__results {
+  margin-top: 30px;
+}
+
+.search-view__result {
+  margin-bottom: 20px;
+  display: block;
+}
+
+.search-view__no-results {
+  text-align: center;
+  @include font-size-2extra-large;
+}
+
+.search-view__no-results-image {
+  width: 100%;
+  display: block;
+  margin-top: 10px;
+}

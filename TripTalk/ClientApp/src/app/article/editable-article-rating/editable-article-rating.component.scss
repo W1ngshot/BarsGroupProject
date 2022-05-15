@@ -1,0 +1,21 @@
+.editable-article-rating {
+  display: flex;
+  align-items: center;
+}
+
+.editable-article-rating__upvote,
+.editable-article-rating__downvote {
+  background: transparent;
+  border: none;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+}
+
+.editable-article-rating__upvote {
+  margin-right: 5px;
+}
+
+.editable-article-rating__downvote {
+  margin-left: 5px;
+}

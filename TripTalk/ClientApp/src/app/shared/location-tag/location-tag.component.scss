@@ -1,0 +1,23 @@
+@import 'src/variables.scss';
+
+.location-tag {
+  display: inline-flex;
+  padding: 5px;
+  border-radius: 3px;
+  background-color: $color-bg-tag;
+}
+
+.location-tag__icon {
+  margin-right: 5px;
+}
+
+.location-tag__name {
+  @include font-size-small;
+  font-weight: 600;
+  color: $color-text-contrast;
+  border: none;
+  background: transparent;
+  padding: 0;
+  outline: none;
+  min-width: 20px;
+}

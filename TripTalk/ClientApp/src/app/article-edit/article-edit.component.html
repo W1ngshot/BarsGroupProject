@@ -1,0 +1,43 @@
+<main class="article-edit-view" *ngIf="!isLoading">
+  <h1 class="article-edit-view__heading">{{ heading }}</h1>
+  <div class="article-edit-view__base-info">
+    <div class="article-edit-view__cover-upload">
+      <img src="assets/missing-image.png" alt="Обложка статьи" />
+    </div>
+    <div class="article-edit-view__name-description-wrap">
+      <label class="article-edit-view__label" for="article-edit-name">Название</label>
+      <input class="article-edit-view__name" id="article-edit-name" type="text" [formControl]="articleTitleControl" />
+
+      <label class="article-edit-view__label" for="article-edit-description">Краткое описание</label>
+      <textarea
+        class="article-edit-view__description"
+        id="article-edit-description"
+        type="text"
+        [formControl]="articleDescriptionControl"
+      ></textarea>
+    </div>
+  </div>
+
+  <div class="article-edit-view__text-wrap">
+    <label class="article-edit-view__label" for="article-edit-text">Текст</label>
+    <textarea
+      class="article-edit-view__text"
+      id="article-edit-text"
+      type="text"
+      [formControl]="articleTextControl"
+    ></textarea>
+  </div>
+
+  <label class="article-edit-view__label" for="article-edit-text">Тэги</label>
+  <div class="article-edit-view__tag-container">
+    <app-location-tag-list [initialTags]="articleTags" (change)="onTagsChange($event)"></app-location-tag-list>
+  </div>
+
+  <button class="article-edit-view__submit" [disabled]="isPublishButtonDisabled" (click)="onSubmit()">
+    Опубликовать
+  </button>
+
+  <div class="article-edit-view__error-mesage" *ngFor="let errorMessage of errorMessages">
+    {{ errorMessage }}
+  </div>
+</main>
