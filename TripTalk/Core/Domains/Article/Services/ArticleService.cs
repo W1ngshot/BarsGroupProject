@@ -85,7 +85,7 @@ public class ArticleService : IArticleService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task<int> GetFilteredArticlesCountAsync(string searchLine, List<string>? tags)
+    public async Task<int> GetFilteredArticlesCountAsync(string searchLine, List<string> tags)
     {
         return await _articleRepository.GetFilteredArticlesCountAsync(searchLine, tags);
     }

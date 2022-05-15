@@ -95,11 +95,11 @@ public class ArticleRepository : IArticleRepository
         }).ToList();
     }
 
-    public async Task<int> GetFilteredArticlesCountAsync(string searchLine, List<string>? tags)
+    public async Task<int> GetFilteredArticlesCountAsync(string searchLine, List<string> tags)
     {
         var filteredArticles = _context.Articles
             .Where(article => article.Title.Contains(searchLine));
-        if (tags is not null)
+        if (tags.Count > 0)
             filteredArticles = filteredArticles.Where(article => article.Tags.Any(tag => tags.Contains(tag.Name)));
         return await filteredArticles.CountAsync();
     }

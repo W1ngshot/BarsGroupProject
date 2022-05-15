@@ -12,7 +12,7 @@ public interface IArticleService
 
     public Task DeleteArticleAsync(int articleId);
 
-    public Task<int> GetFilteredArticlesCountAsync(string searchLine, List<string>? tags);
+    public Task<int> GetFilteredArticlesCountAsync(string searchLine, List<string> tags);
 
     public Task<int> GetUserArticlesCountAsync(int userId);
 
