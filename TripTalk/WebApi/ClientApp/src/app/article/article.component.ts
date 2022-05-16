@@ -82,6 +82,7 @@ export class ArticleComponent {
     this.isCommentFormBusy = true
     const comment = await this.articleService.addCommentForArticle(this.article.id, this.commentInputControl.value)
     this.comments?.unshift(comment)
+    this.commentInputControl.setValue(null)
     this.isCommentFormBusy = false
   }
 }
