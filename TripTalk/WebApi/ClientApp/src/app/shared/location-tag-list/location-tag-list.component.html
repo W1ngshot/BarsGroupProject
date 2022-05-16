@@ -4,6 +4,7 @@
     *ngFor="let tagName of tags; let i = index"
     [name]="tagName"
     [focusOnMount]="focusTagOnMount"
+    [isEditable]="true"
     (input)="onTagInput(i, $event)"
     (delete)="onTagDelete(i)"
   ></app-location-tag>

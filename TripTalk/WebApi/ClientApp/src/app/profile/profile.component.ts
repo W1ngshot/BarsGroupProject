@@ -80,4 +80,10 @@ export class ProfileComponent {
 
     return result
   }
+
+  onLogout(event: Event) {
+    event.preventDefault()
+    this.authService.logout()
+    this.router.navigateByUrl('/')
+  }
 }

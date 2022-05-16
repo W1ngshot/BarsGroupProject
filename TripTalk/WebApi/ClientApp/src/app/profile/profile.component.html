@@ -27,7 +27,7 @@
         </div>
       </div>
 
-      <a class="profile-view__password-change" *ngIf="isSelfProfile" routerLink="/change-password">Сменить пароль</a>
+      <a class="profile-view__password-change" *ngIf="isSelfProfile" href="#" (click)="onLogout($event)">Выйти из аккаунта</a>
     </div>
   </section>
 

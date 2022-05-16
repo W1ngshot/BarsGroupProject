@@ -20,4 +20,8 @@
   padding: 0;
   outline: none;
   min-width: 20px;
+
+  &:disabled {
+    color: $color-text-contrast;
+  }
 }

@@ -8,6 +8,7 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, View
 export class LocationTagComponent implements AfterViewInit {
   @Input() name?: string
   @Input() focusOnMount?: boolean
+  @Input() isEditable = false
 
   @Output() input = new EventEmitter<string>()
   @Output() delete = new EventEmitter()

@@ -111,4 +111,9 @@ export class AuthService {
 
     return response
   }
+
+  logout() {
+    this.jwt = null
+    this._myAccount.next(null)
+  }
 }
