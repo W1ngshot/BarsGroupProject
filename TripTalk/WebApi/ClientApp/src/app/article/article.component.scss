@@ -73,6 +73,7 @@
 .article-view__author-name {
   margin-right: 10px;
   color: $color-text-secondary;
+  text-decoration: none;
 }
 
 .article-view__tags {
@@ -136,6 +137,8 @@
 .article-view__comment-nickname {
   @include font-size-extra-large;
   font-weight: 500;
+  color: $color-text-primary;
+  text-decoration: none;
 }
 
 .article-view__comment-message {

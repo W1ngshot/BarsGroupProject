@@ -50,9 +50,11 @@ export class ArticleEditComponent {
 
     const articleId = Number(this.route.snapshot.params['id'])
     if (isNaN(articleId)) return
+
+    this._fetchEditingArticle(articleId)
   }
 
-  _fetchEditingArticle(articleId: number) {
+  private _fetchEditingArticle(articleId: number) {
     this.articleService.getArticleById(articleId).then(article => {
       this.articleTitleControl.setValue(article.title)
       this.articleDescriptionControl.setValue(article.shortDescription)

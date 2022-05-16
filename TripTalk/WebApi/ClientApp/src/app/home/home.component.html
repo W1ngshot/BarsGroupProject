@@ -8,25 +8,23 @@
   <app-search></app-search>
 
   <section class="home-view__section" *ngFor="let articleSection of articleSections">
-    <div class="home-view__section-header">
-      <h2 class="home-view__section-name" *ngIf="articleSection.articleRows.length > 0">{{ articleSection.name }}</h2>
+    <div class="home-view__section-header" *ngIf="articleSection.articleRows.length > 0">
+      <h2 class="home-view__section-name">{{ articleSection.name }}</h2>
       <a class="home-view__secttion-more" [routerLink]="articleSection.moreLink"> Больше</a>
     </div>
 
     <div class="home-view__section-articles-row" *ngFor="let articleRow of articleSection.articleRows">
-      <app-article-card
-        class="home-view__section-article-card"
-        *ngFor="let article of articleRow"
-        [isViewsShown]="false"
-        [title]="article.title"
-        [shortDescription]="article.shortDescription"
-        [tags]="article.tags"
-        [rating]="article.rating"
-        [userNickname]="article.userNickname"
-        [previewUrl]="article.previewPictureLink"
-        [id]="article.id"
-        [userId]="article.userId"
-      ></app-article-card>
+      <app-article-card class="home-view__section-article-card"
+                        *ngFor="let article of articleRow"
+                        [isViewsShown]="false"
+                        [title]="article.title"
+                        [shortDescription]="article.shortDescription"
+                        [tags]="article.tags"
+                        [rating]="article.rating"
+                        [userNickname]="article.userNickname"
+                        [previewUrl]="article.previewPictureLink"
+                        [id]="article.id"
+                        [userId]="article.userId"></app-article-card>
     </div>
   </section>
 

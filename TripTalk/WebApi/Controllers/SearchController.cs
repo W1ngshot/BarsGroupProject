@@ -6,7 +6,7 @@ using WebApi.Models;
 namespace WebApi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class SearchController : Controller
 {
     private readonly ISearchService _searchService;

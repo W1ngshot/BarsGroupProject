@@ -11,7 +11,7 @@ namespace WebApi.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class AccountController : Controller
 {
     private const int ArticlesOnPage = 6;

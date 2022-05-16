@@ -13,7 +13,7 @@ using WebApi.Models;
 namespace WebApi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class ArticleController : Controller
 {
     private const int ArticlesOnPage = 6;
