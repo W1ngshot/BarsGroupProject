@@ -13,5 +13,5 @@
     />
   </svg>
 
-  <input class="location-tag__name" #locationTagInput [value]="name" style="width: 0px" (input)="onInput($event)" (blur)="onBlur($event)" (change)="$event.stopPropagation()" />
+  <input class="location-tag__name" #locationTagInput [value]="name" [disabled]="!isEditable" style="width: 0px" (input)="onInput($event)" (blur)="onBlur($event)" (change)="$event.stopPropagation()" />
 </div>
