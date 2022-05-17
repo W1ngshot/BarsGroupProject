@@ -4,17 +4,18 @@
   display: inline-flex;
   padding: 5px;
   border-radius: 3px;
-  background-color: $color-bg-tag-add;
+  border: 1px solid $color-bg-tag;
+  background-color: $color-text-contrast;
   cursor: pointer;
-  border: none;
 }
 
 .location-tag-add__icon {
   margin-right: 5px;
+  flood-color: $color-bg-tag;
 }
 
 .location-tag-add__name {
   @include font-size-small;
   font-weight: 600;
-  color: $color-text-contrast;
+  color: $color-bg-tag;
 }
